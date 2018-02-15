@@ -5,8 +5,8 @@ Sign Comparison
 drivers/gpu/drm/i915/i915_gpu_error.c:488:16: warning: comparison of integers of different signs: 'int' and 'const unsigned int' [-Wsign-compare]  
         for (n = 0; n < ee->num_ports; n++) {  
 #### Introduced By: 76e70087d360 ("drm/i915: Make execlist port count variable") ####  
-#### Version: Linux-Next  ####
-#### File Location: drm/i915/i915_gpu_error.c  ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/i915_gpu_error.c  ####
 #### Resolved By: -- ####
 
 #### Manuel Assesment: ####

@@ -5,8 +5,8 @@ Sometimes Uninitialized
 drivers/gpu/drm/i915/intel_pm.c:4670:6: warning: variable 'trans_min' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]  
         if (INTEL_GEN(dev_priv) >= 10)
 #### Introduced By: ca47667f523e ("drm/i915/gen10: Calculate and enable transition WM")  ####
-#### Version: Linux-Next  ####
-#### File Location: drm/i915/intel_pm.c  ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/intel_pm.c  ####
 #### Resolved By: -- ####
 
 #### Manuel Assesment  ####
@@ -53,4 +53,4 @@ u8 gen;
 //...
 };
 ```
-5-As a result of this observations since ```intel_device_info.gen``` is a u8 type, it always be uninitialized in this code structure
+5-As a result of this observations since ```intel_device_info.gen``` is a u8 type, it always be initialized in this code structure. It won't create any problems theoretically

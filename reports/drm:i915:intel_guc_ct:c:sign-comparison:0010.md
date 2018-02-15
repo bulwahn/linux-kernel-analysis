@@ -5,8 +5,8 @@ Sign Comparision
 drivers/gpu/drm/i915/intel_guc_ct.c:162:16: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]
         for (i = 0; i < ARRAY_SIZE(ctch->ctbs); i++) {  
 #### Introduced By: f8a58d639dd9 ("drm/i915/guc: Introduce buffer based cmd transport")  ####
-#### Version: Linux-Next  ####
-#### File Location: drm/i915/intel_guc_ct.c ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/intel_guc_ct.c ####
 #### Solution Commit: -- ####
 
 #### Manuel Assesment: ####

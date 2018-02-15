@@ -4,9 +4,9 @@ Enum-Conversion
 #### Warning Explanation: ####  
 Implicit conversion from enumeration type 'enum port' to different enumeration type 'enum intel\_dpll\_id' [-Wenum-conversion]     
 enum intel\_dpll\_id pll\_id = port;   
-#### Introduced By: 2952cd6fb4cc \("drm/i915: Let's use more enum intel\_dpll_id pll\_id."\)  ####  
-#### Version: 4.15 Stable Version  ####  
-#### File Location: drm/i915/intel\_ddi.c  ####  
+#### Introduced By: 2952cd6fb4cc ("drm/i915: Let's use more enum intel\_dpll_id pll\_id."\)  ####  
+#### Reported Since: 2952cd6fb4cc ("drm/i915: Let's use more enum intel\_dpll_id pll\_id."\)   ####  
+#### File Location: drivers/gpu/drm/i915/intel_ddi.c  ####  
 #### Resolved By: bb911536f07e ("drm/i915: Eliminate pll->state usage from bxt\_calc\_pll_link()")  ####   
 
 #### Manuel Assesment ####  

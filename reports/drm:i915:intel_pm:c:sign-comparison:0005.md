@@ -6,8 +6,8 @@ drivers/gpu/drm/i915/intel_pm.c:9266:8: warning: comparison of integers of diffe
         ret = wait_for_atomic(COND, 50);  
         
 #### Introduced By: a0b8a1fe3443 ("drm/i915/gen9: Fix PCODE polling during CDCLK change notification") ####
-#### Version: Linux-Next ####
-#### File Location: drm/i915/intel_pm.c ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/intel_pm.c ####
 #### Resolved By: -- ####
 
 #### Manuel Assesment ####

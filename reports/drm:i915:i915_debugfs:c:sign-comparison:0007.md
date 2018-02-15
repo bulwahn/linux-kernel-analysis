@@ -5,8 +5,8 @@ Sign Comparison
 drivers/gpu/drm/i915/i915_debugfs.c:4740:16: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]
         for (i = 0; i < ARRAY_SIZE(i915_debugfs_files); i++) {
 #### Introduced By: 34b9674c786c ("drm/i915: convert debugfs creation/destruction to table") ####  
-#### Version: Linux-Next  ####
-#### File Location: rm/i915/i915_debugfs.c  ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/i915_debugfs.c  ####
 #### Resolved By: -- ####
 
 #### Manuel Assesment: ####

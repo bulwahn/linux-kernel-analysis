@@ -5,8 +5,8 @@ Sign Comparison
 drivers/gpu/drm/i915/i915_drv.c:2234:16: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]  
         for (i = 0; i < ARRAY_SIZE(s->lra_limits); i++)  
 #### Introduced By: ddeea5b0c36f ("drm/i915: vlv: add runtime PM support") ####
-#### Version: Linux-next ####
-#### File Location: drm/i915/i915_drv.c ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/i915_drv.c ####
 #### Resolved By: -- ####
 #### Manuel Assesment ####
 Clang compiler creates a warning about:  

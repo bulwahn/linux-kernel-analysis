@@ -5,8 +5,8 @@ Sign Comparison
 drivers/gpu/drm/i915/intel_dpll_mgr.c:1239:18: warning: comparison of integers of different signs: 'unsigned int' and 'const int' [-Wsign-compare]  
                         for (i = 0; i < dividers[d].n_dividers; i++) {  
 #### Introduced By: dc2538139277 ("drm/i915/skl: Replace the HDMI DPLL divider computation algorithm")  ####
-#### Version: Linux-Next  ####
-#### File Location: drm/i915/intel_dpll_mgr.c ####
+#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
+#### File Location: drivers/gpu/drm/i915/intel_dpll_mgr.c ####
 #### Solution Commit: -- ####
 
 #### Manuel Assesment: ####
