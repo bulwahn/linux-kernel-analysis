@@ -1,16 +1,19 @@
 # Analysis Report 0005 #
-#### Clang Compiler Warning Type ####  
-Sign Comparison  
-#### Warning Explanation ####  
-drivers/gpu/drm/i915/intel_pm.c:9266:8: warning: comparison of integers of different signs: 'unsigned long long' and 'int' [-Wsign-compare]  
-        ret = wait_for_atomic(COND, 50);  
-        
-#### Introduced By: a0b8a1fe3443 ("drm/i915/gen9: Fix PCODE polling during CDCLK change notification") ####
-#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
-#### File Location: drivers/gpu/drm/i915/intel_pm.c ####
-#### Resolved By: -- ####
 
-#### Manuel Assesment ####
+## General ##
+**Warning Type:** Wsign-compare  
+**Warning Explanation:** ```drivers/gpu/drm/i915/intel_pm.c:9266:8: warning: comparison of integers of different signs: 'unsigned long long' and 'int' [-Wsign-compare]  
+        ret = wait_for_atomic(COND, 50);  ```  
+**File Location:** drivers/gpu/drm/i915/intel_pm.c
+
+## History ##
+**Introduced By:** a0b8a1fe3443 ("drm/i915/gen9: Fix PCODE polling during CDCLK change notification")  
+**Reported Since:** TODO  
+**Resolved By:** --
+
+## Manuel Assesment ##
+**Classification:**  [Tool can detect during compile time](WarningTypeClassifications.md)  
+### Rationale  ###
 Clang compiler creates a warning about code part:
 ```C
 int skl_pcode_request(struct drm_i915_private *dev_priv, u32 mbox, u32 request,
@@ -24,12 +27,12 @@ preempt_enable();
 }
 ```
 Clang states there may be a sign comparision problem in a macro ```_wait_for_atomic```, which called from ```wait_for_atomic``` macro.
-```wait_for_atomic``` macro defined in drm/i915/intel_drv.h as following:
+```wait_for_atomic``` macro defined in **drivers/gpu/drm/i915/intel_drv.h** as following:
 ```C
 #define wait_for_atomic(COND, MS) wait_for_atomic_us((COND), (MS) * 1000)
 ``` 
 Basically ``` wait_for_atomic``` just calls another macro ```wait_for_atomic_us``` and in our case parameters as COND and 50000.  
-So lets look at  ```wait_for_atomic_us``` macro which is defined in drm/i915/intel_drv.h as:
+So lets look at  ```wait_for_atomic_us``` macro which is defined in **drivers/gpu/drm/i915/intel_drv.h** as:
 ```C
 #define wait_for_atomic_us(COND, US) \
 ({ \
@@ -38,7 +41,7 @@ So lets look at  ```wait_for_atomic_us``` macro which is defined in drm/i915/int
 	_wait_for_atomic((COND), (US), 1); \
 })
 ```
-Just like before, it calls another macro ```_wait_for_atomic(COND, 50000, 1)```, and as final step we must look at ```_wait_for_atomic``` macro defination which is defined in drm/i915/intel_drv.h like others:
+Just like before, it calls another macro ```_wait_for_atomic(COND, 50000, 1)```, and as final step we must look at ```_wait_for_atomic``` macro defination which is defined in **drivers/gpu/drm/i915/intel_drv.h** like others:
 ```C
 #define _wait_for_atomic(COND, US, ATOMIC) \
 ({ \
@@ -76,6 +79,3 @@ Just like before, it calls another macro ```_wait_for_atomic(COND, 50000, 1)```,
 })
 ```  
 In this case, ```now - base``` substraction won't cause any problem during runtime.
-
-
-

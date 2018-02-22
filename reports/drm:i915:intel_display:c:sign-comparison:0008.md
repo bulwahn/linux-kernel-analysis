@@ -1,15 +1,16 @@
 # Analysis Report 0008 #
-#### Clang Compiler Warning  ####
-Sign Comparison  
-#### Warning Explanation ####
-drivers/gpu/drm/i915/intel_display.c:13463:14: warning: comparison of integers of different signs: 'enum pipe' and 'unsigned long' [-Wsign-compare]
-        BUG_ON(pipe >= ARRAY_SIZE(dev_priv->plane_to_crtc_mapping) ||
-#### Introduced By: 22fd0fab3b51 ("drm/i915: pageflip fixes") ####  
-#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
-#### File Location: drivers/gpu/drm/i915/intel_display.c  ####
-#### Resolved By: -- ####
-
-#### Manuel Assesment: ####
+## General ##
+**Warning Type:** Wsign-Compare    
+**Warning Explanation:** ```drivers/gpu/drm/i915/intel_display.c:13463:14: warning: comparison of integers of different signs: 'enum pipe' and 'unsigned long' [-Wsign-compare]
+        BUG_ON(pipe >= ARRAY_SIZE(dev_priv->plane_to_crtc_mapping) ||```    
+**File Location:** rivers/gpu/drm/i915/intel_display.c  
+## History ##
+**Introduced By:** 22fd0fab3b51 ("drm/i915: pageflip fixes")  
+**Reported Since:** TODO  
+**Resolved By:** --  
+## Manuel Assesment ##
+**Classification:** [Tool can detect during compile time](WarningTypeClassifications.md)
+### Rationale ###
 Clang compiler creates a warning for part of ```intel_crtc_init``` function;
 ```C
 static int intel_crtc_init(struct drm_i915_private *dev_priv, enum pipe pipe)
@@ -21,7 +22,7 @@ static int intel_crtc_init(struct drm_i915_private *dev_priv, enum pipe pipe)
 }
 ```
 
-```struct drm_i915_private``` is defined in drm/i915/i915_drv.h file as following:
+```struct drm_i915_private``` is defined in **drivers/gpu/drm/i915/i915_drv.h** file as following:
 ```C
 struct drm_i915_private {
 //...
@@ -30,7 +31,7 @@ struct drm_i915_private {
 //...
 }
 ```
-Also ```enum pipe``` and ```I915_MAX_PIPES``` are defined in drm/i915/intel_display.h;
+Also ```enum pipe``` and ```I915_MAX_PIPES``` are defined in **drivers/gpu/drm/i915/intel_display.h**;
 ```C
 enum pipe {
 	INVALID_PIPE = -1,
@@ -43,5 +44,4 @@ enum pipe {
 	I915_MAX_PIPES = _PIPE_EDP
 };
 ```
-```I915_MAX_PIPES``` is a constant value , and always equal to ```_PIPE_EDP``` value. In C , enum values are unsigned, so when pipe value equals to ```INVALID_PIPE``` it also evaluates ```true ``` in this comparison  
-In my opinion, programmer did this comparision and enum assignment on purpose and it won't cause any problems.
+```I915_MAX_PIPES``` is a constant value , and always equal to ```_PIPE_EDP``` value. In C , enum values are unsigned, so when pipe value equals to ```INVALID_PIPE``` it also evaluates ```true ``` in this comparison. As long as I915_MAX_PIPES equal to \_PIPE_EDP there won't be any problem. If it changes, a smart-tool can detect there may be a problem, during compile time.

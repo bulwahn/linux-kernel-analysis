@@ -1,17 +1,20 @@
 # Analysis Report 0007 #
-#### Clang Compiler Warning  ####
-Sign Comparison  
-#### Warning Explanation ####
-drivers/gpu/drm/i915/i915_debugfs.c:4740:16: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]
-        for (i = 0; i < ARRAY_SIZE(i915_debugfs_files); i++) {
-#### Introduced By: 34b9674c786c ("drm/i915: convert debugfs creation/destruction to table") ####  
-#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
-#### File Location: drivers/gpu/drm/i915/i915_debugfs.c  ####
-#### Resolved By: -- ####
 
-#### Manuel Assesment: ####
-Clang creates a warning, however it is theoretically impossible, ```ARRAY_SIZE(i915_debugfs_files)``` is 12 so theoretically it won't cause any bugs.
-It seems Clang couldn't evaulate macros, which will return constant values.
+## General ##
+**Warning Type:** Wsign-compare  
+**Warning Explanation:**```drivers/gpu/drm/i915/i915_debugfs.c:4740:16: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]
+        for (i = 0; i < ARRAY_SIZE(i915_debugfs_files); i++) {```  
+**File Location:** drivers/gpu/drm/i915/i915_debugfs.c
+## History ##
+**Introduced By:** 34b9674c786c ("drm/i915: convert debugfs creation/destruction to table")  
+**Reported Since:** TODO  
+**Resolved By:** --
+
+## Manuel Assesment ##
+**Classification:** [Tool can detect during runtime](WarningTypeClassifications.md)
+### Rationale ###
+If we look at ```i915_debugfs_files``` array more carefully, we see that it is a static array, and at most it's size is 20.
+So in this case ```ARRAY_SIZE(i915_debugfs_files)``` macro can't return value which is bigger than ```INT_MAX```
 ```C
 static const struct i915_debugfs_files {
 	const char *name;
@@ -60,3 +63,4 @@ int i915_debugfs_register(struct drm_i915_private *dev_priv)
   //...
 }
 ```
+Clang couldn't evaulates this array size is not bigger than ```INT_MAX``` and creates a warning about it. Even if developer adds many elements to this list with another commit and list size become larger than ```INT_MAX```, a smart-tool can detect it during compile time.

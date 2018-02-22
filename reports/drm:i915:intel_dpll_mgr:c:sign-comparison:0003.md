@@ -1,15 +1,16 @@
-# Analysis Report 0003 #  
-#### Clang Compiler Warning ####  
-Sign Comparison  
-#### Warning Explanation ####  
-drivers/gpu/drm/i915/intel_dpll_mgr.c:1239:18: warning: comparison of integers of different signs: 'unsigned int' and 'const int' [-Wsign-compare]  
-                        for (i = 0; i < dividers[d].n_dividers; i++) {  
-#### Introduced By: dc2538139277 ("drm/i915/skl: Replace the HDMI DPLL divider computation algorithm")  ####
-#### Reported Since : 60d7a21aedad ("Merge tag 'nios2-v4.16-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/lftan/nios2")  ####
-#### File Location: drivers/gpu/drm/i915/intel_dpll_mgr.c ####
-#### Solution Commit: -- ####
-
-#### Manuel Assesment: ####
+# Analysis Report 0003 #
+## General ##
+**Warning Type:** Wsign-compare  
+**Warning Explanation:** ```drivers/gpu/drm/i915/intel_dpll_mgr.c:1239:18: warning: comparison of integers of different signs: 'unsigned int' and 'const int' [-Wsign-compare]
+for (i = 0; i < dividers[d].n_dividers; i++) {```  
+**File Location:** drivers/gpu/drm/i915/intel_dpll_mgr.c
+## History ##
+**Introduced By:** dc2538139277 ("drm/i915/skl: Replace the HDMI DPLL divider computation algorithm")  
+**Reported Since:** TODO  
+**Resolved By:** --
+## Manuel Assesment ##
+**Classification:** [Mathematically Impossible](WarningTypeClassifications.md)  
+### Rationale ###
 Clang creates a warning about
 ```C
 	static const int even_dividers[] = {  4,  6,  8, 10, 12, 14, 16, 18, 20,
@@ -54,3 +55,4 @@ Clang creates a warning about
 ```
 In this case , clang points out that ``` d ``` is an ``` unsigned int ```, however ```C dividers[d].n_dividers``` is an ```C int```.  
 Even though this case seems suspicious and actually problematic in theory. In practice, it won't cause any problems.   Because the only risk is in here if ``` static const int even_dividers[] ``` or ``` static const int odd_dividers``` size is bigger than ```INT_SIZE``` ( > 2^31), then ``` int n_dividers``` will start get a negative value[integer overflow]. However in practice we cannot store a number which has more than 2^31 even or odd dividers in an ``` unsigned int```.
+It is a **mathematically impossible** warning.
