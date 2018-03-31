@@ -168,4 +168,46 @@ Example Warning:
 > In file included from ./include/linux/compiler.h:246:<br/>
 ./include/linux/kasan-checks.h:9:58: warning: unused parameter 'p' [-Wunused-parameter]<br/>
 static inline void kasan_check_read(const volatile void *p, unsigned int size)<br/>
-                                                        
+
+There is one more category of **legacy code**, the warning in this code needs to be<br/>
+ignored.<br/>
+
+Example Warning:
+```
+In file included from scripts/kconfig/conf.c:19:
+scripts/kconfig/lkc.h:158:56: warning: unused parameter 'ch' [-Wunused-parameter]
+static inline bool sym_set_choice_value(struct symbol *ch, struct symbol *chval)
+                                                       ^
+1 warning generated.
+  HOSTCC  scripts/kconfig/zconf.tab.o
+In file included from scripts/kconfig/zconf.tab.c:79:
+scripts/kconfig/lkc.h:158:56: warning: unused parameter 'ch' [-Wunused-parameter]
+static inline bool sym_set_choice_value(struct symbol *ch, struct symbol *chval)
+```
+
+Patch: https://github.com/torvalds/linux/commit/1da177e4c3f41524e886b7f1b8a0c1fc7321cac2
+
+```
+In file included from scripts/kconfig/zconf.tab.c:2486:
+scripts/kconfig/expr.c:1282:63: warning: unused parameter 'sym' [-Wunused-parameter]
+static void expr_print_file_helper(void *data, struct symbol *sym, const char *str)
+                                                              ^
+
+scripts/kconfig/expr.c:1282:static void expr_print_file_helper(void *data, struct symbol *sym, const char *str)
+scripts/kconfig/expr.c:1289:    expr_print(e, expr_print_file_helper, out, E_NONE);
+```
+
+Patch: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ab45d190fd4acf0b0e5d307294ce24a90a69cc23
+
+Another category where knowingly the parameter is not used. 
+
+Example Warning:
+
+```
+scripts/mod/file2alias.c:909:40: warning: unused parameter 'filename' [-Wunused-parameter]
+static int do_virtio_entry(const char *filename, void *symval,
+                                       ^
+```
+
+Patch: https://lists.linuxfoundation.org/pipermail/virtualization/2007-September/008955.html
+
