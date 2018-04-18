@@ -1,0 +1,25 @@
+From d2b7e0598cb6c44fbdffcd2ac70f18f77b5a522f Mon Sep 17 00:00:00 2001
+From: Ozan Alpay <ozanalpay@yandex.com.tr>
+Date: Thu, 5 Apr 2018 11:17:55 +0200
+Subject: [PATCH] Set default CC to Clang from Makefile
+
+---
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index c8b8e90..148fdc2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -14,7 +14,8 @@ NAME = Fearless Coyote
+ # That's our default target when none is given on the command line
+ PHONY := _all
+ _all:
+-
++override CC=clang
++override HOSTCC=clang
+ # o Do not use make's built-in rules and variables
+ #   (this increases performance and avoids hard-to-debug behaviour);
+ # o Look for make include files relative to root of kernel src
+-- 
+2.7.4
