@@ -1,8 +1,8 @@
 **File Location:** linux/net/mac80211  
-**Kernel Version:**  Linux-stable v4.15  
+**Kernel Version:**  commit: d8a5b80568a9("Linux 4.15")  
 **Kernel Configuration:** defconfig  
 **Infer Version:** HEAD commit: 4799fb6b8226("[racerd] skeleton for testing access path stability")  
-**Error Explanation When Not Blacklisted:**  
+**Error Message During Infer Capture:**  
 ```
 net/mac80211/status.o: In function `__ieee80211_tx_status':
 net/mac80211/status.c:(.text+0x12d7): undefined reference to `ieee80211_mpsp_trigger_process'

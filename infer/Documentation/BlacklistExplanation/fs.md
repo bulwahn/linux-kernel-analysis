@@ -1,8 +1,8 @@
 **File Location:** linux/fs  
-**Kernel Version:**  Linux-stable v4.15  
+**Kernel Version:**  commit: d8a5b80568a9("Linux 4.15")  
 **Kernel Configuration:** defconfig  
 **Infer Version:** HEAD commit: 4799fb6b8226("[racerd] skeleton for testing access path stability")  
-**Error Explanation When Not Blacklisted:**  
+**Error Message During Infer Capture:**  
 ```
 fs/pipe.o: In function `anon_pipe_buf_steal':
 fs/pipe.c:(.text+0x3423): undefined reference to `memcg_kmem_uncharge'

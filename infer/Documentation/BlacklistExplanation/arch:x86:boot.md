@@ -1,9 +1,9 @@
 **File Location:** linux/arch/x86/boot  
-**Kernel Version:**  Linux-stable v4.15  
+**Kernel Version:**  commit: d8a5b80568a9("Linux 4.15")  
 **Kernel Configuration:** defconfig  
 **Infer Version:** HEAD commit: 4799fb6b8226("[racerd] skeleton for testing access path stability")  
-**Error Explanation When Not Blacklisted:**  
-**First Error**  
+**Error Message During Infer Capture:**  
+**First Error:**  
 ```
 arch/x86/boot/compressed/kaslr.o: In function `smp_send_stop':
 arch/x86/boot/compressed/kaslr.c:(.text+0x26): undefined reference to `smp_ops'
@@ -30,7 +30,7 @@ Called from file "backend/infer.ml", line 23, characters 2-36
 Called from file "backend/infer.ml", line 112, characters 6-52
 External Error: *** capture command failed:
 ```
-**Second Error**  
+**Second Error:**  
 ```
 ld: Setup too big!
 arch/x86/boot/Makefile:105: recipe for target 'arch/x86/boot/setup.elf' failed

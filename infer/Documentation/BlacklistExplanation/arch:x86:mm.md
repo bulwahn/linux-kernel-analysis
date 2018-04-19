@@ -1,8 +1,8 @@
 **File Location:** linux/arch/x86/mm  
-**Kernel Version:**  Linux-stable v4.15  
+**Kernel Version:**  commit: d8a5b80568a9("Linux 4.15")  
 **Kernel Configuration:** defconfig  
 **Infer Version:** HEAD commit: 4799fb6b8226("[racerd] skeleton for testing access path stability")  
-**Error Explanation When Not Blacklisted:**  
+**Error Message During Infer Capture:**  
 ```
 arch/x86/mm/init.o: warning: objtool: clear_page()+0x24: undefined stack state
 arch/x86/mm/init.o: warning: objtool: zone_sizes_init()+0xe0: return with modified stack frame

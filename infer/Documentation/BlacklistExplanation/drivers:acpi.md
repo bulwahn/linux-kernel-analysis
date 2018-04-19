@@ -1,8 +1,8 @@
 **File Location:** linux/drivers/acpi  
-**Kernel Version:**  Linux-stable v4.15  
+**Kernel Version:**  commit: d8a5b80568a9("Linux 4.15")  
 **Kernel Configuration:** defconfig  
 **Infer Version:** HEAD commit: 4799fb6b8226("[racerd] skeleton for testing access path stability")  
-**Error Explanation When Not Blacklisted:**  
+**Error Message During Infer Capture:**  
 ```
 drivers/acpi/processor_idle.o: warning: objtool: acpi_processor_get_lpi_info()+0x2fe: return with modified stack frame
   CC      drivers/acpi/processor_throttling.o
