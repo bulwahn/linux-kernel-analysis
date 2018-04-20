@@ -39,7 +39,7 @@ RUN INFER_VERSION=v0.13.1; \
 
 # Compile Infer
 RUN OCAML_VERSION=4.05.0+flambda; \
-    cd /infer && ./build-infer.sh --opam-switch $OCAML_VERSION && rm -rf /root/.opam
+    cd /infer && ./build-infer.sh clang --opam-switch $OCAML_VERSION && rm -rf /root/.opam
 
 # Install Infer
 ENV INFER_HOME /infer/infer
