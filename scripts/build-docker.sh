@@ -15,3 +15,7 @@ docker build -t kernel-gcc .
 echo 'Building the Docker image "kernel-clang"'
 cd "$SCRIPT_DIR/../docker/kernel-clang"
 docker build -t kernel-clang .
+
+echo 'Building the Docker image "kernel-coccinelle"'
+cd "$SCRIPT_DIR/../docker/kernel-coccinelle"
+docker build -t kernel-coccinelle .
