@@ -10,11 +10,12 @@
 
 usage() {
 	echo "Usage:"
-	echo "  ./compile-kernel.sh <repository> <config> <compiler>"
+	echo "  ./compile-kernel.sh <repository> <config> <compiler> <checker>"
 	echo
         echo "    <repository> = torvalds | stable | next"
 	echo "    <config> = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
-	echo "    <compiler> = gcc | clang"
+	echo "    <compiler> = gcc | clang | coccinelle"
+	echo "    <checker> = sparse (optional)"
 }
 
 # Provide help if requested
@@ -40,9 +41,9 @@ fi
 
 # Check if script is called with three arguments
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -lt 3 ]; then
 	echo "Error: Wrong number of arguments"
-	echo "Script must be called with three arguments"
+	echo "Script must be called with at least three arguments"
 	usage
 	exit 1
 fi
@@ -83,13 +84,19 @@ esac
 # Check third argument and set COMPILER
 
 case "$3" in
-	gcc | clang)
+	gcc | clang | coccinelle )
 		COMPILER=$3
 		;;
 	*)
 		echo "Error: Invalid compiler: $3"
-		echo 'The compiler must be either "gcc" or "clang"'
+		echo 'The compiler must be either "gcc" or "clang", "coccinelle"'
 		exit 1
+		;;
+esac
+
+case "$4" in
+	sparse )
+		CHECKER='C=2 CHECK="sparse"'
 		;;
 esac
 
@@ -109,7 +116,7 @@ case "$COMPILER" in
 			/bin/sh -c "cd linux && \
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-				su -p $USER_NAME -c 'make clean && make $KERNEL_CONFIG && make -j$(nproc)'"
+				su -p $USER_NAME -c 'make clean && make $KERNEL_CONFIG && make -j$(nproc) $CHECKER'"
 		;;
 	clang)
 		docker run \
@@ -120,6 +127,17 @@ case "$COMPILER" in
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
 				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 CC=clang-5.0 $KERNEL_CONFIG && \
-					make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0'"
+					make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0 $CHECKER'"
+		;;
+	coccinelle)
+		docker run \
+			--rm \
+			-v "$KERNEL_SRC_DIR:/linux/" \
+			kernel-coccinelle \
+			/bin/sh -c "cd linux && \
+				groupadd --gid $GROUP_ID $GROUP_NAME && \
+                                adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
+                                su -p $USER_NAME -c 'make clean && rm -f all.err && \
+					make coccicheck MODE=report DEBUG_FILE=all.err V=1'"
 		;;
 esac
