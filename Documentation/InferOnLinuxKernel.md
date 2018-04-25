@@ -142,18 +142,23 @@ To do this, please follow the instructions below.
 ## Analyse_Kernel Script Manual ##
 
 Aim of analyse_kernel script is , automatize all process for running infer on linux-kernel with using dockerfile. You can call it directly or pass different parameters to run it on different versions/configurations.
-You can pas 4 different parameters:  
-**-v :** Kernel-Version parameter. Default value is ```v4.15```. You can use this parameter to run infer on different linux-kernel versions.  
-Example: ``` ./analyse_kernel -v v4.11```  
-**-c :** Kernel-Configuration parameter. Defaul value is ```defconfig```. Change this parameter to run infer on different linux-kernel configurations.  
+Below you can find explanations about each parameter:  
+**-r :** Kernel-Repository parameter. You can use this parameter to run infer on different kernel repositories. Valid parameters are torvalds, stable and next.  
+Example: ``` ./analyse_kernel -r stable```  
+**-c :** Kernel-Configuration parameter. You can use this parameter to run infer with different kernel-configurations. Valid parameters are allnoconfig, allmodconfig, allyesconfig, defconfig, randconfig.  
 Example: ``` ./analyse_kernel -c randconfig```  
-**-i :** Parameter for ```.inferconfig``` file. As we stated in above, we need to blacklist several directories, in order to run ```infer capture -- make``` successfully. However if you want use your own ```.inferconfig``` file, you can use this parameter. By default it uses ```~/linux-kernel-analysis/scripts/files/inferconfig``` file.  
-**--configfile :** Also you can use a configfile, to set all this variable described above. Create a file named ```analysisconfig```. Then inside analysisconfig you can define:
-- KERNEL_VERSION
-- KERNEL_CONFIGURATION
+**Optional Parameters**
+**-i :** Parameter for ```.inferconfig``` file. As we stated in above, we need to blacklist several directories, in order to run ```infer capture -- make``` successfully. However if you want use your own ```.inferconfig``` file, you can use this parameter. If you don't pass any parameter, script will use the ```.inferconfig``` file in the root of linux-kernel-source directory.  
+Example: ```./analyse_kernel -i /home/abc/inferconfig```  
+**--configfile :** Also you can use a configfile, to set all this variable described above. Create a file named ```analysisconfig```. Then inside analysisconfig you can define:  
+- KERNEL_HEAD_SHA 
+- KERNEL_CONFIG
 - INFERCONFIG_LOCATION
+- KERNEL_REPOSITORY
 
-Example ``` ./analyse_kernel --configfile ~/xyz/analysisconfig```
+Example: ``` ./analyse_kernel --configfile /home/xyz/analysisconfig```  
+You can find an example of ```.analysisconfig``` file in ```scripts/files/``` directory.  
+**--no-analyze :** If you add this parameter, script will not run infer analyze, after infer capture completed. Since infer analyze needs so much computing power and time, you can call script with this parameter and run only infer capture.  
 
-Also you can call analyse_kernel with combination of these parameters. Example: ```./analyse_kernel -v v4.16 -c defconfig -i ~/abc/inferconfig```
+Also you can call analyse_kernel with combination of these parameters. Example: ```./analyse_kernel -r stable -c defconfig -i /home/abc/inferconfig```
  
