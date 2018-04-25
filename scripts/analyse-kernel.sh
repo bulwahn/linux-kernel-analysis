@@ -63,8 +63,13 @@ set_inferconfig_file_location() {
 set_scripts_directory() {
 	SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 }
-remove_analyze_command() {
-	RUN_COMMAND=${RUN_COMMAND/" && infer analyze"}
+set_analyze() {
+	RUN_ANALYZE=1
+}
+finalize_command() {
+	if [ "$RUN_ANALYZE" == "1" ]; then
+		RUN_COMMAND=${RUN_COMMAND/" && infer analyze"}
+	fi
 }
 read_and_set_variables_from_analysisconfig() {
 	if [ -f "$1" ]; then
@@ -135,20 +140,21 @@ does_user_need_help() {
 check_kernel_src_base_valid
 set_scripts_directory
 does_user_need_help "$1"
-RUN_COMMAND="cd linux && make clean && make $KERNEL_CONFIG && infer capture -- make -j40 && infer analyze"
 # Get Parameters, validate them, assign them variables.
 while [[ "$#" > 0 ]]; do case $1 in
   -r) set_kernel_repository "$2"; shift; shift;;
   -c) set_kernel_config "$2"; shift; shift;;
   -i) set_inferconfig_file_location "$2"; shift; shift;;
   --configfile) read_and_set_variables_from_analysisconfig "$2"; shift; shift;;
-  --no-analyze) remove_analyze_command; shift; shift;;
+  --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
+RUN_COMMAND="cd linux && make clean && make $KERNEL_CONFIG && infer capture -- make -j40 && infer analyze"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
 check_kernel_configuration_valid
 check_inferconfig_exists
+finalize_command
 cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	git checkout $KERNEL_HEAD_SHA

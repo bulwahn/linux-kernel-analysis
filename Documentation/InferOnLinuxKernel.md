@@ -151,10 +151,11 @@ Example: ``` ./analyse_kernel -c randconfig```
 **-i :** Parameter for ```.inferconfig``` file. As we stated in above, we need to blacklist several directories, in order to run ```infer capture -- make``` successfully. However if you want use your own ```.inferconfig``` file, you can use this parameter. If you don't pass any parameter, script will use the ```.inferconfig``` file in the root of linux-kernel-source directory.  
 Example: ```./analyse_kernel -i /home/abc/inferconfig```  
 **--configfile :** Also you can use a configfile, to set all this variable described above. Create a file named ```analysisconfig```. Then inside analysisconfig you can define:  
-- KERNEL_HEAD_SHA 
-- KERNEL_CONFIG
-- INFERCONFIG_LOCATION
-- KERNEL_REPOSITORY
+- KERNEL_HEAD_SHA - If you provide this parameter in your config file, before start building, script will run ```git checkout KERNEL_HEAD_SHA```
+- KERNEL_CONFIG - To pass -c parameter
+- INFERCONFIG_LOCATION - To pass -i parameter
+- KERNEL_REPOSITORY - to pass -r parameter
+- RUN_ANALYZE - 1 for run analyze after infer capture finishes.
 
 Example: ``` ./analyse_kernel --configfile /home/xyz/analysisconfig```  
 You can find an example of ```.analysisconfig``` file in ```scripts/files/``` directory.  

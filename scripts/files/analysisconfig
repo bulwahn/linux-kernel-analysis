@@ -2,3 +2,4 @@ KERNEL_HEAD_SHA="d8a5b80568a9"
 KERNEL_CONFIG="defconfig"
 INFERCONFIG_LOCATION="/home/ozan/githubRepos/linux-kernel-analysis-fork/linux-kernel-analysis/scripts/files/inferconfig"
 KERNEL_REPOSITORY="/home/ozan/repositories/kernel.org/pub/scm/linux/kernel/git/torvalds/linux/"
+RUN_ANALYZE=0
