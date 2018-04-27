@@ -64,10 +64,10 @@ set_scripts_directory() {
 	SCRIPTS_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 }
 set_analyze() {
-	RUN_ANALYZE=1
+	DONT_RUN_ANALYZE=1
 }
 finalize_command() {
-	if [ "$RUN_ANALYZE" == "1" ]; then
+	if [ "$DONT_RUN_ANALYZE" == "1" ]; then
 		RUN_COMMAND=${RUN_COMMAND/" && infer analyze"}
 	fi
 }
@@ -96,9 +96,7 @@ check_kernel_repository_valid() {
 		echo "Valid parameters are =  torvalds | stable | next"
 		exit 1;
 	elif [ ! -d "$KERNEL_REPOSITORY" ]; then # Check KERNEL_REPOSITORY is a directory or not
-		echo "Path $KERNEL_REPOSITORY doesn't point to a directory"
-		echo "Please fix it and then run script"
-		exit 1
+		set_kernel_repository "$KERNEL_REPOSITORY"
 	fi
 }
 check_kernel_configuration_valid() {
@@ -109,16 +107,18 @@ check_kernel_configuration_valid() {
 	fi
 }
 check_inferconfig_exists() {
-	#Infer always start looking from root of target file directory to find an .inferconfig file, I am not sure we can give it as a parameter???
-	if [ -z "$INFERCONFIG_LOCATION" ] && [ ! -f "$KERNEL_REPOSITORY/.inferconfig" ]; then 
-		echo "You should have a .inferconfig file in the root of linux-source repository"
-		echo "Or you must provide a valid .inferconfig file path with -i parameter"
-		exit 1;
-	elif [ ! -z "$INFERCONFIG_LOCATION" ]; then
+	if [ -f "$INFERCONFIG_LOCATION" ]; then # Highest priority is parameter
 		cp "$INFERCONFIG_LOCATION" "$KERNEL_REPOSITORY/.inferconfig"
+	elif [ -f "$SCRIPTS_DIRECTORY/$INFERCONFIG_LOCATION" ]; then #Second priority is analysisconfig file
+		cp "$SCRIPTS_DIRECTORY/$INFERCONFIG_LOCATION" "$KERNEL_REPOSITORY/.inferconfig"
+	elif [ -f "$KERNEL_REPOSITORY/.inferconfig"]; then #If still we couldn't a valid inferconfig file, but there is a .inferconfig in source-repository use it instead of raising an error
+		echo "Script will use .inferconfig file, tha already exists in $KERNEL_REPOSITORY"
 	else
-		echo "Script will use .inferconfig file , that exists in $KERNEL_REPOSITORY!"
+		echo "You should provide a .inferconfig file in the root of linux-source repository"
+		echo "Or you must provide a valid inferconfig file path"
+		exit 1;
 	fi
+		
 }
 can_apply_patch() {
 	APPLY_RESULT=$(git apply "$SCRIPTS_DIRECTORY/files/0001-Set-default-CC-to-Clang-from-Makefile.patch" 2>&1 )
@@ -129,6 +129,14 @@ can_apply_patch() {
 		exit 1;
 	fi
 }
+can_checkout_successfully() {
+	CHECKOUT_RESULT=$(git checkout "$KERNEL_HEAD_SHA" 2>&1 | grep "error")
+	if [ -n "$CHECKOUT_RESULT" ]; then #Dont force to anything just raise an error to avoid any previous work-loss
+		echo "Failed to checkout to $KERNEL_HEAD_SHA successfull successfully"
+		echo "Please check your linux source directory!"
+		exit 1;
+	fi	
+}	
 revert_changes_on_makefile() {
 	git apply -R "$SCRIPTS_DIRECTORY/files/0001-Set-default-CC-to-Clang-from-Makefile.patch"
 }
@@ -160,7 +168,7 @@ check_inferconfig_exists
 finalize_command
 cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
-	git checkout $KERNEL_HEAD_SHA
+	can_checkout_successfully
 fi
 can_apply_patch
 DOCKER_NAME="kernel-analysis"

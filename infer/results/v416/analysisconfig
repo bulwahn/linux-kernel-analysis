@@ -1,0 +1,6 @@
+KERNEL_HEAD_SHA="0adb32858b0b"
+KERNEL_CONFIG="defconfig"
+INFERCONFIG_LOCATION="../infer/results/v416/inferconfig"
+KERNEL_REPOSITORY="stable"
+DONT_RUN_ANALYZE=1
+

@@ -155,7 +155,7 @@ Example: ```./analyse_kernel -i /home/abc/inferconfig```
 - KERNEL_CONFIG - To pass -c parameter
 - INFERCONFIG_LOCATION - To pass -i parameter
 - KERNEL_REPOSITORY - To pass -r parameter
-- RUN_ANALYZE - Set to 1 for run analyze after infer capture finishes.
+- DONT_RUN_ANALYZE - Set to 1 for dont run analyze after infer capture finishes.
 
 Example: ``` ./analyse_kernel --configfile /home/xyz/analysisconfig```  
 You can find an example of ```.analysisconfig``` file in ```scripts/files/``` directory.  
