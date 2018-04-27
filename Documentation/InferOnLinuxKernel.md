@@ -154,8 +154,8 @@ Example: ```./analyse_kernel -i /home/abc/inferconfig```
 - KERNEL_HEAD_SHA - If you provide this parameter in your config file, before start building, script will run ```git checkout KERNEL_HEAD_SHA```
 - KERNEL_CONFIG - To pass -c parameter
 - INFERCONFIG_LOCATION - To pass -i parameter
-- KERNEL_REPOSITORY - to pass -r parameter
-- RUN_ANALYZE - 1 for run analyze after infer capture finishes.
+- KERNEL_REPOSITORY - To pass -r parameter
+- RUN_ANALYZE - Set to 1 for run analyze after infer capture finishes.
 
 Example: ``` ./analyse_kernel --configfile /home/xyz/analysisconfig```  
 You can find an example of ```.analysisconfig``` file in ```scripts/files/``` directory.  

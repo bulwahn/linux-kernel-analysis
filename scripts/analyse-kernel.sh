@@ -129,6 +129,9 @@ can_apply_patch() {
 		exit 1;
 	fi
 }
+revert_changes_on_makefile() {
+	git apply -R "$SCRIPTS_DIRECTORY/files/0001-Set-default-CC-to-Clang-from-Makefile.patch"
+}
 does_user_need_help() {
 	if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 		help
@@ -163,3 +166,4 @@ can_apply_patch
 DOCKER_NAME="kernel-analysis"
 docker run -v "$KERNEL_REPOSITORY:/linux/" --interactive --tty $DOCKER_NAME \
 /bin/sh -c "$RUN_COMMAND"
+revert_changes_on_makefile
