@@ -1,4 +1,4 @@
-##Error 0002##
+## Error 0002 ##
 **File Location:** fs/exofs/ore_raid.c  
 **Error Message:**
 ```

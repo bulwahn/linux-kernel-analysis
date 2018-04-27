@@ -1,5 +1,5 @@
-##Error 0003##
-**File location:** drivers/gpu/drm/amd/display/dc/calcs/Makefile:27
+## Error 0003 ##
+**File location:** drivers/gpu/drm/amd/display/dc/calcs/Makefile:27  
 **Error Message:**  
 ```
 clang: error: unknown argument: '-mpreferred-stack-boundary=4'

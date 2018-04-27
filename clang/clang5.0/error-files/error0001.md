@@ -1,4 +1,4 @@
-##Error 0001##
+## Error 0001 ##
 **File Location:** fs/exofs/ore.c  
 **Error Message:**  
 ```
