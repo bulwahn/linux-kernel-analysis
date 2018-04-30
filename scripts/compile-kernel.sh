@@ -98,12 +98,14 @@ esac
 case "$COMPILER" in
 	gcc)
 		docker run \
+			--rm \
 			-v "$KERNEL_SRC_DIR:/linux/" \
 			kernel-gcc \
 			/bin/sh -c "cd linux && make clean && make $KERNEL_CONFIG && make -j32"
 		;;
 	clang)
 		docker run \
+			--rm \
 			-v "$KERNEL_SRC_DIR:/linux/" \
 			kernel-clang \
 			/bin/sh -c "cd linux && \
