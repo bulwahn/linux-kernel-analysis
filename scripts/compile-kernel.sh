@@ -101,7 +101,7 @@ case "$COMPILER" in
 			--rm \
 			-v "$KERNEL_SRC_DIR:/linux/" \
 			kernel-gcc \
-			/bin/sh -c "cd linux && make clean && make $KERNEL_CONFIG && make -j32"
+			/bin/sh -c "cd linux && make clean && make $KERNEL_CONFIG && make -j$(nproc)"
 		;;
 	clang)
 		docker run \
@@ -111,6 +111,6 @@ case "$COMPILER" in
 			/bin/sh -c "cd linux && \
 				make CC=clang-5.0 clean && \
 				make HOSTCC=clang-5.0 $KERNEL_CONFIG && \
-				make -j32 HOSTCC=clang-5.0 CC=clang-5.0"
+				make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0"
 		;;
 esac
