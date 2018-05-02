@@ -12,21 +12,4 @@ drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0xf43): undefined ref
 drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x14a7): undefined reference to `__compiletime_assert_302'
 drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `csid_set_stream':
 drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x1994): undefined reference to `__compiletime_assert_386'
-drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_power':
-drivers/media/platform/qcom/camss-8x16/camss-ispif.c:(.text+0x127e): undefined reference to `__compiletime_assert_236'
-drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_stream':
-drivers/media/platform/qcom/camss-8x16/camss-ispif.c:(.text+0x15fe): undefined reference to `__compiletime_assert_622'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `msm_vfe_get_vfe_id':
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x1d92): undefined reference to `__compiletime_assert_2868'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `vfe_set_power':
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x34e7): undefined reference to `__compiletime_assert_2157'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `vfe_set_stream':
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x48c6): undefined reference to `__compiletime_assert_2189'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x48f8): undefined reference to `__compiletime_assert_1529'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x494a): undefined reference to `__compiletime_assert_1583'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x4965): undefined reference to `__compiletime_assert_1465'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x4b52): undefined reference to `__compiletime_assert_1295'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x546f): undefined reference to `__compiletime_assert_1357'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x5666): undefined reference to `__compiletime_assert_1339'
-drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x5c7e): undefined reference to `__compiletime_assert_1339'
 ```
