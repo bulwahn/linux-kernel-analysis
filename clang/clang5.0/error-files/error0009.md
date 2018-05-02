@@ -12,16 +12,6 @@ drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0xf43): undefined ref
 drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x14a7): undefined reference to `__compiletime_assert_302'
 drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `csid_set_stream':
 drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x1994): undefined reference to `__compiletime_assert_386'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `msm_csiphy_subdev_init':
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x32): undefined reference to `__compiletime_assert_683'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `msm_csiphy_register_entity':
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x74b): undefined reference to `__compiletime_assert_846'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `csiphy_set_power':
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0xd2c): undefined reference to `__compiletime_assert_244'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0xd78): undefined reference to `__compiletime_assert_166'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `csiphy_set_stream':
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x190a): undefined reference to `__compiletime_assert_322'
-drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x1beb): undefined reference to `__compiletime_assert_327'
 drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_power':
 drivers/media/platform/qcom/camss-8x16/camss-ispif.c:(.text+0x127e): undefined reference to `__compiletime_assert_236'
 drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_stream':

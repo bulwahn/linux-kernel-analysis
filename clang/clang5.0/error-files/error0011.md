@@ -1,0 +1,9 @@
+## Error 0011 ##
+**File Location:** drivers/media/platform/qcom/camss-8x16/camss-ispif.c  
+**Error Message:**  
+```
+drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_power':
+drivers/media/platform/qcom/camss-8x16/camss-ispif.c:(.text+0x127e): undefined reference to `__compiletime_assert_236'
+drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_stream':
+drivers/media/platform/qcom/camss-8x16/camss-ispif.c:(.text+0x15fe): undefined reference to `__compiletime_assert_622'
+```
