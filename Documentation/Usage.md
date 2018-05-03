@@ -9,10 +9,10 @@ The script takes these three arguments:
 `./scripts/compile-kernel.sh <repository> <config> <compiler>`
 
 For example, to build the current main-line kernel with the default kernel
-configuration and clang compiler, run:
+configuration and clang-5.0 compiler, run:
 
 ```
-./scripts/compile-kernel.sh torvalds defconfig clang
+./scripts/compile-kernel.sh torvalds defconfig clang-5.0
 ```
 
 For other help, use `./scripts/compile-kernel.sh --help`.

@@ -14,7 +14,7 @@ usage() {
 	echo
         echo "    <repository> = torvalds | stable | next"
 	echo "    <config> = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
-	echo "    <compiler> = gcc | clang"
+	echo "    <compiler> = gcc | clang-5.0 | clang-6.0 | clang-7"
 }
 
 # Provide help if requested
@@ -83,12 +83,12 @@ esac
 # Check third argument and set COMPILER
 
 case "$3" in
-	gcc | clang)
+	gcc | clang-5.0 | clang-6.0 | clang-7)
 		COMPILER=$3
 		;;
 	*)
 		echo "Error: Invalid compiler: $3"
-		echo 'The compiler must be either "gcc" or "clang"'
+		echo 'The compiler must be "gcc", "clang-5.0", "clang-6.0" or "clang-7"'
 		exit 1
 		;;
 esac
@@ -102,13 +102,13 @@ case "$COMPILER" in
 			kernel-gcc \
 			/bin/sh -c "cd linux && make clean && make $KERNEL_CONFIG && make -j32"
 		;;
-	clang)
+	clang-5.0 | clang-6.0 | clang-7)
 		docker run \
 			-v "$KERNEL_SRC_DIR:/linux/" \
-			kernel-clang \
+			kernel-$COMPILER \
 			/bin/sh -c "cd linux && \
-				make CC=clang-5.0 clean && \
-				make HOSTCC=clang-5.0 $KERNEL_CONFIG && \
-				make -j32 HOSTCC=clang-5.0 CC=clang-5.0"
+				make CC=$COMPILER clean && \
+				make HOSTCC=$COMPILER $KERNEL_CONFIG && \
+				make -j32 HOSTCC=$COMPILER CC=$COMPILER"
 		;;
 esac
