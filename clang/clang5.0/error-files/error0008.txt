@@ -1,7 +1,7 @@
-## Error 0008 ##
-**File Location:** drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c  
-**Error Message:**  
-```
+Error 0008
+File Location: drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c  
+Error Message:  
+
 drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.o: In function `dml1_extract_rq_regs':
 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0x1ae): undefined reference to `__floatunsidf'
 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0x1b6): undefined reference to `__truncdfsf2'
@@ -491,4 +491,4 @@ drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0
 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0x70ba): undefined reference to `__gtdf2'
 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0x71c7): undefined reference to `__ltdf2'
 drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dml1_display_rq_dlg_calc.c:(.text+0x71ff): undefined reference to `__gtdf2'
-```
+

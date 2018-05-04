@@ -1,7 +1,7 @@
-## Error 0006 ##
-**File Location:** drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.c  
-**Error Message:**  
-```
+Error 0006
+File Location: drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.c  
+Error Message: 
+
 drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.o: In function `dcn_bw_mod':
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x1d): undefined reference to `__unordsf2'
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x2a): undefined reference to `__unordsf2'
@@ -90,4 +90,4 @@ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x765): un
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x76f): undefined reference to `__floatsisf'
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x779): undefined reference to `__addsf3'
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_math.c:(.text+0x783): undefined reference to `__divsf3'
-```
+

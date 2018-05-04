@@ -1,7 +1,7 @@
-## Error 0012 ##
-**File Location:** drivers/media/platform/qcom/camss-8x16/camss-vfe.c  
-**Error Message:**  
-```
+Error 0012
+File Location: drivers/media/platform/qcom/camss-8x16/camss-vfe.c  
+Error Message: 
+
 drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `msm_vfe_get_vfe_id':
 drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x1d92): undefined reference to `__compiletime_assert_2868'
 drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `vfe_set_power':
@@ -15,4 +15,4 @@ drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x4b52): undefined ref
 drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x546f): undefined reference to `__compiletime_assert_1357'
 drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x5666): undefined reference to `__compiletime_assert_1339'
 drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x5c7e): undefined reference to `__compiletime_assert_1339'
-```
+

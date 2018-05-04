@@ -1,7 +1,7 @@
-## Error 0001 ##
-**File Location:** fs/exofs/ore.c  
-**Error Message:**  
-```
+Error 0001
+File Location: fs/exofs/ore.c  
+Error Message:
+
 fs/exofs/ore.c:153:28: error: fields must have a constant size: 'variable length array in structure' extension will never be supported
                 struct ore_per_dev_state per_dev[numdevs];
                                          ^
@@ -30,4 +30,4 @@ fs/exofs/ore.c:178:17: error: fields must have a constant size: 'variable length
 scripts/Makefile.build:316: recipe for target 'fs/exofs/ore.o' failed
 make[2]: *** [fs/exofs/ore.o] Error 1
 make[2]: *** Waiting for unfinished jobs....
-```
+

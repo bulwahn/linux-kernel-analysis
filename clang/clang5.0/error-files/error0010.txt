@@ -1,7 +1,7 @@
-## Error 0010 ##
-**File Location:** drivers/media/platform/qcom/camss-8x16/camss-csiphy.c  
-**Error Message:**  
-```
+Error 0010
+File Location: drivers/media/platform/qcom/camss-8x16/camss-csiphy.c  
+Error Message:  
+
 rivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `msm_csiphy_subdev_init':
 drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x32): undefined reference to `__compiletime_assert_683'
 drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `msm_csiphy_register_entity':
@@ -12,4 +12,4 @@ drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0xd78): undefined r
 drivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `csiphy_set_stream':
 drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x190a): undefined reference to `__compiletime_assert_322'
 drivers/media/platform/qcom/camss-8x16/camss-csiphy.c:(.text+0x1beb): undefined reference to `__compiletime_assert_327'
-```
+
