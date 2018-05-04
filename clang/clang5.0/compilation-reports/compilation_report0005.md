@@ -21,6 +21,7 @@ make CC=clang-5.0 HOSTCC=clang-5.0
 - drivers/media/platform/qcom/camss-8x16/camss-csiphy.c  
 - drivers/media/platform/qcom/camss-8x16/camss-ispif.c  
 -  drivers/media/platform/qcom/camss-8x16/camss-vfe.c  
+
 **Error Message:** [error-0009](../error-files/error0009.txt), [error-0010](../error-files/error0010.txt), [error-0011](../error-files/error0011.txt), [error-0012](../error-files/error0012.txt)  
 **Included due to:**  
 ```

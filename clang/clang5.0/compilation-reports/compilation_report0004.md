@@ -20,7 +20,8 @@ make CC=clang-5.0 HOSTCC=clang-5.0
 - drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_math.c,  
 - drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_auto.c,  
 - drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c  
-**Error Message:** [error-0005](../error-files/error0005.txt), [error-0006](../error-files/error0006.txt), [error-0007](../error-files/error0007.txt), [error-0008](../error-files/error0008.txt)
+
+**Error Message:** [error-0005](../error-files/error0005.txt), [error-0006](../error-files/error0006.txt), [error-0007](../error-files/error0007.txt), [error-0008](../error-files/error0008.txt)  
 **Included due to:**
 For drivers/gpu/drm/amd/display errors:  
 ```
