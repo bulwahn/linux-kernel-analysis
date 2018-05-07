@@ -8,10 +8,9 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-echo 'Building the Docker image "kernel-gcc"'
-cd "$SCRIPT_DIR/../docker/kernel-gcc"
-docker build -t kernel-gcc .
-
-echo 'Building the Docker image "kernel-clang"'
-cd "$SCRIPT_DIR/../docker/kernel-clang"
-docker build -t kernel-clang .
+for DOCKER_IMAGE in $(find $SCRIPT_DIR/../docker -mindepth 1 -maxdepth 1 -type d -printf "%f\n")
+do
+	echo Building the Docker image "$DOCKER_IMAGE"
+	cd "$SCRIPT_DIR/../docker/$DOCKER_IMAGE"
+	docker build -t $DOCKER_IMAGE .
+done
