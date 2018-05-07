@@ -15,21 +15,5 @@ make menuconfig
 Device Drivers -> Graphics Support -> Display Engine Configuration -> Disable DCN 1.0 Raven Family
 make CC=clang-5.0 HOSTCC=clang-5.0
 ```
-**Kernel Configuration File:** [amd_dcn_10_not_set_config](../config-files/amd_dcn_10_not_set_config)  
-**Filename:** 
-- drivers/media/platform/qcom/camss-8x16/camss-csid.c  
-- drivers/media/platform/qcom/camss-8x16/camss-csiphy.c  
-- drivers/media/platform/qcom/camss-8x16/camss-ispif.c  
--  drivers/media/platform/qcom/camss-8x16/camss-vfe.c  
-
-**Error Message:** [error-0009](../error-files/error0009.txt), [error-0010](../error-files/error0010.txt), [error-0011](../error-files/error0011.txt), [error-0012](../error-files/error0012.txt)  
-**Included due to:**  
-```
-CONFIG_VIDEO_QCOM_CAMSS=y  
-```  
-**Change in Kernel Configuration:**  
-```
-CONFIG_VIDEO_QCOM_CAMSS is not set
-```
-**Fixed By:** Change in .configfile  
-**New Kernel Configuration:** [final-config](../config-files/final-config)  
+**Used Kernel Configuration File:** [amd_dcn_10_not_set_config](../config-files/amd_dcn_10_not_set_config)  
+**Compilation Result:** [rectification0009](../rectification-reports/rectification0009.md), [rectification0010](../rectification-reports/rectification0010.md), [rectification0011](../rectification-reports/rectification0011.md), [rectification0012](../rectification-reports/rectification0012.md)  

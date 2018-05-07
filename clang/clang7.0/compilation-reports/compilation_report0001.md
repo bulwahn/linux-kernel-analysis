@@ -4,8 +4,7 @@
 git checkout v4.16
 make clean
 make allyesconfig
-make CC=clang-5.0 HOSTCC=clang-5.0
+make CC=clang-7 HOSTCC=clang-7
 ```
 **Used Kernel Configuration File:** [allyesconfig](../config-files/allyesconfig)   
-**Result:**  [rectification0001](../rectification-reports/rectification0001.md), [rectification0002](../rectification-reports/rectification0002.md]
-
+**Result:**  [rectification0001](../rectification-reports/rectification0001.md)  

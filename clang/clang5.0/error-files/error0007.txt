@@ -1,5 +1,3 @@
-Error 0007
-File Location: drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_auto.c  
 Error Message: 
 
 drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_auto.o: In function `scaler_settings_calculation':

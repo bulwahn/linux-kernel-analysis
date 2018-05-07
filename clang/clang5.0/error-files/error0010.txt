@@ -1,5 +1,3 @@
-Error 0010
-File Location: drivers/media/platform/qcom/camss-8x16/camss-csiphy.c  
 Error Message:  
 
 rivers/media/platform/qcom/camss-8x16/camss-csiphy.o: In function `msm_csiphy_subdev_init':

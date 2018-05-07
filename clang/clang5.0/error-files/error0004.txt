@@ -1,5 +1,3 @@
-Error 0004
-File Location: drivers/gpu/drm/amd/display/dc/dml/Makefile:27  
 Error Messages:  
 
 clang: error: unknown argument: '-mpreferred-stack-boundary=4'

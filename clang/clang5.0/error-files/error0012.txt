@@ -1,5 +1,3 @@
-Error 0012
-File Location: drivers/media/platform/qcom/camss-8x16/camss-vfe.c  
 Error Message: 
 
 drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `msm_vfe_get_vfe_id':

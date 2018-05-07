@@ -1,5 +1,3 @@
-Error 0009
-File Location: drivers/media/platform/qcom/camss-8x16/camss-csid.c  
 Error Message:  
 
 drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `msm_csid_subdev_init':

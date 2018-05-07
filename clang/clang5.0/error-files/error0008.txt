@@ -1,5 +1,3 @@
-Error 0008
-File Location: drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.c  
 Error Message:  
 
 drivers/gpu/drm/amd/display/dc/dml/dml1_display_rq_dlg_calc.o: In function `dml1_extract_rq_regs':

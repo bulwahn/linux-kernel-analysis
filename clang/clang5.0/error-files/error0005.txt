@@ -1,5 +1,3 @@
-Error 0005
-File Location: drivers/gpu/drm/amd/display/dc/calcs/dcn_calcs.c  
 Error Message:  
 
 drivers/gpu/drm/amd/display/dc/calcs/dcn_calcs.o: In function `hack_force_pipe_split':

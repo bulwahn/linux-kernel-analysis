@@ -1,5 +1,3 @@
-Error 0002
-File Location: fs/exofs/ore_raid.c  
 Error Message:
 
 fs/exofs/ore_raid.c:77:27: error: fields must have a constant size: 'variable length array in structure' extension will never be supported

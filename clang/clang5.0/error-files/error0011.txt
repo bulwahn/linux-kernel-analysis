@@ -1,5 +1,3 @@
-Error 0011
-File Location: drivers/media/platform/qcom/camss-8x16/camss-ispif.c  
 Error Message:  
 
 drivers/media/platform/qcom/camss-8x16/camss-ispif.o: In function `ispif_set_power':

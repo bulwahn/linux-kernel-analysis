@@ -16,9 +16,8 @@ Device Drivers -> Graphics Support -> Display Engine Configuration -> Disable DC
 Device Drivers -> Multimedia Support -> V4L Platform Devices -> Disable Qualcomm 8x16 V4L2 Camera Subsystem Driver
 make CC=clang-5.0 HOSTCC=clang-5.0
 ```
-**Kernel Configuration File:** [final-config](../config-files/final-config)  
-**Filename:** No-Error  
-**Error Message:** No-Error, Kernel Built with Clang-5.0 successfully.  
+**Used Kernel Configuration File:** [final-config](../config-files/final-config)  
+**Compilation Result:** No-Error, v4.16 compiled with Clang-5.0 successfully.  
 ```
 Setup is 17276 bytes (padded to 17408 bytes).
 System is 114562 kB
