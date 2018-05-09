@@ -1,5 +1,3 @@
-Error Message: 
-
 drivers/gpu/drm/amd/display/dc/calcs/dcn_calc_auto.o: In function `scaler_settings_calculation':
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_auto.c:(.text+0xfb): undefined reference to `__divsf3'
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calc_auto.c:(.text+0x16b): undefined reference to `__divsf3'

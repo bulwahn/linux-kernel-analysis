@@ -1,5 +1,3 @@
-Error Message:  
-
 drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `msm_csid_subdev_init':
 drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x32): undefined reference to `__compiletime_assert_804'
 drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `msm_csid_register_entity':

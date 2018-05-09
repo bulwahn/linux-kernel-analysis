@@ -9,6 +9,7 @@ CONFIG_DRM_AMD_DC_DCN1_0=y
 - [error-0006](../error-files/error0006.txt)  
 - [error-0007](../error-files/error0007.txt)  
 - [error-0008](../error-files/error0008.txt)  
+    
 **Fixed By:** Change in Kernel Configuration  
 ```
   # CONFIG_DRM_AMD_DC_DCN1_0 is not set  

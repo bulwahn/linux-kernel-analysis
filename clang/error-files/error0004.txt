@@ -1,5 +1,3 @@
-Error Messages:  
-
 clang: error: unknown argument: '-mpreferred-stack-boundary=4'
 scripts/Makefile.build:324: recipe for target 'drivers/gpu/drm/amd/amdgpu/../display/dc/dml/display_mode_lib.o' failed
 

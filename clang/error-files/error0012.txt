@@ -1,5 +1,3 @@
-Error Message: 
-
 drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `msm_vfe_get_vfe_id':
 drivers/media/platform/qcom/camss-8x16/camss-vfe.c:(.text+0x1d92): undefined reference to `__compiletime_assert_2868'
 drivers/media/platform/qcom/camss-8x16/camss-vfe.o: In function `vfe_set_power':

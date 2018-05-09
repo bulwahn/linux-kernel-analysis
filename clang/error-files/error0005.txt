@@ -1,5 +1,3 @@
-Error Message:  
-
 drivers/gpu/drm/amd/display/dc/calcs/dcn_calcs.o: In function `hack_force_pipe_split':
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:(.text+0x69): undefined reference to `__floatsisf'
 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:(.text+0x83): undefined reference to `__gtsf2'
