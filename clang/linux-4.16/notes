@@ -1,0 +1,14 @@
+The file warnings-v4.16+cherries-maxyesconfig-clang-5.0 was produced with:
+  - linux v4.16 and some cherry-picked commits (cf. current pull request #9)
+  - allyesconfig with disabled DCN 1.0 Raven Family and disabled Qualcomm 8x16 V4L2 Camera Subsystem Driver (cf. current pull request #9)
+  - clang-5.0
+
+The command to produce the file is:
+```
+[sudo] make CC=clang-5.0 HOSTCC=clang-5.0 2>&1 > /dev/null | tee warnings-v4.16+cherries-maxyesconfig-clang-5.0
+```
+
+Remarks:
+  - It was executed with sudo, due to some left-overs from some previous docker container runs.
+  - To ensure that the file is reproducibly the same, I executed the command twice with an intermediate make clean and I obtained the same file with warnings.
+
