@@ -8,6 +8,6 @@ make clean
 make allyesconfig  
 make CC=clang-5.0 HOSTCC=clang-5.0  
 ```
-**Used Kernel Configuration File:** [allyesconfig](../config-files/allyesconfig)  
-**Compilation Result:** [rectification0003](../rectification-reports/rectification0003.md)  
+**Used Kernel Configuration File:** [allyesconfig](../../../config-files/v4.16/allyesconfig)  
+**Compilation Result:** [rectification0002](../../../rectification-reports/rectification0002.md)  
 

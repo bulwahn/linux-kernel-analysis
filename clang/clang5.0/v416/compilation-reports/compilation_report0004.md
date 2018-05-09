@@ -12,8 +12,7 @@ git cherry-pick 4769278e5c7f
 make clean
 make allyesconfig
 make CC=clang-5.0 HOSTCC=clang-5.0
-```
-**Used Kernel Configuration File:** [allyesconfig](../config-files/allyesconfig)  
-**Compilation Result:** [rectification0005](../rectification-reports/rectification0005.md), [rectification0006](../rectification-reports/rectification0006.md), [rectification0007](../rectification-reports/rectification0007.md), [rectification0008](../rectification-reports/rectification0008.md)  
-
+```  
+**Used Kernel Configuration File:** [allyesconfig](../../../config-files/v4.16/allyesconfig)  
+**Compilation Result:** [rectification0004](../../../rectification-reports/rectification0004.md)  
 

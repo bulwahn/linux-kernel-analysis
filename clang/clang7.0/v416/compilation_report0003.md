@@ -8,8 +8,7 @@ git cherry-pick 37172013fa2e
 git cherry-pick cc32ad8f559c
 make clean
 make allyesconfig
-make CC=clang-5.0 HOSTCC=clang-5.0
+make CC=clang-7 HOSTCC=clang-7
 ```
-**Used Kernel Configuration File:** [allyesconfig](../config-files/allyesconfig)  
-**Compilation Result:** [rectification0004](../rectification-reports/rectification0004.md)  
-
+**Used Kernel Configuration File:** [allyesconfig](../../../config-files/v4.16/allyesconfig)  
+**Compilation Result:** [rectification0003](../../../rectification-reports/rectification0003.md)  
