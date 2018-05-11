@@ -1,7 +1,7 @@
 ## Report 0006 #  
 **Compilation Command:**
 ```
-git checkout v4.16
+git checkout v4.15
 wget https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/patch/?id=b0e55b731abcfd19265e3e80b1d4c0fec337fb7b -O exofs.patch  
 git am exofs.patch
 make clean

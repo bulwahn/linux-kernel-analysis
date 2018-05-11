@@ -1,4 +1,4 @@
-## Report 0007 #  
+## Report 0005 #  
 **Compilation Command:**
 ```
 git checkout v4.15
@@ -12,11 +12,10 @@ make clean
 make allyesconfig
 make menuconfig
 Device Drivers -> Graphics Support -> Display Engine Configuration -> Disable DCN 1.0 Raven Family
-Device Drivers -> Multimedia Support -> V4L Platform Devices -> Disable Qualcomm 8x16 V4L2 Camera Subsystem Driver
-make CC=clang-5.0 HOSTCC=clang-5.0
+make CC=clang-7 HOSTCC=clang-7
 ```  
 **Used Kernel Configuration File:** [amd_dcn_and_qcom8x16_off](../../../config-files/v4.15/dcn10_qcom8x16_off_config)  
-**Compilation Result:** No-Error Kernel v4.15 with [amd_dcn_and_qcom8x16_off](../../../config-files/v4.15/dcn10_qcom8x16_off_config) configfile, compiled successfully with using clang-5.0
+**Compilation Result:** No-Error Kernel v4.15 with [amd_dcn_and_qcom8x16_off](../../../config-files/v4.15/dcn10_qcom8x16_off_config) configfile, compiled successfully with using clang-7
 ```
 Setup is 17276 bytes (padded to 17408 bytes).
 System is 111735 kB
