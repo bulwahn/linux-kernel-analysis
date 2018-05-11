@@ -1,0 +1,28 @@
+lib/btree.o: In function `btree_get_prev':
+(.text+0xd5d): undefined reference to `__asan_alloca_poison'
+(.text+0x1599): undefined reference to `__asan_allocas_unpoison'
+lib/btree.o: In function `btree_merge':
+(.text+0x44bf): undefined reference to `__asan_alloca_poison'
+(.text+0x44e4): undefined reference to `__asan_alloca_poison'
+(.text+0x499b): undefined reference to `__asan_allocas_unpoison'
+lib/libcrc32c.o: In function `crc32c':
+(.text+0x85): undefined reference to `__asan_alloca_poison'
+(.text+0xf9): undefined reference to `__asan_allocas_unpoison'
+lib/reed_solomon/reed_solomon.o: In function `decode_rs8':
+(.text+0x1259): undefined reference to `__asan_alloca_poison'
+(.text+0x12ba): undefined reference to `__asan_alloca_poison'
+(.text+0x12de): undefined reference to `__asan_alloca_poison'
+(.text+0x1302): undefined reference to `__asan_alloca_poison'
+(.text+0x1329): undefined reference to `__asan_alloca_poison'
+lib/reed_solomon/reed_solomon.o:(.text+0x1354): more undefined references to `__asan_alloca_poison' follow
+lib/reed_solomon/reed_solomon.o: In function `decode_rs8':
+(.text+0x38bd): undefined reference to `__asan_allocas_unpoison'
+lib/reed_solomon/reed_solomon.o: In function `decode_rs16':
+(.text+0x3a19): undefined reference to `__asan_alloca_poison'
+(.text+0x3a7a): undefined reference to `__asan_alloca_poison'
+(.text+0x3a9e): undefined reference to `__asan_alloca_poison'
+(.text+0x3ac2): undefined reference to `__asan_alloca_poison'
+(.text+0x3ae9): undefined reference to `__asan_alloca_poison'
+lib/reed_solomon/reed_solomon.o:(.text+0x3b14): more undefined references to `__asan_alloca_poison' follow
+lib/reed_solomon/reed_solomon.o: In function `decode_rs16':
+(.text+0x607d): undefined reference to `__asan_allocas_unpoison'

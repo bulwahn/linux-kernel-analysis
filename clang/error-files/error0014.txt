@@ -1,0 +1,49 @@
+fs/crypto/keyinfo.o: In function `derive_essiv_salt':
+fs/crypto/keyinfo.c:(.text+0x12de): undefined reference to `__asan_alloca_poison'
+fs/crypto/keyinfo.c:(.text+0x131f): undefined reference to `__asan_allocas_unpoison'
+fs/crypto/keyinfo.c:(.text+0x132d): undefined reference to `__asan_allocas_unpoison'
+fs/isofs/compress.o: In function `zisofs_readpage':
+fs/isofs/compress.c:(.text+0x140): undefined reference to `__asan_alloca_poison'
+fs/isofs/compress.c:(.text+0xb08): undefined reference to `__asan_allocas_unpoison'
+fs/isofs/compress.o: In function `zisofs_uncompress_block':
+fs/isofs/compress.c:(.text+0xe15): undefined reference to `__asan_alloca_poison'
+fs/isofs/compress.c:(.text+0x16fd): undefined reference to `__asan_allocas_unpoison'
+fs/isofs/compress.c:(.text+0x170d): undefined reference to `__asan_allocas_unpoison'
+fs/ecryptfs/crypto.o: In function `ecryptfs_hash_digest':
+fs/ecryptfs/crypto.c:(.text+0x54c5): undefined reference to `__asan_alloca_poison'
+fs/ecryptfs/crypto.c:(.text+0x552d): undefined reference to `__asan_allocas_unpoison'
+fs/nfsd/nfs4recover.o: In function `nfs4_make_rec_clidname':
+fs/nfsd/nfs4recover.c:(.text+0x1ba3): undefined reference to `__asan_alloca_poison'
+fs/nfsd/nfs4recover.c:(.text+0x1c2e): undefined reference to `__asan_allocas_unpoison'
+fs/nfsd/nfs4recover.c:(.text+0x1d63): undefined reference to `__asan_allocas_unpoison'
+fs/ntfs/aops.o: In function `ntfs_write_mst_block':
+fs/ntfs/aops.c:(.text+0x3a64): undefined reference to `__asan_alloca_poison'
+fs/ntfs/aops.c:(.text+0x5288): undefined reference to `__asan_allocas_unpoison'
+fs/ntfs/compress.o: In function `ntfs_decompress':
+fs/ntfs/compress.c:(.text+0x2503): undefined reference to `__asan_alloca_poison'
+fs/ntfs/compress.c:(.text+0x3237): undefined reference to `__asan_allocas_unpoison'
+fs/ntfs/mft.o: In function `ntfs_sync_mft_mirror':
+fs/ntfs/mft.c:(.text+0x1315): undefined reference to `__asan_alloca_poison'
+fs/ntfs/mft.c:(.text+0x1e7a): undefined reference to `__asan_allocas_unpoison'
+fs/ntfs/mft.o: In function `write_mft_record_nolock':
+fs/ntfs/mft.c:(.text+0x2646): undefined reference to `__asan_alloca_poison'
+fs/ntfs/mft.c:(.text+0x31df): undefined reference to `__asan_allocas_unpoison'
+fs/btrfs/raid56.o: In function `finish_rmw':
+fs/btrfs/raid56.c:(.text+0x330a): undefined reference to `__asan_alloca_poison'
+fs/btrfs/raid56.c:(.text+0x3ee9): undefined reference to `__asan_allocas_unpoison'
+fs/btrfs/raid56.o: In function `finish_parity_scrub':
+fs/btrfs/raid56.c:(.text+0x864f): undefined reference to `__asan_alloca_poison'
+fs/btrfs/raid56.c:(.text+0x86ba): undefined reference to `__asan_alloca_poison'
+fs/btrfs/raid56.c:(.text+0x95cd): undefined reference to `__asan_allocas_unpoison'
+fs/btrfs/hash.o: In function `btrfs_crc32c':
+fs/btrfs/hash.c:(.text+0xda): undefined reference to `__asan_alloca_poison'
+fs/btrfs/hash.c:(.text+0x14e): undefined reference to `__asan_allocas_unpoison'
+fs/f2fs/checkpoint.o: In function `f2fs_crc32':
+fs/f2fs/checkpoint.c:(.text+0x8b36): undefined reference to `__asan_alloca_poison'
+fs/f2fs/checkpoint.c:(.text+0x8ba7): undefined reference to `__asan_allocas_unpoison'
+fs/pstore/ram_core.o: In function `persistent_ram_decode_rs8':
+fs/pstore/ram_core.c:(.text+0x1e75): undefined reference to `__asan_alloca_poison'
+fs/pstore/ram_core.c:(.text+0x212a): undefined reference to `__asan_allocas_unpoison'
+fs/pstore/ram_core.o: In function `persistent_ram_encode_rs8':
+fs/pstore/ram_core.c:(.text+0x21da): undefined reference to `__asan_alloca_poison'
+fs/pstore/ram_core.c:(.text+0x229a): undefined reference to `__asan_allocas_unpoison'
