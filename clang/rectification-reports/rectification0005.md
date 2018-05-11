@@ -9,6 +9,7 @@ CONFIG_VIDEO_QCOM_CAMSS=y
 - [error-0009](../error-files/error0010.txt)  
 - [error-0009](../error-files/error0011.txt)  
 - [error-0009](../error-files/error0012.txt)  
+  
 **Fixed By:** Change in .config file  
 ```
 CONFIG_VIDEO_QCOM_CAMSS is not set

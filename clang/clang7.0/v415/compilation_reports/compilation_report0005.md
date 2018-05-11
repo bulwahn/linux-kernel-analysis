@@ -10,4 +10,4 @@ Device Drivers -> Graphics Support -> Display Engine Configuration -> Disable DC
 make CC=clang-7 HOSTCC=clang-7
 ```  
 **Used Kernel Configuration File:** [allyesconfig](../../../config-files/v4.15/amd_dcn_10_not_set_config)  
-**Compilation Result:** [rectification0004](../../../rectification-reports/rectification0006.md)  
+**Compilation Result:** [rectification0006](../../../rectification-reports/rectification0006.md)  
