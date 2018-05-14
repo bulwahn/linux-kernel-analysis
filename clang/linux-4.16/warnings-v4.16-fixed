@@ -1,0 +1,10 @@
+drivers/crypto/cavium/zip/zip_regs.h:820:15: warning: equality comparison with extraneous parentheses [-Wparentheses-equality]
+        if (((param1 == 0)))
+              ~~~~~~~^~~~
+drivers/crypto/cavium/zip/zip_regs.h:820:15: note: remove extraneous parentheses around the comparison to silence this warning
+        if (((param1 == 0)))
+            ~        ^    ~
+drivers/crypto/cavium/zip/zip_regs.h:820:15: note: use '=' to turn this equality comparison into an assignment
+        if (((param1 == 0)))
+                     ^~
+                     =
