@@ -18,6 +18,7 @@ RUN apt-get update && \
       curl \
       flex \
       git \
+      gnupg \
       libc6-dev \
       libelf-dev \
       libsqlite3-dev \
