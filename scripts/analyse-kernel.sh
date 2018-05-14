@@ -1,16 +1,17 @@
 #!/bin/bash
 
 help() {
-	echo "Usage: $0 [-r] [-c] [-i]"
-	echo "Or you can directly provide a analysisconfig file with [--configfile]"
+	echo "Usage: $0 [-r] [-c]"
+	echo "Or you can directly provide a analysisconfig file with [--analysisconfig]"
 	echo "  -r,  kernel-repository"
-	echo "  -c,  kernel-configuration"
+	echo "  -c,  kernel-configuration" # Add extra explanation,after be sure about works well.
+	echo "  -cc, compiler" #Maybe a better name?
 	echo "  optional -i,  inferconfig-file location"
-	echo "  --configfile, analysisconfig file for build"
-	echo "  --no-analyze, don't run infer analyze after infer capture finishes"
+	echo "  optional --analysisconfig, analysisconfig file for build"
+	echo "  optional --no-analyze, don't run infer analyze after infer capture finishes"
 	echo "Example: $0 -r stable -c defconfig -i [absolute-path-to-file]"
 	echo "Example with analysisconfig file: $0 --configfile files/analysisconfig"
-	echo "$0 --configfile [full-path-to-file] example: ./analysisconfig --configfile /home/x/y/z/analysisconfig"
+	echo "$0 --configfile [full-path-to-file] example: ./analyse-kernel --analysisconfig /home/x/y/z/analysisconfig"
 	echo "Before use it, please be sure you set KERNEL_SRC_BASE variable correctly"
 	exit 1
 }
@@ -24,7 +25,7 @@ set_kernel_repository() {
 				KERNEL_REPOSITORY="$KERNEL_SRC_BASE/stable/linux-stable"
 			elif [ "$1" == "next" ]; then
 				KERNEL_REPOSITORY="$KERNEL_SRC_BASE/next/linux-next"
-			else
+			else #Look for file repository
 				echo "Invalid Kernel Repository Parameter!"
 				echo "You can pass -> torvalds | stable | next"
 				exit 1;
@@ -36,18 +37,26 @@ set_kernel_repository() {
 		exit 1;
 	fi
 }
-set_kernel_config() {
-	if [ ! -z "$1" ]; then
-		case $1 in
-			allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig )
-			KERNEL_CONFIG="$1"
-			;;
-	*)
-		echo "You provided a KERNEL_CONFIG parameter but it is not valid!"
-		echo "Valid Parameters are = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
-		exit 1;
+set_compiler() { #TODO after checking it works well, add some extra warnings for user
+	SELECTEDCC="$1"
+}
+set_kernel_config() { #Test all options one by one, then start to fix TODOS
+	case $1 in
+		allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig )
+		KERNEL_CONFIG="$1"
+		;;
+	*)	
+		if [ -f "$1" ]; then #Copy Kernel File from given location
+			cp "$1" "$KERNEL_REPOSITORY/.config"
+		elif [ -f "$KERNEL_REPOSITORY/.config" ]; then #Use .config file, that already exists in repository
+			echo "Script will use .config file, that already exists in $KERNEL_REPOSITORY"
+		else
+			echo "You didn't provide any kernel-configuration, and there isn't any .config file in repository"
+			echo "Valid Parameters are = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
+			echo "OR you can give a config file directly"
+			exit 1;
+		fi
 	esac
-	fi
 }
 set_inferconfig_file_location() {
 	if [ -f "$SCRIPTS_DIRECTORY/$1" ]; then
@@ -122,15 +131,6 @@ check_inferconfig_exists() {
 	fi
 		
 }
-can_apply_patch() {
-	APPLY_RESULT=$(git apply "$SCRIPTS_DIRECTORY/files/0001-Set-default-CC-to-Clang-from-Makefile.patch" 2>&1 )
-	if [ -n "$APPLY_RESULT" ]; then
-		echo "$APPLY_RESULT"
-		echo "Failed to Apply 0001-Set-default-CC-to-Clang patch."
-		echo "Please check your linux source directory"
-		exit 1;
-	fi
-}
 can_checkout_successfully() {
 	CHECKOUT_RESULT=$(git checkout "$KERNEL_HEAD_SHA" 2>&1 | grep "error")
 	if [ -n "$CHECKOUT_RESULT" ]; then #Dont force to anything just raise an error to avoid any previous work-loss
@@ -139,9 +139,6 @@ can_checkout_successfully() {
 		exit 1;
 	fi	
 }	
-revert_changes_on_makefile() {
-	git apply -R "$SCRIPTS_DIRECTORY/files/0001-Set-default-CC-to-Clang-from-Makefile.patch"
-}
 does_user_need_help() {
 	if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 		help
@@ -157,12 +154,13 @@ does_user_need_help "$1"
 while [[ "$#" > 0 ]]; do case $1 in
   -r) set_kernel_repository "$2"; shift; shift;;
   -c) set_kernel_config "$2"; shift; shift;;
+  -cc) set_compiler "$2"; shift; shift;;
   -i) set_inferconfig_file_location "$2"; shift; shift;;
-  --configfile) read_and_set_variables_from_analysisconfig "$2"; shift; shift;;
+  --analysisconfig) read_and_set_variables_from_analysisconfig "$2"; shift; shift;;
   --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
-RUN_COMMAND="cd linux && make clean && make $KERNEL_CONFIG && infer capture -- make -j40 && infer analyze"
+RUN_COMMAND="cd linux && make clean && make $KERNEL_CONFIG && infer capture -- make CC=$SELECTEDCC HOSTCC=$SELECTEDCC -j40 && infer analyze"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
 # check_kernel_configuration_valid
@@ -172,8 +170,6 @@ cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
-can_apply_patch
 DOCKER_NAME="kernel-analysis"
 docker run -v "$KERNEL_REPOSITORY:/linux/" --interactive --tty $DOCKER_NAME \
 /bin/sh -c "$RUN_COMMAND"
-revert_changes_on_makefile
