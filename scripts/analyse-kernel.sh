@@ -91,6 +91,10 @@ finalize_command() {
 		echo "Script will use .config file, that inside $KERNEL_REPOSITORY"
 		RUN_COMMAND=${RUN_COMMAND/"make  &&"}
 	fi
+        if [ -z "$COMPILER" ]; then
+		RUN_COMMAND=${RUN_COMMAND//"CC="}
+		RUN_COMMAND=${RUN_COMMAND//"HOST"}
+	fi
 	echo "RUN COMMAND is = $RUN_COMMAND"
 }
 finalize_docker_name() {
@@ -181,7 +185,7 @@ while [[ "$#" > 0 ]]; do case $1 in
   --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
-RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER && infer analyze"
+RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER -j40 && infer analyze"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
 # check_kernel_configuration_valid
