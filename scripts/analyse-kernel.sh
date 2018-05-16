@@ -6,6 +6,7 @@ help() {
 	echo "  -r,  kernel-repository"
 	echo "  -c,  kernel-configuration" # Add extra explanation,after be sure about works well.
 	echo "  -cc, compiler" #Maybe a better name?
+	echo "  -infer-version, select a infer version to run"
 	echo "  optional -i,  inferconfig-file location"
 	echo "  optional --analysisconfig, analysisconfig file for build"
 	echo "  optional --no-analyze, don't run infer analyze after infer capture finishes"
@@ -38,7 +39,7 @@ set_kernel_repository() {
 	fi
 }
 set_compiler() { #TODO after checking it works well, add some extra warnings for user
-	SELECTEDCC="$1"
+	COMPILER="$1"
 }
 set_kernel_config() { #Test all options one by one, then start to fix TODOS
 	case $1 in
@@ -71,6 +72,16 @@ set_scripts_directory() {
 set_analyze() {
 	DONT_RUN_ANALYZE=1
 }
+set_infer_version() {
+	echo "set_infer_version called, parametr is $1"
+	case $1 in
+		0.13.1 | 0.14.0 )
+		DOCKER_VERSION="$1"
+		;;
+	*)
+		echo "You have selected an invalid infer version, script will run with 0.14.0"
+	esac
+}
 finalize_command() {
 	if [ "$DONT_RUN_ANALYZE" == "1" ]; then
 		RUN_COMMAND=${RUN_COMMAND/" && infer analyze"}
@@ -82,6 +93,14 @@ finalize_command() {
 	fi
 	echo "RUN COMMAND is = $RUN_COMMAND"
 }
+finalize_docker_name() {
+	if [ ! -z "$DOCKER_VERSION" ]; then
+		DOCKER_NAME+="-infer-$DOCKER_VERSION"
+	else
+		DOCKER_NAME+="-infer-0.14.0"
+	fi
+	echo "DOCKER_NAME is = $DOCKER_NAME"
+}		
 read_and_set_variables_from_analysisconfig() {
 	if [ -f "$1" ]; then
 		source $1
@@ -150,26 +169,29 @@ does_user_need_help() {
 check_kernel_src_base_valid
 set_scripts_directory
 does_user_need_help "$1"
+DOCKER_NAME="kernel-analysis"
 # Get Parameters, validate them, assign them variables.
 while [[ "$#" > 0 ]]; do case $1 in
   -r) set_kernel_repository "$2"; shift; shift;;
   -c) set_kernel_config "$2"; shift; shift;;
   -cc) set_compiler "$2"; shift; shift;;
   -i) set_inferconfig_file_location "$2"; shift; shift;;
+  -infer-version) set_infer_version "$2"; shift; shift;;
   --analysisconfig) read_and_set_variables_from_analysisconfig "$2"; shift; shift;;
   --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
-RUN_COMMAND="cd linux && make clean && make $KERNEL_CONFIG && infer capture -- make CC=$SELECTEDCC HOSTCC=$SELECTEDCC -j40 && infer analyze"
+RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER && infer analyze"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
 # check_kernel_configuration_valid
 check_inferconfig_exists
 finalize_command
+finalize_docker_name
 cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
-DOCKER_NAME="kernel-analysis"
+#DOCKER_NAME="kernel-analysis"
 docker run -v "$KERNEL_REPOSITORY:/linux/" --interactive --tty $DOCKER_NAME \
 /bin/sh -c "$RUN_COMMAND"
