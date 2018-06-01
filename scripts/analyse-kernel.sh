@@ -185,7 +185,7 @@ while [[ "$#" > 0 ]]; do case $1 in
   --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
-RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER -j40 && infer analyze"
+RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER -j40 V=1 && infer analyze && make clean CC=$COMPILER HOSTCC=$COMPILER"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
 # check_kernel_configuration_valid
@@ -197,5 +197,5 @@ if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
 #DOCKER_NAME="kernel-analysis"
-docker run -v "$KERNEL_REPOSITORY:/linux/" --interactive --tty $DOCKER_NAME \
+docker run -v "$KERNEL_REPOSITORY:/linux/" --user "$UID" --interactive --tty $DOCKER_NAME \
 /bin/sh -c "$RUN_COMMAND"
