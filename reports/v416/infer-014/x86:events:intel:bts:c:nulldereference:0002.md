@@ -9,7 +9,7 @@
     	if (!buf->snapshot)
    		config |= ARCH_PERFMON_EVENTSEL_INT;
 	   	if (!event->attr.exclude_kernel)
-```C
+```
 **File Location:** arch/x86/events/intel/bts.c:232:
 ## History ##
 **Introduced By:** TODO  
