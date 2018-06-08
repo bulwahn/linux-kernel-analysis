@@ -1,6 +1,6 @@
-FROM debian:buster
+FROM debian:latest
 
-LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com"
+LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com.tr>"
 
 # mkdir the man/man1 directory due to Debian bug #863199
 RUN apt-get update && \
@@ -13,8 +13,6 @@ RUN apt-get update && \
       bsdmainutils \
       cmake \
       clang \
-      clang-5.0 \
-      clang-6.0 \
       curl \
       flex \
       git \
@@ -48,9 +46,3 @@ RUN OCAML_VERSION=4.06.1+flambda; \
 # Install Infer
 ENV INFER_HOME /infer/infer
 ENV PATH ${INFER_HOME}/bin:${PATH}
-
-RUN echo "deb http://apt.llvm.org/unstable/ llvm-toolchain main" >> /etc/apt/sources.list \
-	&& wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
-	&& apt-get update \
-	&& apt-get install --no-install-recommends -y clang-7 
-

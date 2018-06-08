@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 
-LABEL maintainer "Kernel Analysis with Infer"
+LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com.tr>"
 
 # mkdir the man/man1 directory due to Debian bug #863199
 RUN apt-get update && \
@@ -35,7 +35,7 @@ RUN INFER_VERSION=v0.13.1; \
       https://github.com/facebook/infer/releases/download/${INFER_VERSION}/infer-linux64-${INFER_VERSION}.tar.xz | \
     tar xJ && \
     rm -f /infer && \
-    ln -s ${PWD}/infer-linux64-$INFER_VERSION /infer
+    ln -s ${PWD}/infer-linux64-$INFER_VERSION /inferi
 
 # Compile Infer
 RUN OCAML_VERSION=4.05.0+flambda; \
@@ -45,11 +45,3 @@ RUN OCAML_VERSION=4.05.0+flambda; \
 ENV INFER_HOME /infer/infer
 ENV PATH ${INFER_HOME}/bin:${PATH}
 
-#ENV ANDROID_HOME /opt/android-sdk-linux
-#WORKDIR $ANDROID_HOME
-#RUN curl -o sdk-tools-linux.zip \
-#      https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && \
-#    unzip sdk-tools-linux.zip && \
-#    rm sdk-tools-linux.zip
-#ENV PATH ${ANDROID_HOME}/tools/bin:${PATH}
-#RUN echo "sdk.dir=${ANDROID_HOME}" > /infer/examples/android_hello/local.properties
