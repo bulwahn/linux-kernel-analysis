@@ -4,12 +4,12 @@ help() {
 	echo "Usage: $0 [-r] [-c]"
 	echo "Or you can directly provide a analysisconfig file with [--analysisconfig]"
 	echo "  -r,  kernel-repository"
-	echo "  -c,  kernel-configuration" # Add extra explanation,after be sure about works well.
+	echo "  -c,  kernel-configuration , provide a kernel-config or configfile location" # Add extra explanation,after be sure about works well.
 	echo "  -cc, compiler" #Maybe a better name?
-	echo "  -infer-version, select a infer version to run"
+	echo "  -infer-version, select a infer version to run, default value is 0.14.0"
 	echo "  optional -i,  inferconfig-file location"
 	echo "  optional --analysisconfig, analysisconfig file for build"
-	echo "  optional --no-analyze, don't run infer analyze after infer capture finishes"
+	echo "  optional --no-analyze, don't run infer analyze after infer capture completed"
 	echo "Example: $0 -r stable -c defconfig -i [absolute-path-to-file]"
 	echo "Example with analysisconfig file: $0 --configfile files/analysisconfig"
 	echo "$0 --configfile [full-path-to-file] example: ./analyse-kernel --analysisconfig /home/x/y/z/analysisconfig"
@@ -47,7 +47,7 @@ set_kernel_config() { #Test all options one by one, then start to fix TODOS
 		KERNEL_CONFIG="$1"
 		;;
 	*)	
-		if [ -f "$1" ]; then #Copy Kernel File from given location
+		if [ -f "$1" ]; then
 			cp "$1" "$KERNEL_REPOSITORY/.config"
 		elif [ -f "$KERNEL_REPOSITORY/.config" ]; then #Use .config file, that already exists in repository
 			echo "Script will use .config file, that already exists in $KERNEL_REPOSITORY"
@@ -76,7 +76,7 @@ set_infer_version() {
 	echo "set_infer_version called, parametr is $1"
 	case $1 in
 		0.13.1 | 0.14.0 )
-		DOCKER_VERSION="$1"
+		DOCKER_INFER_VERSION="$1"
 		;;
 	*)
 		echo "You have selected an invalid infer version, script will run with 0.14.0"
@@ -86,22 +86,23 @@ finalize_command() {
 	if [ "$DONT_RUN_ANALYZE" == "1" ]; then
 		RUN_COMMAND=${RUN_COMMAND/" && infer analyze"}
 	fi
-	if [ -z "$KERNEL_CONFIG" ]; then ## Means user didn't provided any kernel-configuration parameter
+	if [ -z "$KERNEL_CONFIG" ]; then ## User didn't provide any kernel-configuration parameter
 		echo "You didnt provided a Kernel Configuration Parameter!"
 		echo "Script will use .config file, that inside $KERNEL_REPOSITORY"
 		RUN_COMMAND=${RUN_COMMAND/"make  &&"}
 	fi
-        if [ -z "$COMPILER" ]; then
+        if [ -z "$COMPILER" ]; then ##User didn't pass any compiler parameter
 		RUN_COMMAND=${RUN_COMMAND//"CC="}
 		RUN_COMMAND=${RUN_COMMAND//"HOST"}
 	fi
 	echo "RUN COMMAND is = $RUN_COMMAND"
 }
 finalize_docker_name() {
-	if [ ! -z "$DOCKER_VERSION" ]; then
-		DOCKER_NAME+="-infer-$DOCKER_VERSION"
-	else
-		DOCKER_NAME+="-infer-0.14.0"
+	if [ ! -z "$DOCKER_INFER_VERSION" ]; then
+		DOCKER_NAME+="-infer-$DOCKER_INFER_VERSION"
+	else #Use infer 0.14.0 by default
+		DOCKER_NAME+="-infer-0.14.0" 
+		DOCKER_INFER_VERSION="0.14.0"
 	fi
 	echo "DOCKER_NAME is = $DOCKER_NAME"
 }		
@@ -133,13 +134,15 @@ check_kernel_repository_valid() {
 		set_kernel_repository "$KERNEL_REPOSITORY"
 	fi
 }
-#check_kernel_configuration_valid() {
-#	if [ -z "$KERNEL_CONFIG" ]; then # Check KERNEL_CONFIG variable is set
-#		echo "You must provide a valid kernel configuration"
-#		echo "Valid Parameters are = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
-#		exit 1;
-#	fi
-#}
+check_kernel_configuration_valid() {
+	if [ ! -z "$KERNEL_CONFIG" ]; then # Check KERNEL_CONFIG variable is set
+		if [ ! -f "$KERNEL_REPOSITORY/.config" ]; then
+			echo "You must provide a valid kernel configuration keyword or provide a kernel-configuration file"
+			echo "Valid Parameters are = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
+			exit 1;
+		fi
+	fi
+}
 check_inferconfig_exists() {
 	if [ -f "$INFERCONFIG_LOCATION" ]; then # Highest priority is parameter
 		cp "$INFERCONFIG_LOCATION" "$KERNEL_REPOSITORY/.inferconfig"
@@ -151,8 +154,7 @@ check_inferconfig_exists() {
 		echo "You should provide a .inferconfig file in the root of linux-source repository"
 		echo "Or you must provide a valid inferconfig file path"
 		exit 1;
-	fi
-		
+	fi		
 }
 can_checkout_successfully() {
 	CHECKOUT_RESULT=$(git checkout "$KERNEL_HEAD_SHA" 2>&1 | grep "error")
@@ -167,6 +169,30 @@ does_user_need_help() {
 		help
 		exit 0
 	fi
+}
+apply_exofs_patch() {
+	APPLY_RESULT=$(git apply "$SCRIPTS_DIRECTORY/files/0001-exofs.patch" 2>&1 )
+	if [ -n "$APPLY_RESULT" ]; then
+ 		echo "$APPLY_RESULT"
+ 		echo "Failed to Apply Exofs Fix patch."
+ 		echo "Please check your linux source directory"
+ 		exit 1;
+ 	fi
+}
+apply_v014_kasan_patch() {
+	APPLY_RESULT=$(git apply "$SCRIPTS_DIRECTORY/files/0001-kasan.patch" 2>&1 )
+	if [ -n "$APPLY_RESULT" ]; then
+ 		echo "$APPLY_RESULT"
+ 		echo "Failed to Apply Kasan Fix patch."
+ 		echo "Please check your linux source directory"
+ 		exit 1;
+ 	fi
+}
+revert_exofs_patch() {
+	git apply -R "$SCRIPTS_DIRECTORY/files/0001-exofs.patch"
+}
+revert_v014_kasan_patch() {
+	git apply -R "$SCRIPTS_DIRECTORY/files/0001-kasan.patch"
 }
 ## MAIN ##
 # Check KERNEL_SRC_BASE
@@ -185,10 +211,10 @@ while [[ "$#" > 0 ]]; do case $1 in
   --no-analyze) set_analyze "$2"; shift; shift;;
   *) help; shift; shift; exit 1;;
 esac; done
-RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER -j40 V=1 && infer analyze && make clean CC=$COMPILER HOSTCC=$COMPILER"
+RUN_COMMAND="cd linux && make clean CC=$COMPILER HOSTCC=$COMPILER && make $KERNEL_CONFIG && infer capture -- make CC=$COMPILER HOSTCC=$COMPILER -j40 && infer analyze && make clean CC=$COMPILER HOSTCC=$COMPILER"
 # Check KERNEL_REPOSITORY variable is set
 check_kernel_repository_valid
-# check_kernel_configuration_valid
+check_kernel_configuration_valid
 check_inferconfig_exists
 finalize_command
 finalize_docker_name
@@ -196,6 +222,17 @@ cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
-#DOCKER_NAME="kernel-analysis"
-docker run -v "$KERNEL_REPOSITORY:/linux/" --user "$UID" --interactive --tty $DOCKER_NAME \
+
+if [ "$DOCKER_INFER_VERSION" = "0.14.0" ]; then
+	apply_exofs_patch
+	apply_v014_kasan_patch
+fi
+USER_ID=$(id -u)
+GROUP_ID=$(id -g)
+echo "infer-out folder created with user_id=$USER_ID and group_id=$GROUP_ID"
+docker run -v "$KERNEL_REPOSITORY:/linux/" --user "$USER_ID:$GROUP_ID" --interactive --tty $DOCKER_NAME \
 /bin/sh -c "$RUN_COMMAND"
+if [ $DOCKER_INFER_VERSION = "0.14.0" ]; then
+	revert_exofs_patch
+	revert_v014_kasan_patch
+fi

@@ -1,0 +1,13 @@
+{"skip-analysis-in-path": [
+"linux/arch/x86/entry/vdso",
+"linux/arch/x86/kernel",
+"linux/arch/x86/boot",
+"linux/drivers/char/mwave", 
+"linux/arch/x86/include/asm",
+"linux/drivers/acpi", 
+"linux/drivers/edac", 
+"linux/drivers/firmware/efi",
+"linux/drivers/media/pci",
+"linux/drivers/xen",
+"linux/drivers/staging/rtl8723bs"]
+}
