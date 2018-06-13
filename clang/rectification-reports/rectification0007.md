@@ -1,9 +1,5 @@
 ## Rectification 0007 ##
 **Error Location:**  arch/x86/events/core.c  
-**Included due to:**  
-```
-source "fs/exofs/Kconfig"
-```  
 **Error Message:**  
 - [error0021](../error-files/error0021.txt)  
 - [error0022](../error-files/error0022.txt)  
