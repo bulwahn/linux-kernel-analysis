@@ -6,7 +6,7 @@ git am percpu-fix.patch
 make allnoconfig
 make CC=clang-5.0 HOSTCC=clang-5.0
 ```
-percpu-fix.patch location is = [percpu-fix.patch](../fix-patches/allnoconfig-percpu-fix.patch)  
+percpu-fix.patch location is : [percpu-fix.patch](../../../fix-patches/allnoconfig-percpu-fix.patch)  
 **Used Kernel Configuration File:** [allnoconfig](../../../config-files/v4.16/allnoconfig)   
 **Compilation Result:**  
 No-Error, v4.16 compiled with clang-5.0 successfully.  

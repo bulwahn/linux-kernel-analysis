@@ -6,7 +6,7 @@ git am percpu-fix.patch
 make allnoconfig
 make CC=clang-7 HOSTCC=clang-7
 ```
-percpu-fix.patch location is = [percpu-fix.patch](../fix-patches/allnoconfig-percpu-fix.patch)  
+percpu-fix.patch location is : [percpu-fix.patch](../../../fix-patches/allnoconfig-percpu-fix.patch)  
 **Used Kernel Configuration File:** [allnoconfig](../../../config-files/v4.16/allnoconfig)   
 **Compilation Result:**  
 No-Error, v4.16 compiled with Clang-7 Unstable successfully.  
