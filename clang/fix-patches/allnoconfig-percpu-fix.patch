@@ -1,0 +1,69 @@
+From a5500194fadea3892777495c647d7401ae8b7efa Mon Sep 17 00:00:00 2001
+From: Ozan Alpay <ozanalpay@yandex.com.tr>
+Date: Wed, 13 Jun 2018 14:12:22 +0200
+Subject: [PATCH] allnoconfig fix from llvmlinux mailing list.
+
+Original Author: David Woodhouse
+See: https://lists.linuxfoundation.org/pipermail/llvmlinux/2018-February/001551.html
+
+---
+ arch/x86/include/asm/percpu.h | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/include/asm/percpu.h b/arch/x86/include/asm/percpu.h
+index a06b073..874ee52 100644
+--- a/arch/x86/include/asm/percpu.h
++++ b/arch/x86/include/asm/percpu.h
+@@ -99,7 +99,7 @@ do {							\
+ 	case 1:						\
+ 		asm(op "b %1,"__percpu_arg(0)		\
+ 		    : "+m" (var)			\
+-		    : "qi" ((pto_T__)(val)));		\
++		    : "qi" ((unsigned char)(unsigned long)(val))); \
+ 		break;					\
+ 	case 2:						\
+ 		asm(op "w %1,"__percpu_arg(0)		\
+@@ -144,7 +144,7 @@ do {									\
+ 		else							\
+ 			asm("addb %1, "__percpu_arg(0)			\
+ 			    : "+m" (var)				\
+-			    : "qi" ((pao_T__)(val)));			\
++			    : "qi" ((unsigned char)(unsigned long)(val))); \
+ 		break;							\
+ 	case 2:								\
+ 		if (pao_ID__ == 1)					\
+@@ -182,12 +182,14 @@ do {									\
+ 
+ #define percpu_from_op(op, var)				\
+ ({							\
++	unsigned char pfo_u8__;				\
+ 	typeof(var) pfo_ret__;				\
+ 	switch (sizeof(var)) {				\
+ 	case 1:						\
+ 		asm(op "b "__percpu_arg(1)",%0"		\
+-		    : "=q" (pfo_ret__)			\
++		    : "=q" (pfo_u8__)			\
+ 		    : "m" (var));			\
++		pfo_ret__ = (typeof(var))(unsigned long)pfo_u8__;	\
+ 		break;					\
+ 	case 2:						\
+ 		asm(op "w "__percpu_arg(1)",%0"		\
+@@ -211,12 +213,14 @@ do {									\
+ 
+ #define percpu_stable_op(op, var)			\
+ ({							\
++	unsigned char pfo_u8__;				\
+ 	typeof(var) pfo_ret__;				\
+ 	switch (sizeof(var)) {				\
+ 	case 1:						\
+ 		asm(op "b "__percpu_arg(P1)",%0"	\
+-		    : "=q" (pfo_ret__)			\
++		    : "=q" (pfo_u8__)			\
+ 		    : "p" (&(var)));			\
++		pfo_ret__ = (typeof(var))(unsigned long)pfo_u8__;	\
+ 		break;					\
+ 	case 2:						\
+ 		asm(op "w "__percpu_arg(P1)",%0"	\
+-- 
+2.7.4
+

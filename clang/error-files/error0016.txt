@@ -1,0 +1,121 @@
+crypto/cipher.o: In function `cipher_crypt_unaligned':
+crypto/cipher.c:(.text+0x4d0): undefined reference to `__asan_alloca_poison'
+crypto/cipher.c:(.text+0x513): undefined reference to `__asan_allocas_unpoison'
+crypto/seqiv.o: In function `seqiv_aead_encrypt':
+crypto/seqiv.c:(.text+0x307): undefined reference to `__asan_alloca_poison'
+crypto/seqiv.c:(.text+0x40f): undefined reference to `__asan_allocas_unpoison'
+crypto/seqiv.c:(.text+0x602): undefined reference to `__asan_allocas_unpoison'
+crypto/echainiv.o: In function `echainiv_encrypt':
+crypto/echainiv.c:(.text+0x34c): undefined reference to `__asan_alloca_poison'
+crypto/echainiv.c:(.text+0x463): undefined reference to `__asan_allocas_unpoison'
+crypto/echainiv.c:(.text+0x6df): undefined reference to `__asan_allocas_unpoison'
+crypto/shash.o: In function `shash_update_unaligned':
+crypto/shash.c:(.text+0x282): undefined reference to `__asan_alloca_poison'
+crypto/shash.c:(.text+0x328): undefined reference to `__asan_allocas_unpoison'
+crypto/shash.o: In function `shash_final_unaligned':
+crypto/shash.c:(.text+0x47b): undefined reference to `__asan_alloca_poison'
+crypto/shash.c:(.text+0x4e9): undefined reference to `__asan_allocas_unpoison'
+crypto/hmac.o: In function `hmac_setkey':
+crypto/hmac.c:(.text+0xa77): undefined reference to `__asan_alloca_poison'
+crypto/hmac.c:(.text+0xdbd): undefined reference to `__asan_allocas_unpoison'
+crypto/xcbc.o: In function `crypto_xcbc_digest_setkey':
+crypto/xcbc.c:(.text+0x819): undefined reference to `__asan_alloca_poison'
+crypto/xcbc.c:(.text+0x945): undefined reference to `__asan_allocas_unpoison'
+crypto/cbc.o: In function `crypto_cbc_decrypt_inplace':
+crypto/cbc.c:(.text+0xbd5): undefined reference to `__asan_alloca_poison'
+crypto/cbc.c:(.text+0xd1e): undefined reference to `__asan_allocas_unpoison'
+crypto/pcbc.o: In function `crypto_pcbc_encrypt_inplace':
+crypto/pcbc.c:(.text+0xba2): undefined reference to `__asan_alloca_poison'
+crypto/pcbc.c:(.text+0xc55): undefined reference to `__asan_allocas_unpoison'
+crypto/pcbc.o: In function `crypto_pcbc_decrypt_inplace':
+crypto/pcbc.c:(.text+0xd33): undefined reference to `__asan_alloca_poison'
+crypto/pcbc.c:(.text+0xdf6): undefined reference to `__asan_allocas_unpoison'
+crypto/cts.o: In function `cts_cbc_encrypt':
+crypto/cts.c:(.text+0xf06): undefined reference to `__asan_alloca_poison'
+crypto/cts.c:(.text+0x10a5): undefined reference to `__asan_allocas_unpoison'
+crypto/cts.o: In function `cts_cbc_decrypt':
+crypto/cts.c:(.text+0x1291): undefined reference to `__asan_alloca_poison'
+crypto/cts.c:(.text+0x14db): undefined reference to `__asan_allocas_unpoison'
+crypto/ctr.o: In function `crypto_ctr_crypt_inplace':
+crypto/ctr.c:(.text+0x117f): undefined reference to `__asan_alloca_poison'
+crypto/ctr.c:(.text+0x1202): undefined reference to `__asan_allocas_unpoison'
+crypto/ctr.o: In function `crypto_ctr_crypt_final':
+crypto/ctr.c:(.text+0x12d3): undefined reference to `__asan_alloca_poison'
+crypto/ctr.c:(.text+0x135e): undefined reference to `__asan_allocas_unpoison'
+crypto/gcm.o: In function `crypto_rfc4543_copy_src_to_dst':
+crypto/gcm.c:(.text+0xabd): undefined reference to `__asan_alloca_poison'
+crypto/gcm.c:(.text+0xb7f): undefined reference to `__asan_allocas_unpoison'
+crypto/ccm.o: In function `crypto_ccm_auth':
+crypto/ccm.c:(.text+0x2424): undefined reference to `__asan_alloca_poison'
+crypto/ccm.c:(.text+0x2c28): undefined reference to `__asan_allocas_unpoison'
+crypto/cryptd.o: In function `cryptd_skcipher_encrypt':
+crypto/cryptd.c:(.text+0x27de): undefined reference to `__asan_alloca_poison'
+crypto/cryptd.c:(.text+0x29d2): undefined reference to `__asan_allocas_unpoison'
+crypto/cryptd.o: In function `cryptd_skcipher_decrypt':
+crypto/cryptd.c:(.text+0x2afe): undefined reference to `__asan_alloca_poison'
+crypto/cryptd.c:(.text+0x2cf2): undefined reference to `__asan_allocas_unpoison'
+crypto/authenc.o: In function `crypto_authenc_copy_assoc':
+crypto/authenc.c:(.text+0x11a0): undefined reference to `__asan_alloca_poison'
+crypto/authenc.c:(.text+0x1266): undefined reference to `__asan_allocas_unpoison'
+crypto/authencesn.o: In function `crypto_authenc_esn_copy':
+crypto/authencesn.c:(.text+0x1011): undefined reference to `__asan_alloca_poison'
+crypto/authencesn.c:(.text+0x10d8): undefined reference to `__asan_allocas_unpoison'
+crypto/algif_hash.o: In function `hash_accept':
+crypto/algif_hash.c:(.text+0x609): undefined reference to `__asan_alloca_poison'
+crypto/algif_hash.c:(.text+0x6f2): undefined reference to `__asan_allocas_unpoison'
+crypto/algif_aead.o: In function `crypto_aead_copy_sgl':
+crypto/algif_aead.c:(.text+0x1409): undefined reference to `__asan_alloca_poison'
+crypto/algif_aead.c:(.text+0x14a1): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `ecc_gen_privkey':
+crypto/ecc.c:(.text+0x26e): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x5e9): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `ecc_make_pub_key':
+crypto/ecc.c:(.text+0x685): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xa2c): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `ecc_point_mult':
+crypto/ecc.c:(.text+0xbe6): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xc0b): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xc5f): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x1b6f): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `crypto_ecdh_shared_secret':
+crypto/ecc.c:(.text+0x1c26): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x1c47): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x20f7): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `xycz_initial_double':
+crypto/ecc.c:(.text+0x219e): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x28f0): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `xycz_add_c':
+crypto/ecc.c:(.text+0x29a6): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x29cb): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x29ef): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x5750): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `xycz_add':
+crypto/ecc.c:(.text+0x583c): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x7515): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `vli_mod_mult_fast':
+crypto/ecc.c:(.text+0x75be): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x782e): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `vli_mod_inv':
+crypto/ecc.c:(.text+0x78e7): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x790b): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x792f): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x7953): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x9e6f): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `apply_z':
+crypto/ecc.c:(.text+0x9f15): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0x9f76): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `ecc_point_double_jacobian':
+crypto/ecc.c:(.text+0xa029): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xa04e): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xcd3f): undefined reference to `__asan_allocas_unpoison'
+crypto/ecc.o: In function `vli_mod_square_fast':
+crypto/ecc.c:(.text+0xce67): undefined reference to `__asan_alloca_poison'
+crypto/ecc.c:(.text+0xd0e5): undefined reference to `__asan_allocas_unpoison'
+crypto/async_tx/async_pq.o: In function `async_gen_syndrome':
+(.text+0x5cb): undefined reference to `__asan_allocas_unpoison'
+(.text+0x66a): undefined reference to `__asan_alloca_poison'
+(.text+0xeff): undefined reference to `__asan_allocas_unpoison'
+crypto/async_tx/raid6test.o: In function `raid6_dual_recov':
+crypto/async_tx/raid6test.c:(.text+0x1017): undefined reference to `__asan_alloca_poison'
+crypto/async_tx/raid6test.c:(.text+0x1249): undefined reference to `__asan_allocas_unpoison'
+crypto/async_tx/raid6test.c:(.text+0x1401): undefined reference to `__asan_allocas_unpoison'

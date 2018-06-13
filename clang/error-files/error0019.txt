@@ -1,0 +1,3 @@
+sound/core/pcm_native.o: In function `constrain_params_by_rules':
+sound/core/pcm_native.c:(.text+0x1e69): undefined reference to `__asan_alloca_poison'
+sound/core/pcm_native.c:(.text+0x259f): undefined reference to `__asan_allocas_unpoison'

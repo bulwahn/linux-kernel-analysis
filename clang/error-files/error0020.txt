@@ -1,0 +1,156 @@
+net/core/rtnetlink.o: In function `rtnl_newlink':
+net/core/rtnetlink.c:(.text+0x795c): undefined reference to `__asan_alloca_poison'
+net/core/rtnetlink.c:(.text+0x79ea): undefined reference to `__asan_alloca_poison'
+net/core/rtnetlink.c:(.text+0x7dcf): undefined reference to `__asan_allocas_unpoison'
+net/core/rtnetlink.c:(.text+0x7e26): undefined reference to `__asan_allocas_unpoison'
+net/core/rtnetlink.c:(.text+0x7e36): undefined reference to `__asan_allocas_unpoison'
+net/core/pktgen.o: In function `pktgen_if_write':
+net/core/pktgen.c:(.text+0xaa9): undefined reference to `__asan_alloca_poison'
+net/core/pktgen.c:(.text+0xb04): undefined reference to `__asan_allocas_unpoison'
+net/core/pktgen.c:(.text+0xbac): undefined reference to `__asan_allocas_unpoison'
+net/core/pktgen.c:(.text+0x197d): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink.o: In function `nfnetlink_rcv_msg':
+net/netfilter/nfnetlink.c:(.text+0xfc2): undefined reference to `__asan_alloca_poison'
+net/netfilter/nfnetlink.c:(.text+0x1341): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink.c:(.text+0x150e): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink.c:(.text+0x151c): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink.o: In function `nfnetlink_rcv_batch':
+net/netfilter/nfnetlink.c:(.text+0x1c65): undefined reference to `__asan_alloca_poison'
+net/netfilter/nfnetlink.c:(.text+0x1f05): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink.c:(.text+0x2606): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink_cttimeout.o: In function `ctnl_timeout_parse_policy':
+net/netfilter/nfnetlink_cttimeout.c:(.text+0x11da): undefined reference to `__asan_alloca_poison'
+net/netfilter/nfnetlink_cttimeout.c:(.text+0x1275): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink_cttimeout.c:(.text+0x1283): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nfnetlink_cthelper.o: In function `nfnl_cthelper_update_policy_all':
+net/netfilter/nfnetlink_cthelper.c:(.text+0x1bed): undefined reference to `__asan_alloca_poison'
+net/netfilter/nfnetlink_cthelper.c:(.text+0x1e87): undefined reference to `__asan_allocas_unpoison'
+net/netfilter/nf_tables_api.o: In function `nft_obj_init':
+net/netfilter/nf_tables_api.c:(.text+0x1bda2): undefined reference to `__asan_alloca_poison'
+net/netfilter/nf_tables_api.c:(.text+0x1bef6): undefined reference to `__asan_allocas_unpoison'
+net/dsa/switch.o: In function `dsa_switch_mdb_add':
+net/dsa/switch.c:(.text+0x8d7): undefined reference to `__asan_alloca_poison'
+net/dsa/switch.c:(.text+0xca5): undefined reference to `__asan_allocas_unpoison'
+net/dsa/switch.o: In function `dsa_switch_vlan_add':
+net/dsa/switch.c:(.text+0xd87): undefined reference to `__asan_alloca_poison'
+net/dsa/switch.c:(.text+0x1155): undefined reference to `__asan_allocas_unpoison'
+net/bluetooth/smp.o: In function `aes_cmac':
+net/bluetooth/smp.c:(.text+0x37f6): undefined reference to `__asan_alloca_poison'
+net/bluetooth/smp.c:(.text+0x3f20): undefined reference to `__asan_allocas_unpoison'
+net/bluetooth/smp.c:(.text+0x3f30): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `krb5_encrypt':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x116): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x323): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x331): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `krb5_decrypt':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x4e6): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x6f3): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x701): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `gss_encrypt_xdr_buf':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x1d5b): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x1efc): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x1f0c): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `gss_decrypt_xdr_buf':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x2979): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x2acc): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x2adc): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `gss_krb5_aes_encrypt':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x35ef): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3727): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3822): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `gss_krb5_cts_crypt':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3970): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3be8): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3bf8): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.o: In function `gss_krb5_aes_decrypt':
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3ee6): undefined reference to `__asan_alloca_poison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x3fd6): undefined reference to `__asan_allocas_unpoison'
+net/sunrpc/auth_gss/gss_krb5_crypto.c:(.text+0x415e): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_prime_packet_security':
+net/rxrpc/rxkad.c:(.text+0x437): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x6e1): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_secure_packet':
+net/rxrpc/rxkad.c:(.text+0x8b5): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0xc11): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_verify_packet':
+net/rxrpc/rxkad.c:(.text+0xe65): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x1140): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_secure_packet_auth':
+net/rxrpc/rxkad.c:(.text+0x3e34): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x3fe8): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_secure_packet_encrypt':
+net/rxrpc/rxkad.c:(.text+0x41f3): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x452f): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.c:(.text+0x453f): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_verify_packet_1':
+net/rxrpc/rxkad.c:(.text+0x4c2b): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x4d7c): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.c:(.text+0x4d8c): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_verify_packet_2':
+net/rxrpc/rxkad.c:(.text+0x52e9): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x57a2): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.c:(.text+0x57b2): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_encrypt_response':
+net/rxrpc/rxkad.c:(.text+0x5da0): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x5fd1): undefined reference to `__asan_allocas_unpoison'
+net/rxrpc/rxkad.o: In function `rxkad_decrypt_response':
+net/rxrpc/rxkad.c:(.text+0x6178): undefined reference to `__asan_alloca_poison'
+net/rxrpc/rxkad.c:(.text+0x642f): undefined reference to `__asan_allocas_unpoison'
+net/sctp/sm_make_chunk.o: In function `sctp_pack_cookie':
+net/sctp/sm_make_chunk.c:(.text+0x2a67): undefined reference to `__asan_alloca_poison'
+net/sctp/sm_make_chunk.c:(.text+0x2b6a): undefined reference to `__asan_allocas_unpoison'
+net/sctp/sm_make_chunk.c:(.text+0x2ba9): undefined reference to `__asan_allocas_unpoison'
+net/sctp/sm_make_chunk.o: In function `sctp_unpack_cookie':
+net/sctp/sm_make_chunk.c:(.text+0x702f): undefined reference to `__asan_allocas_unpoison'
+net/sctp/sm_make_chunk.c:(.text+0x7116): undefined reference to `__asan_alloca_poison'
+net/sctp/sm_make_chunk.c:(.text+0x734c): undefined reference to `__asan_allocas_unpoison'
+net/sctp/sm_make_chunk.c:(.text+0x7367): undefined reference to `__asan_allocas_unpoison'
+net/sctp/auth.o: In function `sctp_auth_calculate_hmac':
+net/sctp/auth.c:(.text+0x1b04): undefined reference to `__asan_alloca_poison'
+net/sctp/auth.c:(.text+0x1b73): undefined reference to `__asan_allocas_unpoison'
+net/sctp/auth.c:(.text+0x1c13): undefined reference to `__asan_allocas_unpoison'
+net/rds/connection.o: In function `rds_for_each_conn_info':
+(.text+0x1f5a): undefined reference to `__asan_alloca_poison'
+(.text+0x21a6): undefined reference to `__asan_allocas_unpoison'
+net/wireless/nl80211.o: In function `nl80211_send_wiphy':
+net/wireless/nl80211.c:(.text+0x2645): undefined reference to `__asan_set_shadow_00'
+net/wireless/nl80211.o: In function `nl80211_get_mesh_config':
+net/wireless/nl80211.c:(.text+0x2b67e): undefined reference to `__asan_set_shadow_00'
+net/wireless/lib80211_crypt_wep.o: In function `lib80211_wep_encrypt':
+net/wireless/lib80211_crypt_wep.c:(.text+0x2a3): undefined reference to `__asan_alloca_poison'
+net/wireless/lib80211_crypt_wep.c:(.text+0x718): undefined reference to `__asan_allocas_unpoison'
+net/wireless/lib80211_crypt_wep.o: In function `lib80211_wep_decrypt':
+net/wireless/lib80211_crypt_wep.c:(.text+0x883): undefined reference to `__asan_alloca_poison'
+net/wireless/lib80211_crypt_wep.c:(.text+0xb32): undefined reference to `__asan_allocas_unpoison'
+net/wireless/lib80211_crypt_tkip.o: In function `lib80211_tkip_encrypt':
+net/wireless/lib80211_crypt_tkip.c:(.text+0x380): undefined reference to `__asan_alloca_poison'
+net/wireless/lib80211_crypt_tkip.c:(.text+0x43d): undefined reference to `__asan_allocas_unpoison'
+net/wireless/lib80211_crypt_tkip.o: In function `lib80211_tkip_decrypt':
+net/wireless/lib80211_crypt_tkip.c:(.text+0xb13): undefined reference to `__asan_alloca_poison'
+net/wireless/lib80211_crypt_tkip.c:(.text+0xe83): undefined reference to `__asan_allocas_unpoison'
+net/wireless/lib80211_crypt_tkip.o: In function `michael_mic':
+net/wireless/lib80211_crypt_tkip.c:(.text+0x2b1b): undefined reference to `__asan_alloca_poison'
+net/wireless/lib80211_crypt_tkip.c:(.text+0x2e84): undefined reference to `__asan_allocas_unpoison'
+net/mac80211/aes_cmac.o: In function `ieee80211_aes_cmac':
+net/mac80211/aes_cmac.c:(.text+0xc5): undefined reference to `__asan_alloca_poison'
+net/mac80211/aes_cmac.c:(.text+0x14c): undefined reference to `__asan_allocas_unpoison'
+net/mac80211/aes_cmac.o: In function `ieee80211_aes_cmac_256':
+net/mac80211/aes_cmac.c:(.text+0x209): undefined reference to `__asan_alloca_poison'
+net/mac80211/aes_cmac.c:(.text+0x27c): undefined reference to `__asan_allocas_unpoison'
+net/mac80211/fils_aead.o: In function `aes_s2v':
+net/mac80211/fils_aead.c:(.text+0xf50): undefined reference to `__asan_alloca_poison'
+net/mac80211/fils_aead.c:(.text+0x1226): undefined reference to `__asan_allocas_unpoison'
+net/mac80211/fils_aead.c:(.text+0x1236): undefined reference to `__asan_allocas_unpoison'
+net/ieee802154/nl802154.o: In function `nl802154_send_wpan_phy':
+net/ieee802154/nl802154.c:(.text+0x9556): undefined reference to `__asan_set_shadow_00'
+net/mac802154/llsec.o: In function `llsec_do_encrypt_unauth':
+net/mac802154/llsec.c:(.text+0x554a): undefined reference to `__asan_alloca_poison'
+net/mac802154/llsec.c:(.text+0x576d): undefined reference to `__asan_allocas_unpoison'
+net/mac802154/llsec.c:(.text+0x577b): undefined reference to `__asan_allocas_unpoison'
+net/mac802154/llsec.o: In function `llsec_do_decrypt_unauth':
+net/mac802154/llsec.c:(.text+0x58fa): undefined reference to `__asan_alloca_poison'
+net/mac802154/llsec.c:(.text+0x5b10): undefined reference to `__asan_allocas_unpoison'
+net/mac802154/llsec.c:(.text+0x5b1e): undefined reference to `__asan_allocas_unpoison'
+net/ceph/crypto.o: In function `ceph_aes_crypt':
+net/ceph/crypto.c:(.text+0xa6a): undefined reference to `__asan_alloca_poison'
+net/ceph/crypto.c:(.text+0x10d8): undefined reference to `__asan_allocas_unpoison'
