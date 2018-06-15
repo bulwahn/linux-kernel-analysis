@@ -72,6 +72,9 @@ set_scripts_directory() {
 set_analyze() {
 	DONT_RUN_ANALYZE=1
 }
+set_default_compiler_to_clang() {
+	COMPILER="clang"
+}
 set_infer_version() {
 	echo "set_infer_version called, parameter is $1"
 	case $1 in
@@ -198,6 +201,7 @@ revert_v014_kasan_patch() {
 # Check KERNEL_SRC_BASE
 check_kernel_src_base_valid
 set_scripts_directory
+set_default_compiler_to_clang
 does_user_need_help "$1"
 DOCKER_NAME="kernel-analysis"
 # Get Parameters, validate them, assign them variables.
