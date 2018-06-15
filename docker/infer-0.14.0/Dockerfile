@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:stretch-slim
 
 LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com.tr>"
 
