@@ -41,7 +41,7 @@ set_kernel_repository() {
 set_compiler() { #TODO after checking it works well, add some extra warnings for user
 	COMPILER="$1"
 }
-set_kernel_config() { #Test all options one by one, then start to fix TODOS
+set_kernel_config() {
 	case $1 in
 		allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig )
 		KERNEL_CONFIG="$1"
@@ -73,9 +73,9 @@ set_analyze() {
 	DONT_RUN_ANALYZE=1
 }
 set_infer_version() {
-	echo "set_infer_version called, parametr is $1"
+	echo "set_infer_version called, parameter is $1"
 	case $1 in
-		0.13.1 | 0.14.0 )
+		0.13.1 | 0.14.0 | 0.15.0 ) #TODO 0.15.0 Doesn't work properly, look at it more detailed!
 		DOCKER_INFER_VERSION="$1"
 		;;
 	*)
@@ -135,7 +135,7 @@ check_kernel_repository_valid() {
 	fi
 }
 check_kernel_configuration_valid() {
-	if [ ! -z "$KERNEL_CONFIG" ]; then # Check KERNEL_CONFIG variable is set
+	if [ -z "$KERNEL_CONFIG" ]; then # Check KERNEL_CONFIG variable is set
 		if [ ! -f "$KERNEL_REPOSITORY/.config" ]; then
 			echo "You must provide a valid kernel configuration keyword or provide a kernel-configuration file"
 			echo "Valid Parameters are = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
@@ -229,9 +229,11 @@ if [ "$DOCKER_INFER_VERSION" = "0.14.0" ]; then
 fi
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
-echo "infer-out folder created with user_id=$USER_ID and group_id=$GROUP_ID"
-docker run -v "$KERNEL_REPOSITORY:/linux/" --user "$USER_ID:$GROUP_ID" --interactive --tty $DOCKER_NAME \
-/bin/sh -c "$RUN_COMMAND"
+#Is there a better way to solve whoami problem instead of mounting /etc/password read-only?? Ask & Research
+docker run -v "$KERNEL_REPOSITORY:/linux/" \
+           -v "/etc/passwd:/etc/passwd:ro" \
+	   --user "$USER_ID:$GROUP_ID" --interactive --tty $DOCKER_NAME \
+	   /bin/sh -c "infer --version && $RUN_COMMAND"
 if [ $DOCKER_INFER_VERSION = "0.14.0" ]; then
 	revert_exofs_patch
 	revert_v014_kasan_patch

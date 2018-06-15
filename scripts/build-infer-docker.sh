@@ -7,3 +7,6 @@ docker build -t $DOCKER_NAME .
 cd "../infer-0.14.0"
 DOCKER_NAME="kernel-analysis-infer-0.14.0"
 docker build -t $DOCKER_NAME .
+cd "../infer-0.15.0"
+DOCKER_NAME="kernel-analysis-infer-0.15.0"
+docker build -t $DOCKER_NAME .
