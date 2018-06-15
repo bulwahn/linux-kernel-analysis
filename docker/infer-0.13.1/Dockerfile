@@ -11,6 +11,7 @@ RUN apt-get update && \
       bc \
       bison \
       bsdmainutils \
+      ca-certificates \
       cmake \
       clang \
       curl \
@@ -22,7 +23,6 @@ RUN apt-get update && \
       libssl-dev \
       make \
       opam \
-      openjdk-8-jdk-headless \
       pkg-config \
       python2.7 \
       zlib1g-dev && \
@@ -35,11 +35,11 @@ RUN INFER_VERSION=v0.13.1; \
       https://github.com/facebook/infer/releases/download/${INFER_VERSION}/infer-linux64-${INFER_VERSION}.tar.xz | \
     tar xJ && \
     rm -f /infer && \
-    ln -s ${PWD}/infer-linux64-$INFER_VERSION /inferi
+    ln -s ${PWD}/infer-linux64-$INFER_VERSION /infer
 
 # Compile Infer
 RUN OCAML_VERSION=4.05.0+flambda; \
-    cd /infer && ./build-infer.sh clang --opam-switch $OCAML_VERSION && rm -rf /root/.opam
+    cd /infer && ls -l && ./build-infer.sh clang --opam-switch $OCAML_VERSION && rm -rf /root/.opam
 
 # Install Infer
 ENV INFER_HOME /infer/infer

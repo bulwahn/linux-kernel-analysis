@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:stretch-slim
 
 LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com.tr>"
 
@@ -28,10 +28,10 @@ RUN apt-get update && \
       python2.7 \
       wget \
       zlib1g-dev && \
-    rm -rf /var/lib/apt/lists/*
+rm -rf /var/lib/apt/lists/*
 
 # Download the latest Infer release
-RUN INFER_VERSION=v0.14.0; \
+RUN INFER_VERSION=v0.15.0; \
     cd /opt && \
     curl -sL \
       https://github.com/facebook/infer/releases/download/${INFER_VERSION}/infer-linux64-${INFER_VERSION}.tar.xz | \
@@ -39,10 +39,8 @@ RUN INFER_VERSION=v0.14.0; \
     rm -f /infer && \
     ln -s ${PWD}/infer-linux64-$INFER_VERSION /infer
 
-# Compile Infer
-RUN OCAML_VERSION=4.06.1+flambda; \
-    cd /infer && ./build-infer.sh clang --opam-switch $OCAML_VERSION && rm -rf /root/.opam
-
 # Install Infer
 ENV INFER_HOME /infer/infer
 ENV PATH ${INFER_HOME}/bin:${PATH}
+RUN ln -s /infer/bin/infer /usr/bin/infer
+
