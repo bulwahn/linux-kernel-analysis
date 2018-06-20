@@ -2,6 +2,14 @@ FROM debian:stretch-slim
 
 LABEL maintainer "Ozan Alpay <ozanalpay@yandex.com.tr>"
 
+ARG user_id
+ARG group_id
+ARG user_name
+ARG group_name
+
+RUN groupadd -g $group_id $group_name && \
+    useradd -r -u $user_id -g $group_id $user_name
+
 # mkdir the man/man1 directory due to Debian bug #863199
 RUN apt-get update && \
     mkdir -p /usr/share/man/man1 && \
@@ -29,7 +37,6 @@ RUN apt-get update && \
       wget \
       zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
-
 # Download the latest Infer release
 RUN INFER_VERSION=v0.14.0; \
     cd /opt && \
@@ -42,7 +49,7 @@ RUN INFER_VERSION=v0.14.0; \
 # Compile Infer
 RUN OCAML_VERSION=4.06.1+flambda; \
     cd /infer && ./build-infer.sh clang --opam-switch $OCAML_VERSION && rm -rf /root/.opam
-
+USER $user_name
 # Install Infer
 ENV INFER_HOME /infer/infer
 ENV PATH ${INFER_HOME}/bin:${PATH}
