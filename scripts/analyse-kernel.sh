@@ -227,14 +227,14 @@ if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
 
-if [ "$DOCKER_INFER_VERSION" = "0.14.0" ]; then
+if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
 	apply_exofs_patch
 	apply_v014_kasan_patch
 fi
 docker run -v "$KERNEL_REPOSITORY:/linux/" \
            --interactive --tty $DOCKER_NAME \
 	   /bin/sh -c "infer --version && $RUN_COMMAND"
-if [ $DOCKER_INFER_VERSION = "0.14.0" ]; then
+if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
 	revert_exofs_patch
 	revert_v014_kasan_patch
 fi
