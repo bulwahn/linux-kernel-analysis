@@ -173,6 +173,27 @@ does_user_need_help() {
 		exit 0
 	fi
 }
+apply_patches_if_needed() {
+	KERNEL_VERSION=$(git describe --abbrev=0 --tags)
+    TAG=${KERNEL_VERSION:0:5}
+	echo "KERNEL TAG is = $TAG"
+	if [ "$TAG" = "v4.16" ]; then
+		echo "Applying Patches!"
+		apply_exofs_patch
+		apply_v014_kasan_patch
+		APPLIED=1
+	else
+		APPLIED=0
+	fi
+}
+		
+
+revert_patches_if_applied() {
+	if [ $APPLIED -eq 1 ]; then
+		revert_exofs_patch
+		revert_v014_kasan_patch
+	fi
+}
 apply_exofs_patch() {
 	APPLY_RESULT=$(git apply "$SCRIPTS_DIRECTORY/files/0001-exofs.patch" 2>&1 )
 	if [ -n "$APPLY_RESULT" ]; then
@@ -226,15 +247,16 @@ cd $KERNEL_REPOSITORY
 if [ ! -z "$KERNEL_HEAD_SHA" ]; then
 	can_checkout_successfully
 fi
-
-if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
-	apply_exofs_patch
-	apply_v014_kasan_patch
-fi
+apply_patches_if_needed
+#if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
+	#apply_exofs_patch
+	#apply_v014_kasan_patch
+#fi
 docker run -v "$KERNEL_REPOSITORY:/linux/" \
            --interactive --tty $DOCKER_NAME \
 	   /bin/sh -c "infer --version && $RUN_COMMAND"
-if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
-	revert_exofs_patch
-	revert_v014_kasan_patch
-fi
+revert_patches_if_applied
+#if [ ! "$DOCKER_INFER_VERSION" = "0.13.1" ]; then
+	#revert_exofs_patch
+	#revert_v014_kasan_patch
+#fi
