@@ -1,5 +1,6 @@
 ## Infer UNINITIALIZED_VALUE false-posive problem ##
-**Infer Version:** : Infer version v0.14.0
+**Infer Version:** : Infer version v0.14.0  
+**Kernel-Version:** : Linux-4.16  
 **Original Warning:** : [drivers/usb/core/hub.c](https://github.com/OzanAlpay/linux-kernel-analysis/blob/clang-warning-reports/reports/v416/infer-014/drivers:usb:core:hub:c:uninitializedvalue:0004.md)  
 ### Testing ###
 **Case 1:**  
@@ -39,7 +40,7 @@ No issues found
 
 **Summary:**
 Only difference between this two examples is:  
-In infer-uinit-false-positive-with-loop/lib.h, we call ret_func and assign a value to dummy inside a loop  
+In [infer-uinit-false-positive-with-loop/lib.h](https://github.com/OzanAlpay/linux-kernel-analysis/blob/infer-documentation/infer/MockCodes/infer-uninitialized-with-loop/infer-uninit-false-positive-with-loop/lib.h), we call ret_func and assign a value to dummy inside a loop  
 ```C
 int first_func(int value) {
 	int i;
@@ -55,7 +56,7 @@ int first_func(int value) {
 	return dummy;
 }
 ```  
-However infer-no-false-positive-without-loop/lib.h, we call ret_func and then assign a value to dummy without using a loop  
+However [infer-no-false-positive-without-loop/lib.h](https://github.com/OzanAlpay/linux-kernel-analysis/blob/infer-documentation/infer/MockCodes/infer-uninitialized-with-loop/infer-no-false-positive-without-loop/lib.h), we call ret_func and then assign a value to dummy without using a loop  
 ```C
 int first_func(int value) {
 
