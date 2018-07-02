@@ -1,0 +1,31 @@
+[386][environment]                                       
+[386][environment] command line arguments:   infer analyze --jobs 2Analyzer: checkers
+[386][environment] Active checkers: annotation reachability (Java), biabduction (C/C++/ObjC, Java), fragment retains view (Java), immutable cast (Java), liveness (C/C++/ObjC), printf args (Java), ownership (C/C++/ObjC), RacerD (C/C++/ObjC, Java), SIOF (C/C++/ObjC), uninitialized variables (C/C++/ObjC)
+[386][environment] Infer log identifier is 
+Infer version v0.15.0
+[386][environment] Copyright 2009 - present Facebook. All Rights Reserved.
+[386][environment] 
+[386][   progress] Found 15920 source files to analyze in /linux/infer-out
+[386][   progress] Starting analysis...
+[386][   progress] 
+[386][   progress] legend:
+[386][   progress]   "F" analyzing a file
+[386][   progress]   "." analyzing a procedure
+[386][   progress] 
+[386][   progress] 
+[386][environment] Parallel jobs: 2
+[386][   progress] FF
+
+F
+[392][   progress] ..[393][   progress] ....................
+[392][ intern err] Pvar &__ptr appears on the LHS of >1 heap predicate!
+[392][   progress] ...
+[393][ intern err] Pvar &__ptr appears on the LHS of >1 heap predicate!
+[393][   progress] ..................................................................................................................................................
+[392][ intern err] Pvar &__ptr appears on the LHS of >1 heap predicate!
+
+[393][ intern err] Uninit analyzer failed to compute post for __const_udelayPvar &__ptr appears on the LHS of >1 heap predicate!
+[393][   progress] ..[392][   progress] ...........................................................................................................................................................................
+[392][      debug] 
+[392][      debug] typ_get_recursive_flds: unexpected sizeof(t=) unknown struct type: struct mod_tree_root
+[392][      debug] 
