@@ -26,22 +26,22 @@ lib.h:10: error: DEAD_STORE
 ```
 No issues found.
 ```  
-**Case 2:**
+**Case 2:**   
 ```
 cd infer-no-dead-store-without-macro
 infer capture -- make
 infer analyze
 ```
-**Output:**
+**Output:**  
 ```
 No issues found
 ```
-**Expected Output:**
+**Expected Output:**  
 ```
 No issues found
 ```
 
-**Summary:**
+**Summary:**  
 Only difference between this two examples is:  
 In [infer-false-positive-dead-store-with-macro/macros.h](https://github.com/OzanAlpay/linux-kernel-analysis/blob/infer-documentation/infer/MockCodes/infer-dead-store-macro/infer-false-positive-dead-store-with-macro/macros.h), Inside ```time_after``` macro, we check types with using ```typecheck``` macro, and then compare.
 ```C
@@ -64,9 +64,9 @@ However [infer-no-dead-store-without-macro/macros.h](https://github.com/OzanAlpa
 #define time_before(a,b)        time_after(b,a)
 
 ```
-These two files infer output should be equal to ```No issues found```. Because in both cases, we assign a value to just compare two different unsigned integers, and return the result of comparision.
-In addition to that, In Linux Kernel-v4.16, ```include/linux/typecheck.h``` file, typecheck macro defined as following:
-```
+These two files infer outputs should be equal to ```No issues found```. Because in both cases, we just compare two different unsigned integers, and return the result of comparision.  
+In addition to that, In [Linux Kernel-v4.16:include/linux/typecheck.h](https://elixir.bootlin.com/linux/v4.16/source/include/linux/typecheck.h) file, typecheck macro defined as following:
+```C
 /*
  * Check at compile time that something is of a particular type.
  * Always evaluates to 1 so you may use it easily in comparisons.
@@ -78,8 +78,8 @@ In addition to that, In Linux Kernel-v4.16, ```include/linux/typecheck.h``` file
 	1; \
 })
 ```
-As developer stated in comment, these macro is just a check for compile-time and don't have any effect for run-time. Infer is wrong to create a warning for this macro.
-**Further Results:**
+As developer stated in comment, these macro is just a check for compile-time and don't have any effect for run-time. Infer is wrong to create a warning for this macro.  
+**Further Results:**  
 Also I completed an ```infer-0.15.0``` run on Linux Kernel-v4.16 with using defconfig after applying:
 ```
 diff --git a/include/linux/typecheck.h b/include/linux/typecheck.h
@@ -101,6 +101,15 @@ index 20d3103..5638505 100644
  /*
   * Check at compile time that 'function' is a certain type, or is a pointer
 ```
-You can find results according to this run in : [Link-to-File](), and without patch : [Link-to-File]().
-As you can observe that, there is diff_number of difference about result_type.
+You can find results according to this run in : [with-dummy-typecheck-patch](bugs.txt), and [without patch](../../results/v416/infer0150/defconfig/bugs.txt]).
+Comparision of results:  
+ Results  | Total Issues | UNINITIALIZED VALUE | DEAD STORE | NULL DEREFERENCE | MEMORY LEAK | RESOURCE LEAK |
+| ------------- | ------------- | ------------- | ------------- |  ------------- | -------------- | ------------ |
+| Default Linux-v4.16 Defconfig  | 5795  | 4664 | 895 | 211 | 16 | 9 |
+| Linux-v4.16 Deconfig + dummy-typecheck-patch  | 5638 | 4669 | 733 | 211 | 16 | 9 |
+
+
+
+
+
 
