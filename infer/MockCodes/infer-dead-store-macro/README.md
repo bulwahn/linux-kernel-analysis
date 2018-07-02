@@ -101,9 +101,10 @@ index 20d3103..5638505 100644
  /*
   * Check at compile time that 'function' is a certain type, or is a pointer
 ```
-You can find results according to this run in : [with-dummy-typecheck-patch](bugs.txt), and [without patch](../../results/v416/infer0150/defconfig/bugs.txt]).
+You can find results according to this run in : [with-dummy-typecheck-patch](bugs.txt), and [without patch](../../results/v416/infer0150/defconfig/bugs.txt).
 Comparision of results:  
- Results  | Total Issues | UNINITIALIZED VALUE | DEAD STORE | NULL DEREFERENCE | MEMORY LEAK | RESOURCE LEAK |
+
+| Results  | Total Issues | UNINITIALIZED VALUE | DEAD STORE | NULL DEREFERENCE | MEMORY LEAK | RESOURCE LEAK |
 | ------------- | ------------- | ------------- | ------------- |  ------------- | -------------- | ------------ |
 | Default Linux-v4.16 Defconfig  | 5795  | 4664 | 895 | 211 | 16 | 9 |
 | Linux-v4.16 Deconfig + dummy-typecheck-patch  | 5638 | 4669 | 733 | 211 | 16 | 9 |
