@@ -43,4 +43,4 @@ RUN INFER_VERSION=v0.15.0; \
 # Install Infer
 ENV INFER_HOME /infer/infer
 ENV PATH ${INFER_HOME}/bin:${PATH}
-
+RUN ln -s /infer/bin/infer /usr/local/bin/infer

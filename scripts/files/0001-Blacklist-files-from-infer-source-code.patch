@@ -1,0 +1,25 @@
+From 5fd5327a22e9269493136e9d7599c9d4cafc2b80 Mon Sep 17 00:00:00 2001
+From: Ozan Alpay <ozanalpay@yandex.com.tr>
+Date: Thu, 5 Apr 2018 14:47:05 +0200
+Subject: [PATCH] Blacklist files from infer source-code
+
+---
+ infer/src/clang/cLocation.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/infer/src/clang/cLocation.ml b/infer/src/clang/cLocation.ml
+index 6b0d9e8..01e9a51 100644
+--- a/infer/src/clang/cLocation.ml
++++ b/infer/src/clang/cLocation.ml
+@@ -82,7 +82,7 @@ let should_translate_lib trans_unit_ctx source_range decl_trans_context ~transla
+ 
+ 
+ let is_file_blacklisted file =
+-  let paths = Config.skip_analysis_in_path in
++  let paths = ["home/ozan/linux-stable/stable/linux-stable/arch/x86";"home/ozan/linux-stable/stable/linux-stable/arch";"home/ozan/linux-stable/stable/linux-stable/mm";"home/ozan/linux-stable/stable/linux-stable/drivers/acpi";"home/ozan/linux-stable/stable/linux-stable/fs";"home/ozan/linux-stable/stable/linux-stable/kernel/bpf";"home/ozan/linux-stable/stable/linux-stable/net/mac80211"] in
+   let is_file_blacklisted =
+     List.exists ~f:(fun path -> Str.string_match (Str.regexp ("^.*/" ^ path)) file 0) paths
+   in
+-- 
+2.7.4
+
