@@ -1,0 +1,21 @@
+In file included from arch/x86/events/core.c:43:
+arch/x86/events/perf_event.h:767:21: error: invalid output size for constraint '=q'
+./include/linux/percpu-defs.h:448:2: note: expanded from macro '__this_cpu_read'
+        raw_cpu_read(pcp);                                              \
+        ^
+./include/linux/percpu-defs.h:422:28: note: expanded from macro 'raw_cpu_read'
+#define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
+                                        ^
+./include/linux/percpu-defs.h:324:23: note: expanded from macro '__pcpu_size_call_return'
+        case 2: pscr_ret__ = stem##2(variable); break;                  \
+                             ^
+<scratch space>:217:1: note: expanded from here
+raw_cpu_read_2
+^
+./arch/x86/include/asm/percpu.h:395:30: note: expanded from macro 'raw_cpu_read_2'
+#define raw_cpu_read_2(pcp)             percpu_from_op("mov", pcp)
+                                        ^
+./arch/x86/include/asm/percpu.h:189:15: note: expanded from macro 'percpu_from_op'
+                    : "=q" (pfo_ret__)                  \
+                            ^
+

@@ -1,0 +1,16 @@
+arch/x86/kernel/fpu/xstate.o: In function `fpu__init_system_xstate':
+(.init.text+0x206e): undefined reference to `__asan_set_shadow_00'
+arch/x86/kernel/cpu/mshyperv.o: In function `ms_hyperv_init_platform':
+arch/x86/kernel/cpu/mshyperv.c:(.init.text+0xaa3): undefined reference to `__asan_set_shadow_00'
+arch/x86/crypto/fpu.o: In function `crypto_fpu_encrypt':
+arch/x86/crypto/fpu.c:(.text+0x60b): undefined reference to `__asan_alloca_poison'
+arch/x86/crypto/fpu.c:(.text+0x70f): undefined reference to `__asan_allocas_unpoison'
+arch/x86/crypto/fpu.o: In function `crypto_fpu_decrypt':
+arch/x86/crypto/fpu.c:(.text+0x7cb): undefined reference to `__asan_alloca_poison'
+arch/x86/crypto/fpu.c:(.text+0x8cf): undefined reference to `__asan_allocas_unpoison'
+arch/x86/power/hibernate_64.o: In function `get_e820_md5':
+arch/x86/power/hibernate_64.c:(.text+0xfe5): undefined reference to `__asan_alloca_poison'
+arch/x86/power/hibernate_64.c:(.text+0x10e7): undefined reference to `__asan_allocas_unpoison'
+arch/x86/power/hibernate_64.c:(.text+0x1102): undefined reference to `__asan_allocas_unpoison'
+make: *** [vmlinux] Error 1
+Makefile:999: recipe for target 'vmlinux' failed

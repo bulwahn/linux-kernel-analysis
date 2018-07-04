@@ -1,0 +1,39 @@
+From 37172013fa2e527735ec9eda51a11cfea3af0ff1 Mon Sep 17 00:00:00 2001
+From: Matthias Kaehlcke <mka@chromium.org>
+Date: Thu, 8 Feb 2018 12:53:14 -0800
+Subject: amdgpu/dc/calcs: Consolidate redundant CFLAGS
+
+Use a variable for common CFLAGS instead of specifying the same flags
+for every source file.
+
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/calcs/Makefile | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+(limited to 'drivers/gpu/drm/amd/display/dc/calcs/Makefile')
+
+diff --git a/drivers/gpu/drm/amd/display/dc/calcs/Makefile b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
+index 7959e38..af0f452 100644
+--- a/drivers/gpu/drm/amd/display/dc/calcs/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/calcs/Makefile
+@@ -24,9 +24,11 @@
+ # It calculates Bandwidth and Watermarks values for HW programming
+ #
+ 
+-CFLAGS_dcn_calcs.o := -mhard-float -msse -mpreferred-stack-boundary=4
+-CFLAGS_dcn_calc_auto.o := -mhard-float -msse -mpreferred-stack-boundary=4
+-CFLAGS_dcn_calc_math.o := -mhard-float -msse -mpreferred-stack-boundary=4 -Wno-tautological-compare
++calcs_ccflags := -mhard-float -msse -mpreferred-stack-boundary=4
++
++CFLAGS_dcn_calcs.o := $(calcs_ccflags)
++CFLAGS_dcn_calc_auto.o := $(calcs_ccflags)
++CFLAGS_dcn_calc_math.o := $(calcs_ccflags) -Wno-tautological-compare
+ 
+ BW_CALCS = dce_calcs.o bw_fixed.o custom_float.o
+ 
+-- 
+cgit v1.1
+

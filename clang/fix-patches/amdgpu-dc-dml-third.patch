@@ -1,0 +1,45 @@
+From 4769278e5c7fd2be445e4a34f834d40475fcb0ce Mon Sep 17 00:00:00 2001
+From: Matthias Kaehlcke <mka@chromium.org>
+Date: Thu, 8 Feb 2018 12:53:15 -0800
+Subject: amdgpu/dc/dml: Support clang option for stack alignment
+
+DML uses the compiler option -mpreferred-stack-boundary=4 to configure
+a stack alignment of 16 bytes. Clang uses the option -mstack-alignment
+instead, which expects as parameter the alignment in bytes, and not a
+power of two like -mpreferred-stack-boundary.
+
+Probe for both compiler options and use the correct one, similar to
+what is done in arch/x86/Makefile.
+
+Reported-by: Guenter Roeck <groeck@chromium.org>
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml/Makefile | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+(limited to 'drivers/gpu/drm/amd/display')
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+index dca6ea7..0271043 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+@@ -24,7 +24,13 @@
+ # It provides the general basic services required by other DAL
+ # subcomponents.
+ 
+-dml_ccflags := -mhard-float -msse -mpreferred-stack-boundary=4
++ifneq ($(call cc-option, -mpreferred-stack-boundary=4),)
++	cc_stack_align := -mpreferred-stack-boundary=4
++else ifneq ($(call cc-option, -mstack-alignment=16),)
++	cc_stack_align := -mstack-alignment=16
++endif
++
++dml_ccflags := -mhard-float -msse $(cc_stack_align)
+ 
+ CFLAGS_display_mode_vba.o := $(dml_ccflags)
+ CFLAGS_display_mode_lib.o := $(dml_ccflags)
+-- 
+cgit v1.1
+
