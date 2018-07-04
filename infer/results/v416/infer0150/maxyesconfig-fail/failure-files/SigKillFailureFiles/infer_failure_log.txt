@@ -1,0 +1,18 @@
+Internal Error: Error in infer subprocess: died after receiving sigkill (signal number 9)
+
+Error backtrace:
+Raised at file "base/Die.ml", line 25, characters 6-36
+Called from file "base/ProcessPool.ml", line 24, characters 6-93
+Called from file "base/ProcessPool.ml" (inlined), line 40, characters 31-40
+Called from file "backend/Tasks.ml" (inlined), line 56, characters 19-83
+Called from file "list.ml", line 100, characters 12-15
+Called from file "backend/InferAnalyze.ml" (inlined), line 121, characters 6-54
+Called from file "list.ml", line 100, characters 12-15
+Called from file "list.ml" (inlined), line 98, characters 13-64
+Called from file "src/list0.ml" (inlined), line 26, characters 40-75
+Called from file "backend/InferAnalyze.ml", line 123, characters 4-48
+Called from file "integration/Driver.ml", line 301, characters 2-34
+Called from file "integration/Driver.ml" (inlined), line 380, characters 32-62
+Called from file "infer.ml" (inlined), line 21, characters 2-47
+Called from file "infer.ml", line 128, characters 8-26
+

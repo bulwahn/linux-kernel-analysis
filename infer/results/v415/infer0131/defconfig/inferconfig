@@ -1,0 +1,1 @@
+{"skip-analysis-in-path": ["linux/arch/x86/entry/vdso", "linux/arch/x86/kernel", "linux/arch/x86/mm", "linux/arch/x86/boot", "linux/drivers/acpi", "linux/fs", "linux/kernel/bpf", "linux/mm", "linux/net/mac80211"]}
