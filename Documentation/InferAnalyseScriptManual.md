@@ -15,7 +15,7 @@ Now you are ready to use ```analyse-kernel.sh```, to understand how to use it an
 
 
 ## Analyse-Kernel.sh Parameters ##
-#### Mandatory Parameters ####
+### Mandatory Parameters ###
 **Kernel Repository Parameter ( -r ):**  
 Possible values are torvalds, stable and next.  
 Example:  
@@ -29,7 +29,7 @@ Examples:
 ```./analyse-kernel.sh -c defconfig```  
 ```./analyse-kernel.sh -c files/v416/maximalyesconfig```  
 
-#### Optional Parameters ####
+### Optional Parameters ###
 
 **Compiler Parameter ( -cc ):**  
 You can pass compiler parameter that will be used for infer capture and infer analyze phases:  
@@ -51,7 +51,8 @@ Example:
 Since there are some problems about running Infer on Linux-Kernel, we need different inferconfig files to avoid crashes.  
 We also prepared some inferconfig files according to infer-version and kernel-configuration.  
 You can find them in ```scripts/files/{infer-version-number}```  
-Examples:
+Default value: -  
+Examples:  
 ```./analyse-kernel.sh -i files/infer0131/inferconfig```  
 ```./analyse-kernel.sh -i files/infer0150/infermaximalyesconfig```  
 
@@ -59,11 +60,13 @@ Examples:
 Instead of passing this parameters from command-line, you can provide a custom ```analysisconfig``` as a parameter, and ```./analyse-kernel.sh``` will read that file and set parameters according to file content.  
 You can find an example analysisconfig at ```scripts/files/analysisconfig```  
 !This method is not tested very well, so there may some problems if you use an analysisconfig!  
+Default value: -  
 Example:  
 ```./analyse-kernel.sh --analysisconfig files/analysisconfig```  
 
 **Dont Run Analyze Parameter (--no-analyze):**  
 Infer Analyze needs a lot of time and computing power. If you don't want to run infer analyze after infer capture finishes, you can call this script with passing --no-analyze as an parameter  
+Dfeault value: -  
 Example:  
 ```./analyse-kernel.sh --no-analyze```  
 
