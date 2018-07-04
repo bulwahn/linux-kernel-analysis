@@ -19,7 +19,8 @@ Now you are ready to use ```analyse-kernel.sh```, to understand how to use it an
 **Kernel Repository Parameter ( -r ):**  
 Possible values are torvalds, stable and next.  
 Example:  
-```./analyse-kernel.sh -r stable```
+```./analyse-kernel.sh -r stable```  
+
 **Kernel Configuration Parameter ( -c ):**   
 You can either pass a string or a file path for this parameter  
 We already prepared a maximalyesconfig for Linux-Kernel v4.16 that compiles with clang  
@@ -53,19 +54,21 @@ You can find them in ```scripts/files/{infer-version-number}```
 Examples:
 ```./analyse-kernel.sh -i files/infer0131/inferconfig```  
 ```./analyse-kernel.sh -i files/infer0150/infermaximalyesconfig```  
+
 **Analysis File Configuration (--analysisconfig):**  
 Instead of passing this parameters from command-line, you can provide a custom ```analysisconfig``` as a parameter, and ```./analyse-kernel.sh``` will read that file and set parameters according to file content.  
 You can find an example analysisconfig at ```scripts/files/analysisconfig```  
 !This method is not tested very well, so there may some problems if you use an analysisconfig!  
 Example:  
 ```./analyse-kernel.sh --analysisconfig files/analysisconfig```  
+
 **Dont Run Analyze Parameter (--no-analyze):**  
 Infer Analyze needs a lot of time and computing power. If you don't want to run infer analyze after infer capture finishes, you can call this script with passing --no-analyze as an parameter  
 Example:  
 ```./analyse-kernel.sh --no-analyze```  
 
 ## Notes ##
-To understand why we blacklisted some files, please see:[Infer-On-Linux-Kernel-Documentation](InferOnLinuxKernel.md)  
+To understand why we blacklisted some files or want to know how to build infer from source etc, please see:[Infer-On-Linux-Kernel-Documentation](InferOnLinuxKernel.md)  
 
 
 

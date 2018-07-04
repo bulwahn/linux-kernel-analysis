@@ -29,7 +29,7 @@ You need some extra packages, to become able to compile linux 4.15 from source c
 - libelf-dev ```sudo apt-get install libelf-dev```  
 - libssl-dev ```sudo apt-get install libssl-dev```
 
-## Prepare to Run Infer on Linux Kernel ## :
+## Prepare to Run Infer on Linux Kernel ##
 
 Now you can :
 - Compile Linux 4.15 without getting any errors
@@ -136,5 +136,4 @@ To do this, please follow the instructions below.
 - Follow [Setup](Setup.md) instructions, clone at least linux-stable to your computer and be sure that you set```KERNEL_SRC_BASE```
 - Go to scripts directory ```cd ~/linux-kernel-analysis/scripts```
 - Run ```./build_infer_docker.sh``` and build docker file.
-- Run ```./analyse_kernel.sh```, That script completes all required steps that described above, then runs ```infer capture -- make``` on linux-kernel. You can call it with various parameters. Please see detailed instructions about ```analyse_kernel.sh``` script below.
-
+- Run ```./analyse_kernel.sh```, That script completes all required steps that described above, then will run ```infer capture -- make``` on linux-kernel. You can call it with various parameters. Please see detailed instructions about ```analyse_kernel.sh``` script at (manual-for-infer-analyse-script)[InferAnalyseScriptManual.md]
