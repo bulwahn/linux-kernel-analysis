@@ -10,5 +10,5 @@ Please follow these steps:
 - Checkout Linux-Stable to v4.16 ( You cannot compile Linux v4.17 with clang) ```cd $KERNEL_SRC_BASE/stable/linux-stable && git checkout v4.16```  
 - Navigate back to linux-kernel-analysis/scripts directory ```cd -```  
 - Run analyze-kernel with  ```.analyse-kernel.sh -r stable -c files/v416/maxyesconfig -i files/infer0140/inferconfig --cc clang  ```(May take a very long time)  
-Please visit [Infer-0131](Infer0131OnLinuxKernel.md) file to find parameter explanations  
+Please visit [Infer-Analyse-Script-Manual](InferAnalyseScriptManual.md) file to find parameter explanations  
 
