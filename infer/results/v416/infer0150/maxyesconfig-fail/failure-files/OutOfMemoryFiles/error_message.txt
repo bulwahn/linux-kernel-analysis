@@ -1,0 +1,64 @@
+Uncaught Internal Error: ("Out of memory")
+Error backtrace:
+Raised by primitive operation at file "marshal.ml" (inlined), line 43, characters 0-60
+Called from file "base/Serialization.ml", line 53, characters 61-87
+Called from file "base/Utils.ml" (inlined), line 180, characters 13-17
+Called from file "base/Utils.ml" (inlined), line 165, characters 8-12
+Called from file "base/Utils.ml" (inlined), line 174, characters 16-54
+Called from file "base/Utils.ml", line 182, characters 2-41
+Re-raised at file "istd/IExn.ml" (inlined), line 13, characters 2-50
+Called from file "base/Utils.ml" (inlined), line 166, characters 6-141
+Called from file "base/Utils.ml" (inlined), line 174, characters 16-54
+Called from file "base/Utils.ml", line 182, characters 2-41
+Called from file "base/Serialization.ml", line 53, characters 8-97
+Called from file "backend/Summary.ml" (inlined), line 169, characters 32-90
+Called from file "backend/Summary.ml", line 190, characters 6-55
+Called from file "backend/Summary.ml" (inlined), line 220, characters 8-21
+Called from file "checkers/annotations.ml" (inlined), line 148, characters 8-28
+Called from file "concurrency/RacerDConfig.ml" (inlined), line 312, characters 4-99
+Called from file "concurrency/RacerDConfig.ml" (inlined), line 316, characters 34-79
+Called from file "concurrency/RacerDConfig.ml", line 339, characters 4-33
+Called from file "absint/PatternMatch.ml", line 307, characters 27-38
+Called from file "absint/PatternMatch.ml" (inlined), line 320, characters 2-52
+Called from file "concurrency/RacerD.ml" (inlined), line 504, characters 13-69
+Called from file "concurrency/RacerD.ml", line 509, characters 10-86
+Called from file "absint/LowerHil.ml", line 80, characters 28-91
+Called from file "absint/AbstractInterpreter.ml" (inlined), line 72, characters 39-92
+Called from file "array.ml" (inlined), line 158, characters 9-30
+Called from file "src/array0.ml" (inlined), line 50, characters 29-62
+Called from file "IR/Instrs.ml" (inlined), line 109, characters 6-32
+Called from file "absint/AbstractInterpreter.ml", line 73, characters 10-54
+Called from file "absint/AbstractInterpreter.ml", line 130, characters 14-76
+Called from file "absint/AbstractInterpreter.ml" (inlined), line 145, characters 4-59
+Called from file "absint/AbstractInterpreter.ml" (inlined), line 156, characters 18-56
+Called from file "absint/LowerHil.ml" (inlined), line 97, characters 22-89
+Called from file "concurrency/RacerD.ml", line 738, characters 10-50
+Called from file "list.ml", line 111, characters 24-34
+Called from file "backend/ondemand.ml", line 152, characters 51-92
+Re-raised at file "istd/IExn.ml" (inlined), line 18, characters 15-63
+Called from file "backend/ondemand.ml", line 158, characters 4-93
+Called from file "backend/ondemand.ml" (inlined), line 173, characters 7-80
+Called from file "backend/ondemand.ml" (inlined), line 204, characters 14-53
+Called from file "backend/callbacks.ml" (inlined), line 148, characters 40-72
+Called from file "list.ml", line 100, characters 12-15
+Called from file "list.ml" (inlined), line 98, characters 13-64
+Called from file "src/list0.ml" (inlined), line 26, characters 40-75
+Called from file "backend/callbacks.ml", line 149, characters 2-49
+Called from file "backend/InferAnalyze.ml", line 21, characters 8-43
+Called from file "backend/Tasks.ml" (inlined), line 34, characters 25-29
+Called from file "list.ml" (inlined), line 100, characters 12-15
+Called from file "list.ml" (inlined), line 98, characters 13-64
+Called from file "src/list0.ml" (inlined), line 26, characters 40-75
+Called from file "backend/Tasks.ml", line 34, characters 2-41
+Called from file "backend/InferAnalyze.ml" (inlined), line 32, characters 38-86
+Called from file "list.ml", line 100, characters 12-15
+Called from file "list.ml" (inlined), line 98, characters 13-64
+Called from file "list.ml" (inlined), line 100, characters 17-25
+Called from file "list.ml" (inlined), line 98, characters 13-64
+Called from file "src/list0.ml" (inlined), line 26, characters 40-75
+Called from file "backend/InferAnalyze.ml", line 112, characters 4-60
+Called from file "integration/Driver.ml", line 301, characters 2-34
+Called from file "integration/Driver.ml" (inlined), line 380, characters 32-62
+Called from file "infer.ml" (inlined), line 21, characters 2-47
+Called from file "infer.ml", line 128, characters 8-26
+

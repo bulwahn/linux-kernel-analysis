@@ -1,0 +1,26 @@
+From 35aced4aa2f8c79fcce8397f4f530b6e31abce55 Mon Sep 17 00:00:00 2001
+From: Ozan Alpay <ozanalpay@yandex.com.tr>
+Date: Fri, 25 May 2018 09:17:58 +0200
+Subject: [PATCH 1/6] Makefile.kasan change for infer
+
+---
+ scripts/Makefile.kasan | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
+index 69552a3..b4b69c8 100644
+--- a/scripts/Makefile.kasan
++++ b/scripts/Makefile.kasan
+@@ -32,8 +32,7 @@ else
+ 	$(call cc-param,asan-globals=1) \
+ 	$(call cc-param,asan-instrumentation-with-call-threshold=$(call_threshold)) \
+ 	$(call cc-param,asan-stack=1) \
+-	$(call cc-param,asan-use-after-scope=1) \
+-	$(call cc-param,asan-instrument-allocas=1)
++	$(call cc-param,asan-use-after-scope=1)
+    endif
+ 
+ endif
+-- 
+2.7.4
+
