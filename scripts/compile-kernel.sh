@@ -107,7 +107,7 @@ case "$COMPILER" in
 			/bin/sh -c "cd linux && \
 						groupadd --gid $GROUP_ID $GROUP_NAME && \
 						adduser --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-						su -p $USER_NAME -c 'make clean && make "$KERNEL_CONFIG" && make -j32'"
+						su -p $USER_NAME -c 'make clean && make $KERNEL_CONFIG && make -j32'"
 		;;
 	clang)
 		docker run \
@@ -117,6 +117,6 @@ case "$COMPILER" in
 			/bin/sh -c "cd linux && \
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 "$KERNEL_CONFIG" && make -j32 HOSTCC=clang-5.0 CC=clang-5.0'"
+				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 $KERNEL_CONFIG && make -j32 HOSTCC=clang-5.0 CC=clang-5.0'"
 		;;
 esac
