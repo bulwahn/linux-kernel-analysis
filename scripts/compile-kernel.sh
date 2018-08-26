@@ -94,10 +94,12 @@ case "$3" in
 esac
 
 # Start docker container and run build command
+
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 USER_NAME=$(whoami)
 GROUP_NAME=$(id -g -n $USER_NAME)
+
 case "$COMPILER" in
 	gcc)
 		docker run \
@@ -105,9 +107,9 @@ case "$COMPILER" in
 			-v "$KERNEL_SRC_DIR:/linux/" \
 			kernel-gcc \
 			/bin/sh -c "cd linux && \
-						groupadd --gid $GROUP_ID $GROUP_NAME && \
-						adduser --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-						su -p $USER_NAME -c 'make clean && make $KERNEL_CONFIG && make -j$(nproc)'"
+				groupadd --gid $GROUP_ID $GROUP_NAME && \
+				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
+				su -p $USER_NAME -c 'make clean && make $KERNEL_CONFIG && make -j$(nproc)'"
 		;;
 	clang)
 		docker run \
@@ -116,7 +118,8 @@ case "$COMPILER" in
 			kernel-clang \
 			/bin/sh -c "cd linux && \
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
-				adduser --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 $KERNEL_CONFIG && make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0'"
+				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
+				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 CC=clang-5.0 $KERNEL_CONFIG && \
+					make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0'"
 		;;
 esac
