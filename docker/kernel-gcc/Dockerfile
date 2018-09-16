@@ -28,3 +28,4 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 RUN git clone https://git.kernel.org/pub/scm/devel/sparse/sparse.git /sparse
 WORKDIR /sparse
 RUN make && make install PREFIX=/usr
+WORKDIR /
