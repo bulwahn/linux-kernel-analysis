@@ -1,0 +1,52 @@
+From 69bae82bcce53f8278a019109dde1868d8c6aa76 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 Aug 2018 11:17:35 +0200
+Subject: [PATCH 1/3] hack around to make it compile with clang
+
+I am just naively deactivating the checks and using the existing
+code in a context that the authors did not intend it for,
+without really understanding what the code actually does.
+
+I hope that the change is sufficient to compile with clang and
+run the static code analysis. I would not recommend to boot up and
+run this kernel with these hacks in the code.
+---
+ arch/x86/Makefile                 | 2 +-
+ arch/x86/include/asm/cpufeature.h | 8 --------
+ 2 files changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 8f6e7eb..034099d 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -296,7 +296,7 @@ PHONY += vdso_install
+ vdso_install:
+ 	$(Q)$(MAKE) $(build)=arch/x86/entry/vdso $@
+ 
+-archprepare: checkbin
++archprepare:
+ checkbin:
+ ifndef CC_HAVE_ASM_GOTO
+ 	@echo Compiler lacks asm-goto support.
+diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
+index aced6c9..8929ea0 100644
+--- a/arch/x86/include/asm/cpufeature.h
++++ b/arch/x86/include/asm/cpufeature.h
+@@ -142,14 +142,6 @@ extern void clear_cpu_cap(struct cpuinfo_x86 *c, unsigned int bit);
+ 
+ #if defined(__clang__) && !defined(CC_HAVE_ASM_GOTO)
+ 
+-/*
+- * Workaround for the sake of BPF compilation which utilizes kernel
+- * headers, but clang does not support ASM GOTO and fails the build.
+- */
+-#ifndef __BPF_TRACING__
+-#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+-#endif
+-
+ #define static_cpu_has(bit)            boot_cpu_has(bit)
+ 
+ #else
+-- 
+2.7.4
+
