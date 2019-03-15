@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 	bc \
 	bison \
 	bsdmainutils \
-	clang-5.0 \
+	clang-7 \
 	flex \
 	libelf-dev \
 	libssl-dev \

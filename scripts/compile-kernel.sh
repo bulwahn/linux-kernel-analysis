@@ -126,8 +126,8 @@ case "$COMPILER" in
 			/bin/sh -c "cd linux && \
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
-				su -p $USER_NAME -c 'make CC=clang-5.0 clean && make HOSTCC=clang-5.0 CC=clang-5.0 $KERNEL_CONFIG && \
-					make -j$(nproc) HOSTCC=clang-5.0 CC=clang-5.0 $CHECKER'"
+				su -p $USER_NAME -c 'make CC=clang-7 clean && make HOSTCC=clang-7 CC=clang-7 $KERNEL_CONFIG && \
+					make -j$(nproc) HOSTCC=clang-7 CC=clang-7 $CHECKER'"
 		;;
 	coccinelle)
 		docker run \
