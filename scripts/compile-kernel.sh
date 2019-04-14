@@ -10,12 +10,12 @@
 
 usage() {
 	echo "Usage:"
-	echo "  ./compile-kernel.sh <repository> <config> <compiler> <checker>"
+	echo "  ./compile-kernel.sh <repository> <compiler/tool> <config>"
 	echo
-        echo "    <repository> = torvalds | stable | next"
+	echo "    <repository> = torvalds | stable | next"
+	echo "    <compiler/tool> = gcc | clang | coccinelle | sparse"
+	echo "  For gcc, clang and sparse, also provide:"
 	echo "    <config> = allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig"
-	echo "    <compiler> = gcc | clang | coccinelle"
-	echo "    <checker> = sparse (optional)"
 }
 
 # Provide help if requested
@@ -40,7 +40,8 @@ if [ ! -d "$KERNEL_SRC_BASE" ]; then
 fi
 
 # Check if script is called with three arguments
-
+# TODO: could also be two now or three.
+#
 if [ "$#" -lt 3 ]; then
 	echo "Error: Wrong number of arguments"
 	echo "Script must be called with at least three arguments"
@@ -68,37 +69,46 @@ case "$1" in
 esac
 KERNEL_SRC_DIR=$KERNEL_SRC_BASE/$KERNEL_SRC_DIR_EXTENSION
 
-# Check second argument and set KERNEL_CONFIG
+# Check second argument and set COMPILER
 
 case "$2" in
-	allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig)
-		KERNEL_CONFIG=$2
-		;;
-	*)
-		echo "Error: Invalid kernel config: $2"
-		echo 'The kernel config must be either "allnoconfig", "allmodconfig", "allyesconfig", "defconfig" or "randconfig"'
-		exit 1
-		;;
-esac
-
-# Check third argument and set COMPILER
-
-case "$3" in
 	gcc | clang | coccinelle )
-		COMPILER=$3
+		COMPILER=$2
+		;;
+	sparse )
+		COMPILER=gcc
+		CHECKER='C=2 CHECK="sparse"'
 		;;
 	*)
-		echo "Error: Invalid compiler: $3"
+		echo "Error: Invalid compiler/tool: $2"
 		echo 'The compiler must be either "gcc" or "clang", "coccinelle"'
 		exit 1
 		;;
 esac
 
-case "$4" in
-	sparse )
-		CHECKER='C=2 CHECK="sparse"'
-		;;
-esac
+# Check third argument and set KERNEL_CONFIG
+
+# TODO: coccinelle runs independent of the config
+
+if [ "$COMPILER" = "coccinelle" ]; then
+	if [ "$#" -ne 2 ]; then
+	        echo "Error: Wrong number of arguments"
+		echo "In case of coccinelle, script must be called with two arguments"
+		usage
+		exit 1
+	fi
+else
+	case "$3" in
+		allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig)
+			KERNEL_CONFIG=$3
+			;;
+		*)
+			echo "Error: Invalid kernel config: $3"
+			echo 'The kernel config must be either "allnoconfig", "allmodconfig", "allyesconfig", "defconfig" or "randconfig"'
+			exit 1
+			;;
+	esac
+fi
 
 # Start docker container and run build command
 
@@ -127,7 +137,7 @@ case "$COMPILER" in
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
 				su -p $USER_NAME -c 'make CC=clang-7 clean && make HOSTCC=clang-7 CC=clang-7 $KERNEL_CONFIG && \
-					make -j$(nproc) HOSTCC=clang-7 CC=clang-7 $CHECKER'"
+					make -j$(nproc) HOSTCC=clang-7 CC=clang-7 CFLAGS_KERNEL="-Wthread-safety"'"
 		;;
 	coccinelle)
 		docker run \
