@@ -1,0 +1,124 @@
+From 4f3a23a7a622604f07065431f0d063be2f284625 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:52:41 +0200
+Subject: [PATCH 12/15] kernel/cgroup/freezer: use annotated functions
+
+Clang reported no warning in freezer.
+---
+ kernel/cgroup/freezer.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+index 08236798d173..94e12cd65974 100644
+--- a/kernel/cgroup/freezer.c
++++ b/kernel/cgroup/freezer.c
+@@ -107,7 +107,7 @@ static int freezer_css_online(struct cgroup_subsys_state *css)
+ 	struct freezer *freezer = css_freezer(css);
+ 	struct freezer *parent = parent_freezer(freezer);
+ 
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 
+ 	freezer->state |= CGROUP_FREEZER_ONLINE;
+ 
+@@ -116,7 +116,7 @@ static int freezer_css_online(struct cgroup_subsys_state *css)
+ 		atomic_inc(&system_freezing_cnt);
+ 	}
+ 
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ 	return 0;
+ }
+ 
+@@ -131,14 +131,14 @@ static void freezer_css_offline(struct cgroup_subsys_state *css)
+ {
+ 	struct freezer *freezer = css_freezer(css);
+ 
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 
+ 	if (freezer->state & CGROUP_FREEZING)
+ 		atomic_dec(&system_freezing_cnt);
+ 
+ 	freezer->state = 0;
+ 
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ }
+ 
+ static void freezer_css_free(struct cgroup_subsys_state *css)
+@@ -160,7 +160,7 @@ static void freezer_attach(struct cgroup_taskset *tset)
+ 	struct task_struct *task;
+ 	struct cgroup_subsys_state *new_css;
+ 
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 
+ 	/*
+ 	 * Make the new tasks conform to the current state of @new_css.
+@@ -187,7 +187,7 @@ static void freezer_attach(struct cgroup_taskset *tset)
+ 		}
+ 	}
+ 
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ }
+ 
+ /**
+@@ -214,7 +214,7 @@ static void freezer_fork(struct task_struct *task)
+ 	if (task_css_is_root(task, freezer_cgrp_id))
+ 		return;
+ 
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 	rcu_read_lock();
+ 
+ 	freezer = task_freezer(task);
+@@ -222,7 +222,7 @@ static void freezer_fork(struct task_struct *task)
+ 		freeze_task(task);
+ 
+ 	rcu_read_unlock();
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ }
+ 
+ /**
+@@ -292,7 +292,7 @@ static int freezer_read(struct seq_file *m, void *v)
+ {
+ 	struct cgroup_subsys_state *css = seq_css(m), *pos;
+ 
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 	rcu_read_lock();
+ 
+ 	/* update states bottom-up */
+@@ -308,7 +308,7 @@ static int freezer_read(struct seq_file *m, void *v)
+ 	}
+ 
+ 	rcu_read_unlock();
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ 
+ 	seq_puts(m, freezer_state_strs(css_freezer(css)->state));
+ 	seq_putc(m, '\n');
+@@ -391,7 +391,7 @@ static void freezer_change_state(struct freezer *freezer, bool freeze)
+ 	 * descendant will try to inherit its parent's FREEZING state as
+ 	 * CGROUP_FREEZING_PARENT.
+ 	 */
+-	mutex_lock(&freezer_mutex);
++	mutex_lock2(&freezer_mutex);
+ 	rcu_read_lock();
+ 	css_for_each_descendant_pre(pos, &freezer->css) {
+ 		struct freezer *pos_f = css_freezer(pos);
+@@ -413,7 +413,7 @@ static void freezer_change_state(struct freezer *freezer, bool freeze)
+ 		css_put(pos);
+ 	}
+ 	rcu_read_unlock();
+-	mutex_unlock(&freezer_mutex);
++	mutex_unlock2(&freezer_mutex);
+ }
+ 
+ static ssize_t freezer_write(struct kernfs_open_file *of,
+-- 
+2.17.1
+

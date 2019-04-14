@@ -1,0 +1,75 @@
+From 8d9d536010958cd36254a9cf163b68a304b41610 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 08:54:30 +0200
+Subject: [PATCH 03/15] mutex: create dedicated copies of mutex_lock and
+ mutex_unlock to add thread safety analysis annotations
+
+---
+ include/linux/mutex.h  |  5 ++++-
+ kernel/locking/mutex.c | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 3093dd162424..bf7001067d1e 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -63,7 +63,8 @@ struct mutex {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ #endif
+-};
++} __attribute__((capability("mutex")));
++
+ 
+ /*
+  * Internal helper function; C doesn't allow us to hide it :/
+@@ -176,6 +177,7 @@ do {									\
+ 
+ #else
+ extern void mutex_lock(struct mutex *lock);
++extern void mutex_lock2(struct mutex *lock) __attribute__((acquire_capability(lock)));
+ extern int __must_check mutex_lock_interruptible(struct mutex *lock);
+ extern int __must_check mutex_lock_killable(struct mutex *lock);
+ extern void mutex_lock_io(struct mutex *lock);
+@@ -195,6 +197,7 @@ extern void mutex_lock_io(struct mutex *lock);
+  */
+ extern int mutex_trylock(struct mutex *lock);
+ extern void mutex_unlock(struct mutex *lock);
++extern void mutex_unlock2(struct mutex *lock) __attribute__((release_capability(lock)));
+ 
+ extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
+ 
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index db578783dd36..f419b7c2740b 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -257,6 +257,13 @@ void __sched mutex_lock(struct mutex *lock)
+ 		__mutex_lock_slowpath(lock);
+ }
+ EXPORT_SYMBOL(mutex_lock);
++
++void __sched mutex_lock2(struct mutex *lock)
++{
++	mutex_lock(lock);
++}
++EXPORT_SYMBOL(mutex_lock2);
++
+ #endif
+ 
+ /*
+@@ -714,6 +721,12 @@ void __sched mutex_unlock(struct mutex *lock)
+ }
+ EXPORT_SYMBOL(mutex_unlock);
+ 
++void __sched mutex_unlock2(struct mutex *lock)
++{
++	mutex_unlock(lock);
++}
++EXPORT_SYMBOL(mutex_unlock2);
++
+ /**
+  * ww_mutex_unlock - release the w/w mutex
+  * @lock: the mutex to be released
+-- 
+2.17.1
+

@@ -1,0 +1,38 @@
+From 3b2cdd737ef380c81ccda226a89fc47629f57322 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:29:57 +0200
+Subject: [PATCH 10/15] kernel/stop_machine: use annotated mutex_trylock
+
+sed  -i 's/mutex_trylock(\&/mutex_trylock2(\&/' stop_machine.c
+
+As expected, clang thread safety analysis does not warn in
+stop_machine.c anymore.
+---
+ kernel/stop_machine.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
+index 21d615396549..b28d812d5b6c 100644
+--- a/kernel/stop_machine.c
++++ b/kernel/stop_machine.c
+@@ -463,7 +463,7 @@ int try_stop_cpus(const struct cpumask *cpumask, cpu_stop_fn_t fn, void *arg)
+ 	int ret;
+ 
+ 	/* static works are used, process one request at a time */
+-	if (!mutex_trylock(&stop_cpus_mutex))
++	if (!mutex_trylock2(&stop_cpus_mutex))
+ 		return -EAGAIN;
+ 	ret = __stop_cpus(cpumask, fn, arg);
+ 	mutex_unlock2(&stop_cpus_mutex);
+@@ -663,7 +663,7 @@ int stop_machine_from_inactive_cpu(cpu_stop_fn_t fn, void *data,
+ 	msdata.num_threads = num_active_cpus() + 1;	/* +1 for local */
+ 
+ 	/* No proper task established and can't sleep - busy wait for lock. */
+-	while (!mutex_trylock(&stop_cpus_mutex))
++	while (!mutex_trylock2(&stop_cpus_mutex))
+ 		cpu_relax();
+ 
+ 	/* Schedule work on other CPUs and execute directly for local CPU */
+-- 
+2.17.1
+

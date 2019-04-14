@@ -1,0 +1,25 @@
+From cefdc7bb4f0e6d485361acc55492d89bca26e48b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:58:23 +0200
+Subject: [PATCH 13/15] annotate guarded struct
+
+---
+ kernel/cgroup/freezer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+index 94e12cd65974..0bbd038ca04d 100644
+--- a/kernel/cgroup/freezer.c
++++ b/kernel/cgroup/freezer.c
+@@ -43,7 +43,7 @@ enum freezer_state_flags {
+ struct freezer {
+ 	struct cgroup_subsys_state	css;
+ 	unsigned int			state;
+-};
++} __attribute__((guarded_by(freezer_mutex)));
+ 
+ static DEFINE_MUTEX(freezer_mutex);
+ 
+-- 
+2.17.1
+

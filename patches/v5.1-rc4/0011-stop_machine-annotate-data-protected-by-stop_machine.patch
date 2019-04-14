@@ -1,0 +1,45 @@
+From 45d407aa413468e14b177ab5d43b483efc2c5748 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:34:36 +0200
+Subject: [PATCH 11/15] stop_machine: annotate data protected by stop_machine
+ mutex
+
+As the data should be properly protected by the lock, we would not expect
+any warning.
+
+Clang thread safety analysis reports:
+
+kernel/stop_machine.c:269:15: warning: reading variable 'stop_cpus_in_progress' requires holding mutex 'stop_cpus_mutex' [-Wthread-safety-analysis]
+        if (unlikely(stop_cpus_in_progress)) {
+                     ^
+kernel/stop_machine.c:285:10: warning: reading variable 'stop_cpus_in_progress' requires holding mutex 'stop_cpus_mutex' [-Wthread-safety-analysis]
+                while (stop_cpus_in_progress)
+                       ^
+kernel/stop_machine.c:377:2: warning: writing variable 'stop_cpus_in_progress' requires holding mutex 'stop_cpus_mutex' exclusively [-Wthread-safety-analysis]
+        stop_cpus_in_progress = true;
+        ^
+kernel/stop_machine.c:386:2: warning: writing variable 'stop_cpus_in_progress' requires holding mutex 'stop_cpus_mutex' exclusively [-Wthread-safety-analysis]
+        stop_cpus_in_progress = false;
+        ^
+
+Well, I was surprised.
+---
+ kernel/stop_machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
+index b28d812d5b6c..9664e74434ea 100644
+--- a/kernel/stop_machine.c
++++ b/kernel/stop_machine.c
+@@ -49,7 +49,7 @@ static bool stop_machine_initialized = false;
+ 
+ /* static data for stop_cpus */
+ static DEFINE_MUTEX(stop_cpus_mutex);
+-static bool stop_cpus_in_progress;
++static bool stop_cpus_in_progress __attribute__((guarded_by(stop_cpus_mutex)));
+ 
+ static void cpu_stop_init_done(struct cpu_stop_done *done, unsigned int nr_todo)
+ {
+-- 
+2.17.1
+

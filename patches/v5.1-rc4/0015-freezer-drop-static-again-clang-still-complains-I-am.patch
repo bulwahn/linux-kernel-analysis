@@ -1,0 +1,33 @@
+From 5959b5044b664429abffe5da4b1eb946b157624f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 13:23:22 +0200
+Subject: [PATCH 15/15] freezer: drop static again; clang still complains (I am
+ confused now)
+
+Clang still reports:
+
+kernel/cgroup/freezer.c:49:18: warning: 'guarded_by' attribute only applies to non-static data members and global variables [-Wignored-attributes]
+} __attribute__((guarded_by(freezer_mutex)));
+                 ^
+
+Wild guess: need to use pt_guarded?
+---
+ kernel/cgroup/freezer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+index ab4b27464eca..ad4c21dcbb6e 100644
+--- a/kernel/cgroup/freezer.c
++++ b/kernel/cgroup/freezer.c
+@@ -43,7 +43,7 @@ enum freezer_state_flags {
+ static DEFINE_MUTEX(freezer_mutex);
+ 
+ // could this be made static?? I would need to get what this really does here.
+-static struct freezer {
++struct freezer {
+ 	struct cgroup_subsys_state	css;
+ 	unsigned int			state;
+ } __attribute__((guarded_by(freezer_mutex)));
+-- 
+2.17.1
+

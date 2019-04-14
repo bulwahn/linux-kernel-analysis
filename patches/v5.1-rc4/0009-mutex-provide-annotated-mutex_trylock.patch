@@ -1,0 +1,42 @@
+From 85e17ac392146da0d427dd6df11f05ab258eec0a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:26:46 +0200
+Subject: [PATCH 09/15] mutex: provide annotated mutex_trylock
+
+---
+ include/linux/mutex.h  | 1 +
+ kernel/locking/mutex.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index bf7001067d1e..a911b7ee96cf 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -196,6 +196,7 @@ extern void mutex_lock_io(struct mutex *lock);
+  * Returns 1 if the mutex has been acquired successfully, and 0 on contention.
+  */
+ extern int mutex_trylock(struct mutex *lock);
++extern int mutex_trylock2(struct mutex *lock) __attribute__((try_acquire_capability(1, lock)));
+ extern void mutex_unlock(struct mutex *lock);
+ extern void mutex_unlock2(struct mutex *lock) __attribute__((release_capability(lock)));
+ 
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index f419b7c2740b..d4af8096b827 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -1400,6 +1400,12 @@ int __sched mutex_trylock(struct mutex *lock)
+ }
+ EXPORT_SYMBOL(mutex_trylock);
+ 
++int __sched mutex_trylock2(struct mutex *lock)
++{
++	mutex_trylock(lock);
++}
++EXPORT_SYMBOL(mutex_trylock2);
++
+ #ifndef CONFIG_DEBUG_LOCK_ALLOC
+ int __sched
+ ww_mutex_lock(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
+-- 
+2.17.1
+

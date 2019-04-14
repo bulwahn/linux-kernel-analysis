@@ -1,0 +1,60 @@
+From abced38fddccf4aec3aaa6e5f72c5b1c0f869006 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 09:00:17 +0200
+Subject: [PATCH 04/15] net/core/sock: analyse proto_list_mutex use
+
+---
+ net/core/sock.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 782343bb925b..1d73faa01c19 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -3371,10 +3371,10 @@ int proto_register(struct proto *prot, int alloc_slab)
+ 		}
+ 	}
+ 
+-	mutex_lock(&proto_list_mutex);
++	mutex_lock2(&proto_list_mutex);
+ 	list_add(&prot->node, &proto_list);
+ 	assign_proto_idx(prot);
+-	mutex_unlock(&proto_list_mutex);
++	mutex_unlock2(&proto_list_mutex);
+ 	return 0;
+ 
+ out_free_timewait_sock_slab_name:
+@@ -3391,10 +3391,10 @@ EXPORT_SYMBOL(proto_register);
+ 
+ void proto_unregister(struct proto *prot)
+ {
+-	mutex_lock(&proto_list_mutex);
++	mutex_lock2(&proto_list_mutex);
+ 	release_proto_idx(prot);
+ 	list_del(&prot->node);
+-	mutex_unlock(&proto_list_mutex);
++	mutex_unlock2(&proto_list_mutex);
+ 
+ 	kmem_cache_destroy(prot->slab);
+ 	prot->slab = NULL;
+@@ -3435,7 +3435,7 @@ EXPORT_SYMBOL(sock_load_diag_module);
+ static void *proto_seq_start(struct seq_file *seq, loff_t *pos)
+ 	__acquires(proto_list_mutex)
+ {
+-	mutex_lock(&proto_list_mutex);
++	mutex_lock2(&proto_list_mutex);
+ 	return seq_list_start_head(&proto_list, *pos);
+ }
+ 
+@@ -3447,7 +3447,7 @@ static void *proto_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+ static void proto_seq_stop(struct seq_file *seq, void *v)
+ 	__releases(proto_list_mutex)
+ {
+-	mutex_unlock(&proto_list_mutex);
++	mutex_unlock2(&proto_list_mutex);
+ }
+ 
+ static char proto_method_implemented(const void *method)
+-- 
+2.17.1
+

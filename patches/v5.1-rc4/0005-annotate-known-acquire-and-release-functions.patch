@@ -1,0 +1,32 @@
+From c2e71e9961e6c71bc5507d7bbf1c8ac947ea8563 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 09:27:14 +0200
+Subject: [PATCH 05/15] annotate known acquire and release functions
+
+---
+ net/core/sock.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 1d73faa01c19..062baaed71e7 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -3434,6 +3434,7 @@ EXPORT_SYMBOL(sock_load_diag_module);
+ #ifdef CONFIG_PROC_FS
+ static void *proto_seq_start(struct seq_file *seq, loff_t *pos)
+ 	__acquires(proto_list_mutex)
++	__attribute__((acquire_capability(proto_list_mutex)))
+ {
+ 	mutex_lock2(&proto_list_mutex);
+ 	return seq_list_start_head(&proto_list, *pos);
+@@ -3446,6 +3447,7 @@ static void *proto_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+ 
+ static void proto_seq_stop(struct seq_file *seq, void *v)
+ 	__releases(proto_list_mutex)
++	__attribute__((release_capability(proto_list_mutex)))
+ {
+ 	mutex_unlock2(&proto_list_mutex);
+ }
+-- 
+2.17.1
+

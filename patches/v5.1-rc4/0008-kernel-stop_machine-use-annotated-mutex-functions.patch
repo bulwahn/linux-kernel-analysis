@@ -1,0 +1,57 @@
+From 8e0210e9ece842ebf3e440da0f15af408261c52f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:11:48 +0200
+Subject: [PATCH 08/15] kernel/stop_machine: use annotated mutex functions
+
+As I did not have a mutex_trylock function, I expect clang thread
+safety analysis to complain about unlocking without having a lock.
+
+And it did:
+
+kernel/stop_machine.c:469:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock2(&stop_cpus_mutex);
+        ^
+kernel/stop_machine.c:680:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock2(&stop_cpus_mutex);
+        ^
+2 warnings generated.
+---
+ kernel/stop_machine.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
+index 067cb83f37ea..21d615396549 100644
+--- a/kernel/stop_machine.c
++++ b/kernel/stop_machine.c
+@@ -434,9 +434,9 @@ int stop_cpus(const struct cpumask *cpumask, cpu_stop_fn_t fn, void *arg)
+ 	int ret;
+ 
+ 	/* static works are used, process one request at a time */
+-	mutex_lock(&stop_cpus_mutex);
++	mutex_lock2(&stop_cpus_mutex);
+ 	ret = __stop_cpus(cpumask, fn, arg);
+-	mutex_unlock(&stop_cpus_mutex);
++	mutex_unlock2(&stop_cpus_mutex);
+ 	return ret;
+ }
+ 
+@@ -466,7 +466,7 @@ int try_stop_cpus(const struct cpumask *cpumask, cpu_stop_fn_t fn, void *arg)
+ 	if (!mutex_trylock(&stop_cpus_mutex))
+ 		return -EAGAIN;
+ 	ret = __stop_cpus(cpumask, fn, arg);
+-	mutex_unlock(&stop_cpus_mutex);
++	mutex_unlock2(&stop_cpus_mutex);
+ 	return ret;
+ }
+ 
+@@ -677,6 +677,6 @@ int stop_machine_from_inactive_cpu(cpu_stop_fn_t fn, void *data,
+ 	while (!completion_done(&done.completion))
+ 		cpu_relax();
+ 
+-	mutex_unlock(&stop_cpus_mutex);
++	mutex_unlock2(&stop_cpus_mutex);
+ 	return ret ?: done.ret;
+ }
+-- 
+2.17.1
+

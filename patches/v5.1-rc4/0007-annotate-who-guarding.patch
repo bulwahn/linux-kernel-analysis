@@ -1,0 +1,46 @@
+From 212ca62535cc905e0c4035b108d79c8c9d66b51e Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 12:08:40 +0200
+Subject: [PATCH 07/15] annotate who guarding
+
+I was expecting that clang safety thread analysis would now
+state that unprotected accesses to the list are marked, but
+it seems that clang does not get that list_add accesses
+the data that should be protected.
+
+Okay, I need to look for a simpler example.
+---
+ include/linux/list.h | 3 +++
+ net/core/sock.c      | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/list.h b/include/linux/list.h
+index 58aa3adf94e6..63ccae3ca832 100644
+--- a/include/linux/list.h
++++ b/include/linux/list.h
+@@ -23,6 +23,9 @@
+ #define LIST_HEAD(name) \
+ 	struct list_head name = LIST_HEAD_INIT(name)
+ 
++#define LIST_HEAD2(name, attribute) \
++	struct list_head name attribute = LIST_HEAD_INIT(name)
++
+ static inline void INIT_LIST_HEAD(struct list_head *list)
+ {
+ 	WRITE_ONCE(list->next, list);
+diff --git a/net/core/sock.c b/net/core/sock.c
+index caf9d9c5d1d1..d67501302ef4 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -144,7 +144,7 @@
+ #include <net/busy_poll.h>
+ 
+ static DEFINE_MUTEX(proto_list_mutex);
+-static LIST_HEAD(proto_list);
++static LIST_HEAD2(proto_list, __attribute__((guarded_by(proto_list_mutex))));
+ 
+ static void sock_inuse_add(struct net *net, int val);
+ 
+-- 
+2.17.1
+

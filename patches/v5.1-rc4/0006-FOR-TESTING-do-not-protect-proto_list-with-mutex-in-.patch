@@ -1,0 +1,30 @@
+From 270dfd2eeaab2d80918f6fba08b8c7b86ae511d2 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 14 Apr 2019 09:29:30 +0200
+Subject: [PATCH 06/15] FOR TESTING: do not protect proto_list with mutex in
+ proto_register
+
+---
+ net/core/sock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 062baaed71e7..caf9d9c5d1d1 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -3371,10 +3371,10 @@ int proto_register(struct proto *prot, int alloc_slab)
+ 		}
+ 	}
+ 
+-	mutex_lock2(&proto_list_mutex);
++	// mutex_lock2(&proto_list_mutex);
+ 	list_add(&prot->node, &proto_list);
+ 	assign_proto_idx(prot);
+-	mutex_unlock2(&proto_list_mutex);
++	// mutex_unlock2(&proto_list_mutex);
+ 	return 0;
+ 
+ out_free_timewait_sock_slab_name:
+-- 
+2.17.1
+
