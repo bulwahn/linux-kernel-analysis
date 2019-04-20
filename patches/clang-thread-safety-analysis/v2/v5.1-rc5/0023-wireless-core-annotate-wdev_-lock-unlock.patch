@@ -1,0 +1,45 @@
+From 44b61a5971ac2d4535731e4071e1145fb598683d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 00:26:22 +0200
+Subject: [PATCH 23/35] wireless/core: annotate wdev_{lock,unlock}
+
+This handles:
+
+net/wireless/core.h:221:1: warning: mutex 'wdev->mtx' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+net/wireless/core.h:219:2: note: mutex acquired here
+        mutex_lock(&wdev->mtx);
+        ^
+net/wireless/core.h:227:2: warning: releasing mutex 'wdev->mtx' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&wdev->mtx);
+        ^
+2 warnings generated.
+---
+ net/wireless/core.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/wireless/core.h b/net/wireless/core.h
+index 84d36ca7a7ab..b57473e31f6d 100644
+--- a/net/wireless/core.h
++++ b/net/wireless/core.h
+@@ -214,14 +214,14 @@ void cfg80211_init_wdev(struct cfg80211_registered_device *rdev,
+ 			struct wireless_dev *wdev);
+ 
+ static inline void wdev_lock(struct wireless_dev *wdev)
+-	__acquires(wdev)
++	__acquires(wdev) __attribute__((acquire_capability(wdev->mtx)))
+ {
+ 	mutex_lock(&wdev->mtx);
+ 	__acquire(wdev->mtx);
+ }
+ 
+ static inline void wdev_unlock(struct wireless_dev *wdev)
+-	__releases(wdev)
++	__releases(wdev) __attribute__((release_capability(wdev->mtx)))
+ {
+ 	__release(wdev->mtx);
+ 	mutex_unlock(&wdev->mtx);
+-- 
+2.17.1
+

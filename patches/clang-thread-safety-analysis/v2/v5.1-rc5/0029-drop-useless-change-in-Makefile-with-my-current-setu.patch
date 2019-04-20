@@ -1,0 +1,25 @@
+From 77844ecdff8cc986348d5da5f7fdc2d54db1c45f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 04:08:23 +0200
+Subject: [PATCH 29/35] drop useless change in Makefile with my current setup
+
+---
+ kernel/Makefile | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/kernel/Makefile b/kernel/Makefile
+index e0b24f049862..6c57e78817da 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -116,8 +116,6 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
+ 
+-CFLAGS_stop_machine.o += $(call cc-option,-Wthread-safety,)
+-
+ $(obj)/configs.o: $(obj)/config_data.gz
+ 
+ targets += config_data.gz
+-- 
+2.17.1
+

@@ -1,0 +1,67 @@
+From fe10348c536e8cc64f45c217430c8c56448efc8c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 12:02:52 +0200
+Subject: [PATCH 16/35] FAILED: REINVESTIGATE: annotate mutex functions
+
+kernel/locking/mutex.c:258:1: warning: expecting mutex 'lock' to be held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/locking/mutex.c:252:14: note: mutex acquired here
+void __sched mutex_lock(struct mutex *lock)
+             ^
+kernel/locking/mutex.c:714:1: warning: mutex 'lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+./include/linux/mutex.h:197:61: note: mutex acquired here
+extern void mutex_unlock(struct mutex *lock) __attribute__((release_capability(lock)));
+                                                            ^
+kernel/locking/mutex.c:743:2: warning: releasing mutex 'lock->base' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&lock->base);
+        ^
+kernel/locking/mutex.c:1327:1: warning: mutex 'lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/locking/mutex.c:1325:2: note: mutex acquired here
+        mutex_lock(lock);
+        ^
+4 warnings generated.
+
+JUST NEEDS A BIT DEEPER LOOK HERE
+---
+ kernel/locking/mutex.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index db578783dd36..0693757197da 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -249,7 +249,7 @@ static void __sched __mutex_lock_slowpath(struct mutex *lock);
+  *
+  * This function is similar to (but not equivalent to) down().
+  */
+-void __sched mutex_lock(struct mutex *lock)
++void __sched mutex_lock(struct mutex *lock) __attribute__((acquire_capability(lock)))
+ {
+ 	might_sleep();
+ 
+@@ -704,7 +704,7 @@ static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigne
+  *
+  * This function is similar to (but not equivalent to) up().
+  */
+-void __sched mutex_unlock(struct mutex *lock)
++void __sched mutex_unlock(struct mutex *lock) __attribute__((release_capability(lock)))
+ {
+ #ifndef CONFIG_DEBUG_LOCK_ALLOC
+ 	if (__mutex_unlock_fast(lock))
+@@ -1296,7 +1296,7 @@ EXPORT_SYMBOL(mutex_lock_interruptible);
+  * Return: 0 if the lock was successfully acquired or %-EINTR if a
+  * fatal signal arrived.
+  */
+-int __sched mutex_lock_killable(struct mutex *lock)
++int __sched mutex_lock_killable(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)))
+ {
+ 	might_sleep();
+ 
+-- 
+2.17.1
+

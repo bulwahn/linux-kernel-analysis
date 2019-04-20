@@ -1,0 +1,43 @@
+From ca5bb4fcfa6913586a9a7985b25ff313d9f1a274 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 04:04:08 +0200
+Subject: [PATCH 27/35] sound: annotate autoload_device & fix spelling
+
+sound/core/sound.c:132:2: warning: releasing mutex 'sound_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&sound_mutex); /* release lock temporarily */
+        ^
+sound/core/sound.c:145:1: warning: mutex 'sound_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+sound/core/sound.c:143:2: note: mutex acquired here
+        mutex_lock(&sound_mutex); /* reacuire lock */
+        ^
+---
+ sound/core/sound.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index b30f027eb0fe..aad8cf904319 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -126,7 +126,7 @@ void *snd_lookup_minor_data(unsigned int minor, int type)
+ EXPORT_SYMBOL(snd_lookup_minor_data);
+ 
+ #ifdef CONFIG_MODULES
+-static struct snd_minor *autoload_device(unsigned int minor)
++static struct snd_minor *autoload_device(unsigned int minor) __attribute__((requires_capability(sound_mutex)))
+ {
+ 	int dev;
+ 	mutex_unlock(&sound_mutex); /* release lock temporarily */
+@@ -140,7 +140,7 @@ static struct snd_minor *autoload_device(unsigned int minor)
+ 		/* /dev/aloadSEQ */
+ 		snd_request_other(minor);
+ 	}
+-	mutex_lock(&sound_mutex); /* reacuire lock */
++	mutex_lock(&sound_mutex); /* reacquire lock */
+ 	return snd_minors[minor];
+ }
+ #else /* !CONFIG_MODULES */
+-- 
+2.17.1
+

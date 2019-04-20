@@ -1,0 +1,38 @@
+From 06947786fc3c9fd02fbf7eaf5b04c765e532392f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 18:25:30 +0200
+Subject: [PATCH 21/35] drivers/base/core: revisit and add another annotation
+ for lock_device_hotplug_sysfs
+
+Hence, handling also these warnings:
+
+drivers/base/core.c:863:1: warning: mutex 'device_hotplug_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/base/core.c:857:6: note: mutex acquired here
+        if (mutex_trylock(&device_hotplug_lock))
+            ^
+
+drivers/base/core.c:1281:2: warning: releasing mutex 'device_hotplug_lock' that was not held [-Wthread-safety-analysis]
+        unlock_device_hotplug();
+        ^
+---
+ drivers/base/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index da7e6491e532..422b9fa03f51 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -852,7 +852,7 @@ void unlock_device_hotplug(void) __attribute__((release_capability(device_hotplu
+ 	mutex_unlock(&device_hotplug_lock);
+ }
+ 
+-int lock_device_hotplug_sysfs(void)
++int lock_device_hotplug_sysfs(void) __attribute__((try_acquire_capability(0, device_hotplug_lock)))
+ {
+ 	if (mutex_trylock(&device_hotplug_lock))
+ 		return 0;
+-- 
+2.17.1
+

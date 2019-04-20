@@ -1,0 +1,36 @@
+From a33f5799c1a51e6ff3ec59f05e952db0ea228940 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 12:12:21 +0200
+Subject: [PATCH 17/35] mutex: annotate mutex_lock_interruptible
+
+To address these warnings:
+
+fs/libfs.c:855:2: warning: releasing mutex 'attr->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&attr->mutex);
+        ^
+fs/libfs.c:888:2: warning: releasing mutex 'attr->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&attr->mutex);
+        ^
+2 warnings generated.
+
+It generates some new warnings, that requires to have a further look.
+---
+ include/linux/mutex.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 57c57d66ebd5..d88a18a61475 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -176,7 +176,7 @@ do {									\
+ 
+ #else
+ extern void mutex_lock(struct mutex *lock) __attribute__((acquire_capability(lock)));
+-extern int __must_check mutex_lock_interruptible(struct mutex *lock);
++extern int __must_check mutex_lock_interruptible(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)));
+ extern int __must_check mutex_lock_killable(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)));
+ extern void mutex_lock_io(struct mutex *lock);
+ 
+-- 
+2.17.1
+

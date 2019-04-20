@@ -1,0 +1,48 @@
+From cbc1cfc6a4c84df46df1956ba600e043ac32340f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 07:16:45 +0200
+Subject: [PATCH 04/35] kernel/stop_machine: activate thread safety locally
+
+Clang on defconfig reports:
+
+In file included from kernel/stop_machine.c:12:
+In file included from ./include/linux/cpu.h:17:
+In file included from ./include/linux/node.h:18:
+./include/linux/device.h:1208:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+./include/linux/device.h:1207:2: note: mutex acquired here
+        mutex_lock(&dev->mutex);
+        ^
+./include/linux/device.h:1222:2: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev->mutex);
+        ^
+kernel/stop_machine.c:469:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&stop_cpus_mutex);
+        ^
+kernel/stop_machine.c:680:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&stop_cpus_mutex);
+        ^
+4 warnings generated.
+
+This confirms that clang thread safety is activated.
+---
+ kernel/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 6c57e78817da..e0b24f049862 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -116,6 +116,8 @@ obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
+ KASAN_SANITIZE_stackleak.o := n
+ KCOV_INSTRUMENT_stackleak.o := n
+ 
++CFLAGS_stop_machine.o += $(call cc-option,-Wthread-safety,)
++
+ $(obj)/configs.o: $(obj)/config_data.gz
+ 
+ targets += config_data.gz
+-- 
+2.17.1
+

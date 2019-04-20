@@ -1,0 +1,37 @@
+From 2c3ffb9a1d0b96dafe3a4d1c94937a7f7b6d8d15 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 04:00:05 +0200
+Subject: [PATCH 25/35] cpuset: annotate hotplug_update_tasks_legacy
+
+Addressing these warnings:
+
+kernel/cgroup/cpuset.c:2939:2: warning: releasing mutex 'cpuset_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&cpuset_mutex);
+        ^
+kernel/cgroup/cpuset.c:2950:1: warning: mutex 'cpuset_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/cgroup/cpuset.c:2949:2: note: mutex acquired here
+        mutex_lock(&cpuset_mutex);
+        ^
+2 warnings generated.
+---
+ kernel/cgroup/cpuset.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 4834c4214e9c..00ecca1eb5b5 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -2913,7 +2913,7 @@ static void remove_tasks_in_empty_cpuset(struct cpuset *cs)
+ static void
+ hotplug_update_tasks_legacy(struct cpuset *cs,
+ 			    struct cpumask *new_cpus, nodemask_t *new_mems,
+-			    bool cpus_updated, bool mems_updated)
++			    bool cpus_updated, bool mems_updated) __attribute__((requires_capability(cpuset_mutex)))
+ {
+ 	bool is_empty;
+ 
+-- 
+2.17.1
+

@@ -1,0 +1,48 @@
+From af0f1a7c115059a0a77b56f818a97bf9c7248522 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 13:09:12 +0200
+Subject: [PATCH 35/35] nf_log: annotate seq_{start,stop}
+
+net/netfilter/nf_log.c:335:1: warning: mutex 'nf_log_mutex' is still held at the end of function [-
+Wthread-safety-analysis]
+}
+^
+net/netfilter/nf_log.c:329:2: note: mutex acquired here
+        mutex_lock(&nf_log_mutex);
+        ^
+net/netfilter/nf_log.c:351:2: warning: releasing mutex 'nf_log_mutex' that was not held [-Wthread-s
+afety-analysis]
+        mutex_unlock(&nf_log_mutex);
+        ^
+2 warnings generated.
+
+There are no new further warnings.
+---
+ net/netfilter/nf_log.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/netfilter/nf_log.c b/net/netfilter/nf_log.c
+index a61d6df6e5f6..394a7ab805aa 100644
+--- a/net/netfilter/nf_log.c
++++ b/net/netfilter/nf_log.c
+@@ -322,7 +322,7 @@ void nf_log_buf_close(struct nf_log_buf *m)
+ EXPORT_SYMBOL_GPL(nf_log_buf_close);
+ 
+ #ifdef CONFIG_PROC_FS
+-static void *seq_start(struct seq_file *seq, loff_t *pos)
++static void *seq_start(struct seq_file *seq, loff_t *pos)  __attribute__((acquire_capability(nf_log_mutex)))
+ {
+ 	struct net *net = seq_file_net(seq);
+ 
+@@ -346,7 +346,7 @@ static void *seq_next(struct seq_file *s, void *v, loff_t *pos)
+ 	return pos;
+ }
+ 
+-static void seq_stop(struct seq_file *s, void *v)
++static void seq_stop(struct seq_file *s, void *v) __attribute__((release_capability(nf_log_mutex)))
+ {
+ 	mutex_unlock(&nf_log_mutex);
+ }
+-- 
+2.17.1
+

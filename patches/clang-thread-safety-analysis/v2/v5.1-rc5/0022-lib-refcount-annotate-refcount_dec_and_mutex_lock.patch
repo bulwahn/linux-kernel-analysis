@@ -1,0 +1,34 @@
+From b968855e834c9ef47b5ffd098d80e730540a4a7e Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 18:36:21 +0200
+Subject: [PATCH 22/35] lib/refcount: annotate refcount_dec_and_mutex_lock
+
+This handles:
+
+lib/refcount.c:326:1: warning: mutex 'lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+lib/refcount.c:319:2: note: mutex acquired here
+        mutex_lock(lock);
+        ^
+1 warning generated.
+---
+ lib/refcount.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/refcount.c b/lib/refcount.c
+index 6e904af0fb3e..ee05c04bd161 100644
+--- a/lib/refcount.c
++++ b/lib/refcount.c
+@@ -311,7 +311,7 @@ EXPORT_SYMBOL(refcount_dec_not_one);
+  * Return: true and hold mutex if able to decrement refcount to 0, false
+  *         otherwise
+  */
+-bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock)
++bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock) __attribute__((try_acquire_capability(true, lock)))
+ {
+ 	if (refcount_dec_not_one(r))
+ 		return false;
+-- 
+2.17.1
+

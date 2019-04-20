@@ -1,0 +1,69 @@
+From 8d2d0f7ec64d0b4bd8530126ebe0a28690cef5d4 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 03:56:53 +0200
+Subject: [PATCH 24/35] INCOMPLETE: cgroup: add some annotations
+
+I addressed those warnings:
+
+kernel/cgroup/cgroup.c:1314:2: warning: releasing mutex 'cgroup_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&cgroup_mutex);
+        ^
+kernel/cgroup/cgroup.c:1532:2: warning: releasing mutex 'cgroup_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&cgroup_mutex);
+        ^
+kernel/cgroup/cgroup.c:1579:7: warning: mutex 'cgroup_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (!cgroup_is_dead(cgrp))
+             ^
+kernel/cgroup/cgroup.c:1577:3: note: mutex acquired here
+                mutex_lock(&cgroup_mutex);
+                ^
+kernel/cgroup/cgroup.c:2915:1: warning: mutex 'cgroup_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/cgroup/cgroup.c:2893:2: note: mutex acquired here
+        mutex_lock(&cgroup_mutex);
+        ^
+4 warnings generated.
+
+It is still unclear to me if this !NULL in the annotation works
+(TODO: write a simple test case)
+
+Some more new warnings appeared, I need to revisit cgroup.
+---
+ kernel/cgroup/cgroup.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 3f2b4bde0f9c..b832b3eddffc 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -1520,7 +1520,7 @@ static u16 cgroup_calc_subtree_ss_mask(u16 subtree_control, u16 this_ss_mask)
+  * inaccessible any time.  If the caller intends to continue to access the
+  * cgroup, it should pin it before invoking this function.
+  */
+-void cgroup_kn_unlock(struct kernfs_node *kn)
++void cgroup_kn_unlock(struct kernfs_node *kn) __attribute__((release_capability(cgroup_mutex)))
+ {
+ 	struct cgroup *cgrp;
+ 
+@@ -1552,7 +1552,7 @@ void cgroup_kn_unlock(struct kernfs_node *kn)
+  * locking under kernfs active protection and allows all kernfs operations
+  * including self-removal.
+  */
+-struct cgroup *cgroup_kn_lock_live(struct kernfs_node *kn, bool drain_offline)
++struct cgroup *cgroup_kn_lock_live(struct kernfs_node *kn, bool drain_offline) __attribute__((try_acquire_capability(!NULL, cgroup_mutex)))
+ {
+ 	struct cgroup *cgrp;
+ 
+@@ -2882,7 +2882,7 @@ static int cgroup_update_dfl_csses(struct cgroup *cgrp)
+  * cgroup_mutex and drains the previous css instances of @cgrp's subtree.
+  */
+ void cgroup_lock_and_drain_offline(struct cgroup *cgrp)
+-	__acquires(&cgroup_mutex)
++	__acquires(&cgroup_mutex) __attribute__((acquire_capability(cgroup_mutex)))
+ {
+ 	struct cgroup *dsct;
+ 	struct cgroup_subsys_state *d_css;
+-- 
+2.17.1
+

@@ -1,0 +1,54 @@
+From 7b43627a0cd3757e577e4c8fe444eb59b12e7410 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 12:00:01 +0200
+Subject: [PATCH 15/35] FAILED: REINVESTIGATE: fs/pipe: tried a bit annotating
+
+Tried to address these warnings:
+
+s/pipe.c:63:1: warning: mutex 'pipe->mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/pipe.c:62:3: note: mutex acquired here
+                mutex_lock_nested(&pipe->mutex, subclass);
+                ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+\ # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
+                                           ^
+fs/pipe.c:77:3: warning: releasing mutex '->mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&pipe->mutex);
+                ^
+fs/pipe.c:84:1: warning: mutex 'pipe->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+fs/pipe.c:83:2: note: mutex acquired here
+        mutex_lock_nested(&pipe->mutex, I_MUTEX_PARENT);
+        ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+\ # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
+                                           ^
+fs/pipe.c:88:2: warning: releasing mutex 'pipe->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&pipe->mutex);
+        ^
+4 warnings generated.
+
+STILL LACKING UNDERSTANDING HOW TO REALLY USE THOSE ANNOTATIONS.
+---
+ fs/pipe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 41065901106b..71bd34fa0cc2 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -71,7 +71,7 @@ void pipe_lock(struct pipe_inode_info *pipe)
+ }
+ EXPORT_SYMBOL(pipe_lock);
+ 
+-void pipe_unlock(struct pipe_inode_info *pipe)
++void pipe_unlock(struct pipe_inode_info *pipe) __attribute__((release_capability(pipe->mutex)))
+ {
+ 	if (pipe->files)
+ 		mutex_unlock(&pipe->mutex);
+-- 
+2.17.1
+

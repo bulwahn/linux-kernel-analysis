@@ -1,0 +1,43 @@
+From 1689cc4a24acf0df7944eec545d049544d7d0ce9 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 10:06:01 +0200
+Subject: [PATCH 11/35] irq/irqdesc: annotate irq_{lock,unlock}_sparse
+
+To handle these warnings:
+
+kernel/irq/irqdesc.c:366:1: warning: mutex 'sparse_irq_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/irq/irqdesc.c:365:2: note: mutex acquired here
+        mutex_lock(&sparse_irq_lock);
+        ^
+kernel/irq/irqdesc.c:370:2: warning: releasing mutex 'sparse_irq_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&sparse_irq_lock);
+        ^
+2 warnings generated.
+---
+ kernel/irq/irqdesc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/irq/irqdesc.c b/kernel/irq/irqdesc.c
+index 9f8a709337cf..f1b488146716 100644
+--- a/kernel/irq/irqdesc.c
++++ b/kernel/irq/irqdesc.c
+@@ -360,12 +360,12 @@ static void free_masks(struct irq_desc *desc)
+ static inline void free_masks(struct irq_desc *desc) { }
+ #endif
+ 
+-void irq_lock_sparse(void)
++void irq_lock_sparse(void) __attribute__((acquire_capability(sparse_irq_lock)))
+ {
+ 	mutex_lock(&sparse_irq_lock);
+ }
+ 
+-void irq_unlock_sparse(void)
++void irq_unlock_sparse(void) __attribute__((release_capability(sparse_irq_lock)))
+ {
+ 	mutex_unlock(&sparse_irq_lock);
+ }
+-- 
+2.17.1
+

@@ -1,0 +1,42 @@
+From dbf2abc510643f8974f031d8a3070bc87a5730a5 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 18:09:54 +0200
+Subject: [PATCH 20/35] UNCLEAR: REINVESTIGATE: tried to tackle this double
+ lock function here
+
+Working on these warnings:
+
+kernel/events/core.c:10715:1: warning: mutex 'gctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:10705:2: note: mutex acquired here
+        mutex_lock_double(&gctx->mutex, &ctx->mutex);
+        ^
+kernel/events/core.c:10715:1: warning: mutex 'ctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:10705:2: note: mutex acquired here
+        mutex_lock_double(&gctx->mutex, &ctx->mutex);
+        ^
+
+Annotation caused more warnings that requires some further investigation.
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index ddd9fedb4bfe..eb0a26f8e800 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -10689,7 +10689,7 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
+  */
+ static struct perf_event_context *
+ __perf_event_ctx_lock_double(struct perf_event *group_leader,
+-			     struct perf_event_context *ctx)
++			     struct perf_event_context *ctx) __attribute__((acquire_capability(ctx->mutex))) __attribute__((acquire_capability(group_leader->ctx->mutex)))
+ {
+ 	struct perf_event_context *gctx;
+ 
+-- 
+2.17.1
+

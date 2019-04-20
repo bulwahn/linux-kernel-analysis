@@ -1,0 +1,58 @@
+From fe6924a1b6eb06a6cd2f4acafaefe06fa10a9f19 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 09:36:14 +0200
+Subject: [PATCH 09/35] FAILED: events/core: annotate perf_even_ctx_lock_nested
+
+I tried to handle this warning:
+
+kernel/events/core.c:1286:1: warning: mutex 'ctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:1278:2: note: mutex acquired here
+        mutex_lock_nested(&ctx->mutex, nesting);
+        ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+                                           ^
+
+BUT my attempt FAILED and resulted in this: (need to better understand clang thread safety analysis here).
+
+kernel/events/core.c:1287:1: warning: mutex 'ctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:1279:2: note: mutex acquired here
+        mutex_lock_nested(&ctx->mutex, nesting);
+        ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+                                           ^
+kernel/events/core.c:1287:1: warning: expecting mutex 'event->ctx->mutex' to be held at the end of function [-Wthread-safety-
+analysis]
+}
+^
+kernel/events/core.c:1265:1: note: mutex acquired here
+perf_event_ctx_lock_nested(struct perf_event *event, int nesting)
+^
+kernel/events/core.c:1293:1: warning: mutex 'event->ctx->mutex' is still held at the end of function [-Wthread-safety-analysi
+s]
+}
+^
+
+How can we annotate this properly to make clang understand?
+---
+ kernel/events/core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 534e01e7bc36..a1f112ecaf8f 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -1263,6 +1263,7 @@ static void put_ctx(struct perf_event_context *ctx)
+  */
+ static struct perf_event_context *
+ perf_event_ctx_lock_nested(struct perf_event *event, int nesting)
++	__attribute__((acquire_capability(&event->ctx->mutex)))
+ {
+ 	struct perf_event_context *ctx;
+ 
+-- 
+2.17.1
+

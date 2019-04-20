@@ -1,0 +1,31 @@
+From 4b81175b6243c4c8d15b697a2f9691abf52b05cc Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 09:22:17 +0200
+Subject: [PATCH 08/35] mutex: annotate atomic_dec_and_mutex_lock
+
+To handle:
+
+arch/x86/events/core.c:361:3: warning: releasing mutex 'pmc_reserve_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&pmc_reserve_mutex);
+                ^
+1 warning generated.
+---
+ include/linux/mutex.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 90d30fdfb749..57c57d66ebd5 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -196,7 +196,7 @@ extern void mutex_lock_io(struct mutex *lock);
+ extern int mutex_trylock(struct mutex *lock) __attribute__((try_acquire_capability(1, lock)));
+ extern void mutex_unlock(struct mutex *lock) __attribute__((release_capability(lock)));
+ 
+-extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
++extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock) __attribute__((try_acquire_capability(1, lock)));
+ 
+ /*
+  * These values are chosen such that FAIL and SUCCESS match the
+-- 
+2.17.1
+

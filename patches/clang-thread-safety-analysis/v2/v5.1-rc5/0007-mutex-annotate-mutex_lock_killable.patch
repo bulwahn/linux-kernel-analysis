@@ -1,0 +1,30 @@
+From ef7070a7e256a5ad52b6e277ae6ae7229b5aa88f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 09:06:41 +0200
+Subject: [PATCH 07/35] mutex: annotate mutex_lock_killable
+
+To address this warning:
+
+mm/oom_kill.c:758:2: warning: releasing mutex 'oom_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&oom_lock);
+        ^
+---
+ include/linux/mutex.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index e33b0a4ed4dd..90d30fdfb749 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -177,7 +177,7 @@ do {									\
+ #else
+ extern void mutex_lock(struct mutex *lock) __attribute__((acquire_capability(lock)));
+ extern int __must_check mutex_lock_interruptible(struct mutex *lock);
+-extern int __must_check mutex_lock_killable(struct mutex *lock);
++extern int __must_check mutex_lock_killable(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)));
+ extern void mutex_lock_io(struct mutex *lock);
+ 
+ # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
+-- 
+2.17.1
+

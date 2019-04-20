@@ -1,0 +1,33 @@
+From 5c06735631d754a9d5ecfaf23b176cb03d7925ae Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 07:28:30 +0200
+Subject: [PATCH 05/35] mutex: annotate trylock
+
+This makes these two warnings in stop_machine go away:
+
+kernel/stop_machine.c:469:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&stop_cpus_mutex);
+        ^
+kernel/stop_machine.c:680:2: warning: releasing mutex 'stop_cpus_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&stop_cpus_mutex);
+        ^
+---
+ include/linux/mutex.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 7d387619bbbd..e33b0a4ed4dd 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -193,7 +193,7 @@ extern void mutex_lock_io(struct mutex *lock);
+  *
+  * Returns 1 if the mutex has been acquired successfully, and 0 on contention.
+  */
+-extern int mutex_trylock(struct mutex *lock);
++extern int mutex_trylock(struct mutex *lock) __attribute__((try_acquire_capability(1, lock)));
+ extern void mutex_unlock(struct mutex *lock) __attribute__((release_capability(lock)));
+ 
+ extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
+-- 
+2.17.1
+

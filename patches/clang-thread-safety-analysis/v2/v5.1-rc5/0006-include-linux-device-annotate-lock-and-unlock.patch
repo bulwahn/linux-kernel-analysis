@@ -1,0 +1,45 @@
+From 82e7ab9e592db37e8caf78d03cd5d51b7dd2e0dc Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 07:45:50 +0200
+Subject: [PATCH 06/35] include/linux/device: annotate lock and unlock
+
+This makes these warnings go away:
+
+./include/linux/device.h:1208:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+./include/linux/device.h:1207:2: note: mutex acquired here
+        mutex_lock(&dev->mutex);
+        ^
+./include/linux/device.h:1222:2: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev->mutex);
+        ^
+---
+ include/linux/device.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 4e6987e11f68..08fc366553fb 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1202,7 +1202,7 @@ static inline bool dev_pm_test_driver_flags(struct device *dev, u32 flags)
+ 	return !!(dev->power.driver_flags & flags);
+ }
+ 
+-static inline void device_lock(struct device *dev)
++static inline void device_lock(struct device *dev) __attribute__((acquire_capability(&dev->mutex)))
+ {
+ 	mutex_lock(&dev->mutex);
+ }
+@@ -1217,7 +1217,7 @@ static inline int device_trylock(struct device *dev)
+ 	return mutex_trylock(&dev->mutex);
+ }
+ 
+-static inline void device_unlock(struct device *dev)
++static inline void device_unlock(struct device *dev) __attribute__((release_capability(&dev->mutex)))
+ {
+ 	mutex_unlock(&dev->mutex);
+ }
+-- 
+2.17.1
+
