@@ -99,12 +99,16 @@ if [ "$COMPILER" = "coccinelle" ]; then
 	fi
 else
 	case "$3" in
-		allnoconfig | allmodconfig | allyesconfig | defconfig | randconfig)
+		allnoconfig | allmodconfig | allyesconfig | defconfig | tinyconfig | randconfig)
 			KERNEL_CONFIG=$3
+			;;
+		tinydefconfig)
+			# tinydefconfig does not really exist
+			KERNEL_CONFIG="defconfig tiny.config"
 			;;
 		*)
 			echo "Error: Invalid kernel config: $3"
-			echo 'The kernel config must be either "allnoconfig", "allmodconfig", "allyesconfig", "defconfig" or "randconfig"'
+			echo 'The kernel config must be either "allnoconfig", "allmodconfig", "allyesconfig", "defconfig", "tinyconfig" or "randconfig"'
 			exit 1
 			;;
 	esac
@@ -137,7 +141,7 @@ case "$COMPILER" in
 				groupadd --gid $GROUP_ID $GROUP_NAME && \
 				adduser --quiet --uid $USER_ID --gid $GROUP_ID --disabled-password --no-create-home --gecos '' $USER_NAME && \
 				su -p $USER_NAME -c 'make CC=clang-7 clean && make HOSTCC=clang-7 CC=clang-7 $KERNEL_CONFIG && \
-					make -j$(nproc) HOSTCC=clang-7 CC=clang-7 CFLAGS_KERNEL="-Wthread-safety"'"
+					make -j1 HOSTCC=clang-7 CC=clang-7 CFLAGS_KERNEL="-Wthread-safety"' 2>&1 > /dev/null"
 		;;
 	coccinelle)
 		docker run \
