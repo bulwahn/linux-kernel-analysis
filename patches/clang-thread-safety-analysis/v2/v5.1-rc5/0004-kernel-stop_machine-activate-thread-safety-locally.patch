@@ -1,7 +1,7 @@
 From cbc1cfc6a4c84df46df1956ba600e043ac32340f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 07:16:45 +0200
-Subject: [PATCH 04/35] kernel/stop_machine: activate thread safety locally
+Subject: [PATCH 04/75] kernel/stop_machine: activate thread safety locally
 
 Clang on defconfig reports:
 

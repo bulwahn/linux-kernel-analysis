@@ -1,0 +1,45 @@
+From a66f92318dc4b7b94711b8df385ff37ae944289f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:42:47 +0200
+Subject: [PATCH 54/75] e1000e: annotate e1000_{acquire,release}_nvm_ich8lan
+
+HANDLES:
+
+drivers/net/ethernet/intel/e1000e/82571.c:570:9: warning: mutex 'swflag_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        return ret_val;
+               ^
+drivers/net/ethernet/intel/e1000e/82571.c:566:2: note: mutex acquired here
+        mutex_lock(&swflag_mutex);
+        ^
+drivers/net/ethernet/intel/e1000e/82571.c:583:2: warning: releasing mutex 'swflag_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&swflag_mutex);
+        ^
+---
+ drivers/net/ethernet/intel/e1000e/ich8lan.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/intel/e1000e/ich8lan.c b/drivers/net/ethernet/intel/e1000e/ich8lan.c
+index cdae0efde8e6..ff3d19a89f7b 100644
+--- a/drivers/net/ethernet/intel/e1000e/ich8lan.c
++++ b/drivers/net/ethernet/intel/e1000e/ich8lan.c
+@@ -1668,7 +1668,7 @@ static DEFINE_MUTEX(nvm_mutex);
+  *
+  *  Acquires the mutex for performing NVM operations.
+  **/
+-static s32 e1000_acquire_nvm_ich8lan(struct e1000_hw __always_unused *hw)
++static s32 e1000_acquire_nvm_ich8lan(struct e1000_hw __always_unused *hw) __attribute__((acquire_capability(nvm_mutex)))
+ {
+ 	mutex_lock(&nvm_mutex);
+ 
+@@ -1681,7 +1681,7 @@ static s32 e1000_acquire_nvm_ich8lan(struct e1000_hw __always_unused *hw)
+  *
+  *  Releases the mutex used while performing NVM operations.
+  **/
+-static void e1000_release_nvm_ich8lan(struct e1000_hw __always_unused *hw)
++static void e1000_release_nvm_ich8lan(struct e1000_hw __always_unused *hw) __attribute__((release_capability(nvm_mutex)))
+ {
+ 	mutex_unlock(&nvm_mutex);
+ }
+-- 
+2.17.1
+

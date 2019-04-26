@@ -1,7 +1,7 @@
 From ca5bb4fcfa6913586a9a7985b25ff313d9f1a274 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 04:04:08 +0200
-Subject: [PATCH 27/35] sound: annotate autoload_device & fix spelling
+Subject: [PATCH 27/75] sound: annotate autoload_device & fix spelling
 
 sound/core/sound.c:132:2: warning: releasing mutex 'sound_mutex' that was not held [-Wthread-safety-analysis]
         mutex_unlock(&sound_mutex); /* release lock temporarily */

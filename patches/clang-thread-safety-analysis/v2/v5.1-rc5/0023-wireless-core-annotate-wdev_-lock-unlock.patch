@@ -1,7 +1,7 @@
 From 44b61a5971ac2d4535731e4071e1145fb598683d Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 00:26:22 +0200
-Subject: [PATCH 23/35] wireless/core: annotate wdev_{lock,unlock}
+Subject: [PATCH 23/75] wireless/core: annotate wdev_{lock,unlock}
 
 This handles:
 

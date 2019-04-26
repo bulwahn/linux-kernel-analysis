@@ -1,0 +1,25 @@
+From da41bd73669566dde6c05cd4c67c61fbb570682d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 04:16:08 +0200
+Subject: [PATCH 70/75] include/linux/fb.h: annotate lock_fb_info
+
+---
+ include/linux/fb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index b5b3839dd0b0..fe1c24a1eb0f 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -660,7 +660,7 @@ extern struct class *fb_class;
+ 	for (i = 0; i < FB_MAX; i++)		\
+ 		if (!registered_fb[i]) {} else
+ 
+-extern int lock_fb_info(struct fb_info *info);
++extern int lock_fb_info(struct fb_info *info) __attribute__((try_acquire_capability(1, info->lock)));
+ 
+ static inline void unlock_fb_info(struct fb_info *info) __attribute__((release_capability(&info->lock)))
+ {
+-- 
+2.17.1
+

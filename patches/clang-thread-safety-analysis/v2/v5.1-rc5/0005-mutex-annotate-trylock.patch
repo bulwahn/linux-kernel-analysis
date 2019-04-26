@@ -1,7 +1,7 @@
 From 5c06735631d754a9d5ecfaf23b176cb03d7925ae Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 07:28:30 +0200
-Subject: [PATCH 05/35] mutex: annotate trylock
+Subject: [PATCH 05/75] mutex: annotate trylock
 
 This makes these two warnings in stop_machine go away:
 

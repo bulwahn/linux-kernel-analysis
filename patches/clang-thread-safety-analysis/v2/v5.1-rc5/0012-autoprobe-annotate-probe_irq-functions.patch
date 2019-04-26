@@ -1,7 +1,7 @@
 From 51cd1405ace903c2fe9114871a516c5bf510fb60 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 10:20:57 +0200
-Subject: [PATCH 12/35] autoprobe: annotate probe_irq functions
+Subject: [PATCH 12/75] autoprobe: annotate probe_irq functions
 
 This handles these warnings:
 

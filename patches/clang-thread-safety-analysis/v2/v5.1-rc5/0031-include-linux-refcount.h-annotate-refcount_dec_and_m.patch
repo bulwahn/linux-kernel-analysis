@@ -1,7 +1,7 @@
 From ad1b07e4454b8bf416adf7014dfccdd69e9b89fa Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 12:53:49 +0200
-Subject: [PATCH 31/35] include/linux/refcount.h: annotate
+Subject: [PATCH 31/75] include/linux/refcount.h: annotate
  refcount_dec_and_mutex_lock in header
 
 Noticed due to those warnings:

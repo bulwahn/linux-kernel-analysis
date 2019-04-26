@@ -1,0 +1,43 @@
+From 3f7a14ce591adf6230ae57c46ebeeab195982424 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 19:11:34 +0200
+Subject: [PATCH 53/75] serio/i8042: annotate i8042_{lock,unlock}_chip
+
+HANDLES:
+
+drivers/input/serio/i8042.c:181:1: warning: mutex 'i8042_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/input/serio/i8042.c:180:2: note: mutex acquired here
+        mutex_lock(&i8042_mutex);
+        ^
+drivers/input/serio/i8042.c:186:2: warning: releasing mutex 'i8042_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&i8042_mutex);
+        ^
+---
+ drivers/input/serio/i8042.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 95a78ccbd847..7612bac8ad36 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -175,13 +175,13 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id);
+ static bool (*i8042_platform_filter)(unsigned char data, unsigned char str,
+ 				     struct serio *serio);
+ 
+-void i8042_lock_chip(void)
++void i8042_lock_chip(void) __attribute__((acquire_capability(i8042_mutex)))
+ {
+ 	mutex_lock(&i8042_mutex);
+ }
+ EXPORT_SYMBOL(i8042_lock_chip);
+ 
+-void i8042_unlock_chip(void)
++void i8042_unlock_chip(void) __attribute__((release_capability(i8042_mutex)))
+ {
+ 	mutex_unlock(&i8042_mutex);
+ }
+-- 
+2.17.1
+

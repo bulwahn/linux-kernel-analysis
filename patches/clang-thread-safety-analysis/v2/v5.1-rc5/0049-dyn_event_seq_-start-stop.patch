@@ -1,0 +1,34 @@
+From c42b5674bb5328263cab4b3a76f7daae2c73330a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:31:29 +0200
+Subject: [PATCH 49/75] dyn_event_seq_{start,stop}
+
+---
+ kernel/trace/trace_dynevent.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
+index fa100ed3b4de..a03de025a211 100644
+--- a/kernel/trace/trace_dynevent.c
++++ b/kernel/trace/trace_dynevent.c
+@@ -95,7 +95,7 @@ static int create_dyn_event(int argc, char **argv)
+ /* Protected by event_mutex */
+ LIST_HEAD(dyn_event_list);
+ 
+-void *dyn_event_seq_start(struct seq_file *m, loff_t *pos)
++void *dyn_event_seq_start(struct seq_file *m, loff_t *pos) __attribute__((acquire_capability(event_mutex)))
+ {
+ 	mutex_lock(&event_mutex);
+ 	return seq_list_start(&dyn_event_list, *pos);
+@@ -106,7 +106,7 @@ void *dyn_event_seq_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return seq_list_next(v, &dyn_event_list, pos);
+ }
+ 
+-void dyn_event_seq_stop(struct seq_file *m, void *v)
++void dyn_event_seq_stop(struct seq_file *m, void *v) __attribute__((release_capability(event_mutex)))
+ {
+ 	mutex_unlock(&event_mutex);
+ }
+-- 
+2.17.1
+

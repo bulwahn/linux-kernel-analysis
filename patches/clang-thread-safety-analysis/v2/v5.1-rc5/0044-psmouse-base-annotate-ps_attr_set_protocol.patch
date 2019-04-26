@@ -1,0 +1,48 @@
+From 4f7dbfa9b34c23623630925fc5464eb9a0ea6b0d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 08:27:43 +0200
+Subject: [PATCH 44/75] psmouse-base: annotate ps_attr_set_protocol
+
+HANDLES:
+
+drivers/input/mouse/psmouse-base.c:1920:10: warning: expecting mutex 'psmouse_mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        while (!list_empty(&serio->children)) {
+                ^
+drivers/input/mouse/psmouse-base.c:1930:3: note: mutex acquired here
+                mutex_lock(&psmouse_mutex);
+                ^
+drivers/input/mouse/psmouse-base.c:1928:3: warning: releasing mutex 'psmouse_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&psmouse_mutex);
+                ^
+drivers/input/mouse/psmouse-base.c:1997:1: warning: mutex 'psmouse_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/input/mouse/psmouse-base.c:1930:3: note: mutex acquired here
+                mutex_lock(&psmouse_mutex);
+                ^
+drivers/input/mouse/psmouse-base.c:1997:1: warning: mutex 'psmouse_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/input/mouse/psmouse-base.c:1930:3: note: mutex acquired here
+                mutex_lock(&psmouse_mutex);
+                ^
+---
+ drivers/input/mouse/psmouse-base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
+index d3ff1fc09af7..3914011879a3 100644
+--- a/drivers/input/mouse/psmouse-base.c
++++ b/drivers/input/mouse/psmouse-base.c
+@@ -1897,7 +1897,7 @@ static ssize_t psmouse_attr_show_protocol(struct psmouse *psmouse, void *data, c
+ 	return sprintf(buf, "%s\n", psmouse->protocol->name);
+ }
+ 
+-static ssize_t psmouse_attr_set_protocol(struct psmouse *psmouse, void *data, const char *buf, size_t count)
++static ssize_t psmouse_attr_set_protocol(struct psmouse *psmouse, void *data, const char *buf, size_t count) __attribute__((requires_capability(psmouse_mutex)))
+ {
+ 	struct serio *serio = psmouse->ps2dev.serio;
+ 	struct psmouse *parent = NULL;
+-- 
+2.17.1
+

@@ -1,0 +1,42 @@
+From 1fc906936b0e23b78b92b5072ecc36a002aca40d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 25 Apr 2019 21:42:44 +0200
+Subject: [PATCH 67/75] fs/fat: annotate {lock,unlock}_fat
+
+HANDLES:
+
+fs/fat/fatent.c:280:1: warning: mutex 'sbi->fat_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+fs/fat/fatent.c:279:2: note: mutex acquired here
+        mutex_lock(&sbi->fat_lock);
+        ^
+fs/fat/fatent.c:284:2: warning: releasing mutex 'sbi->fat_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&sbi->fat_lock);
+        ^
+---
+ fs/fat/fatent.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/fat/fatent.c b/fs/fat/fatent.c
+index 495edeafd60a..99a37506698e 100644
+--- a/fs/fat/fatent.c
++++ b/fs/fat/fatent.c
+@@ -274,12 +274,12 @@ static const struct fatent_operations fat32_ops = {
+ 	.ent_next	= fat32_ent_next,
+ };
+ 
+-static inline void lock_fat(struct msdos_sb_info *sbi)
++static inline void lock_fat(struct msdos_sb_info *sbi) __attribute__((acquire_capability(sbi->fat_lock)))
+ {
+ 	mutex_lock(&sbi->fat_lock);
+ }
+ 
+-static inline void unlock_fat(struct msdos_sb_info *sbi)
++static inline void unlock_fat(struct msdos_sb_info *sbi) __attribute__((release_capability(sbi->fat_lock)))
+ {
+ 	mutex_unlock(&sbi->fat_lock);
+ }
+-- 
+2.17.1
+

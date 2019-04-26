@@ -1,7 +1,7 @@
 From dbf2abc510643f8974f031d8a3070bc87a5730a5 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 18:09:54 +0200
-Subject: [PATCH 20/35] UNCLEAR: REINVESTIGATE: tried to tackle this double
+Subject: [PATCH 20/75] UNCLEAR: REINVESTIGATE: tried to tackle this double
  lock function here
 
 Working on these warnings:

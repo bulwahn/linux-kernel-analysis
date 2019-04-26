@@ -1,0 +1,27 @@
+From cfd04b3e1eb893431382d84fda964be6b17f8156 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:49:24 +0200
+Subject: [PATCH 60/75] rtnetlink: annotate rtnl_unlock
+
+handles quite a few warnings, some few remaining. Needs another
+visit.
+---
+ net/core/rtnetlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
+index f769732b9d1d..9a4df77f125e 100644
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -110,7 +110,7 @@ void __rtnl_unlock(void) __attribute__((release_capability(rtnl_mutex)))
+ 	}
+ }
+ 
+-void rtnl_unlock(void)
++void rtnl_unlock(void) __attribute__((release_capability(rtnl_mutex)))
+ {
+ 	/* This fellow will unlock it for us. */
+ 	netdev_run_todo();
+-- 
+2.17.1
+

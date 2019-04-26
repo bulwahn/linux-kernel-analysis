@@ -1,0 +1,33 @@
+From 18391f294b63cd619395af62c8f5f7e3d860ea2b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:55:06 +0200
+Subject: [PATCH 61/75] genetlink: annotate genl_{lock,unlock}_all
+
+handles some warnings, needs another visit.
+---
+ net/netlink/genetlink.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/netlink/genetlink.c b/net/netlink/genetlink.c
+index e17fd53cc465..9d11e1ca59a0 100644
+--- a/net/netlink/genetlink.c
++++ b/net/netlink/genetlink.c
+@@ -48,13 +48,13 @@ bool lockdep_genl_is_held(void)
+ EXPORT_SYMBOL(lockdep_genl_is_held);
+ #endif
+ 
+-static void genl_lock_all(void)
++static void genl_lock_all(void) __attribute__((acquire_capability(genl_mutex)))
+ {
+ 	down_write(&cb_lock);
+ 	genl_lock();
+ }
+ 
+-static void genl_unlock_all(void)
++static void genl_unlock_all(void) __attribute__((release_capability(genl_mutex)))
+ {
+ 	genl_unlock();
+ 	up_write(&cb_lock);
+-- 
+2.17.1
+

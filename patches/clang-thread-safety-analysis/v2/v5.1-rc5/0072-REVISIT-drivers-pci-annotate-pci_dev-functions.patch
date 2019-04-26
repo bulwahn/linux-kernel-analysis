@@ -1,0 +1,52 @@
+From 3563d99cef291e9d8c74feb053e06c34e87a56b5 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 04:32:18 +0200
+Subject: [PATCH 72/75] REVISIT: drivers/pci: annotate pci_dev functions
+
+drivers/pci/pci.c:4735:1: warning: mutex 'dev->dev.mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/pci/pci.c:4734:2: note: mutex acquired here
+        device_lock(&dev->dev);
+        ^
+drivers/pci/pci.c:4751:2: warning: releasing mutex 'dev->dev.mutex' that was not held [-Wthread-safety-analysis]
+        device_unlock(&dev->dev);
+        ^
+---
+ drivers/pci/pci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 7c1b362f599a..badcf78efb98 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4727,7 +4727,7 @@ static int pci_dev_reset_slot_function(struct pci_dev *dev, int probe)
+ 	return pci_reset_hotplug_slot(dev->slot->hotplug, probe);
+ }
+ 
+-static void pci_dev_lock(struct pci_dev *dev)
++static void pci_dev_lock(struct pci_dev *dev) __attribute__((acquire_capability(dev->dev)))
+ {
+ 	pci_cfg_access_lock(dev);
+ 	/* block PM suspend, driver probe, etc. */
+@@ -4735,7 +4735,7 @@ static void pci_dev_lock(struct pci_dev *dev)
+ }
+ 
+ /* Return 1 on successful lock, 0 on contention */
+-static int pci_dev_trylock(struct pci_dev *dev)
++static int pci_dev_trylock(struct pci_dev *dev) __attribute__((try_acquire_capability(1, dev->dev)))
+ {
+ 	if (pci_cfg_access_trylock(dev)) {
+ 		if (device_trylock(&dev->dev))
+@@ -4746,7 +4746,7 @@ static int pci_dev_trylock(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
+-static void pci_dev_unlock(struct pci_dev *dev)
++static void pci_dev_unlock(struct pci_dev *dev) __attribute__((release_capability(dev->dev)))
+ {
+ 	device_unlock(&dev->dev);
+ 	pci_cfg_access_unlock(dev);
+-- 
+2.17.1
+

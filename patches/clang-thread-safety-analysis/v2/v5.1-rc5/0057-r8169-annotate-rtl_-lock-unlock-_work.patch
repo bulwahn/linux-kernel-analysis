@@ -1,0 +1,42 @@
+From 769f3c5e5016306fb7aaa81fe84c321045fc6fae Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:36:18 +0200
+Subject: [PATCH 57/75] r8169: annotate rtl_{lock,unlock}_work
+
+HANDLES:
+
+drivers/net/ethernet/realtek/r8169.c:740:1: warning: mutex 'tp->wk.mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/net/ethernet/realtek/r8169.c:739:2: note: mutex acquired here
+        mutex_lock(&tp->wk.mutex);
+        ^
+drivers/net/ethernet/realtek/r8169.c:744:2: warning: releasing mutex 'tp->wk.mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&tp->wk.mutex);
+        ^
+---
+ drivers/net/ethernet/realtek/r8169.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/realtek/r8169.c b/drivers/net/ethernet/realtek/r8169.c
+index ed651dde6ef9..29f9305de5d2 100644
+--- a/drivers/net/ethernet/realtek/r8169.c
++++ b/drivers/net/ethernet/realtek/r8169.c
+@@ -734,12 +734,12 @@ static inline struct device *tp_to_dev(struct rtl8169_private *tp)
+ 	return &tp->pci_dev->dev;
+ }
+ 
+-static void rtl_lock_work(struct rtl8169_private *tp)
++static void rtl_lock_work(struct rtl8169_private *tp) __attribute__((acquire_capability(tp->wk.mutex)))
+ {
+ 	mutex_lock(&tp->wk.mutex);
+ }
+ 
+-static void rtl_unlock_work(struct rtl8169_private *tp)
++static void rtl_unlock_work(struct rtl8169_private *tp) __attribute__((release_capability(tp->wk.mutex)))
+ {
+ 	mutex_unlock(&tp->wk.mutex);
+ }
+-- 
+2.17.1
+

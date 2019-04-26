@@ -1,7 +1,7 @@
 From ef7070a7e256a5ad52b6e277ae6ae7229b5aa88f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 09:06:41 +0200
-Subject: [PATCH 07/35] mutex: annotate mutex_lock_killable
+Subject: [PATCH 07/75] mutex: annotate mutex_lock_killable
 
 To address this warning:
 

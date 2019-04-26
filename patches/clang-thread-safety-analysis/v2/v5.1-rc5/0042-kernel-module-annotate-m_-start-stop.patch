@@ -1,0 +1,34 @@
+From 544f1479c5a9d38b66e585a493e92dbb3df448e7 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 08:22:50 +0200
+Subject: [PATCH 42/75] kernel/module: annotate m_{start,stop}
+
+---
+ kernel/module.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/module.c b/kernel/module.c
+index 0b9aa8ab89f0..06c9d4cf52bb 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -4194,7 +4194,7 @@ static char *module_flags(struct module *mod, char *buf)
+ 
+ #ifdef CONFIG_PROC_FS
+ /* Called by the /proc file system to return a list of modules. */
+-static void *m_start(struct seq_file *m, loff_t *pos)
++static void *m_start(struct seq_file *m, loff_t *pos) __attribute__((acquire_capability(module_mutex)))
+ {
+ 	mutex_lock(&module_mutex);
+ 	return seq_list_start(&modules, *pos);
+@@ -4205,7 +4205,7 @@ static void *m_next(struct seq_file *m, void *p, loff_t *pos)
+ 	return seq_list_next(p, &modules, pos);
+ }
+ 
+-static void m_stop(struct seq_file *m, void *p)
++static void m_stop(struct seq_file *m, void *p) __attribute__((release_capability(module_mutex)))
+ {
+ 	mutex_unlock(&module_mutex);
+ }
+-- 
+2.17.1
+

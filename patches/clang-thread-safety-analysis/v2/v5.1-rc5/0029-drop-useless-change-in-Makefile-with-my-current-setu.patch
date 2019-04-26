@@ -1,7 +1,7 @@
 From 77844ecdff8cc986348d5da5f7fdc2d54db1c45f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 04:08:23 +0200
-Subject: [PATCH 29/35] drop useless change in Makefile with my current setup
+Subject: [PATCH 29/75] drop useless change in Makefile with my current setup
 
 ---
  kernel/Makefile | 2 --

@@ -1,0 +1,34 @@
+From c80c2a5dc11879fcbdd4c9a1d8555bd0290583ad Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:23:40 +0200
+Subject: [PATCH 46/75] fs/proc/proc_tty: annotate t_{start,stop}
+
+---
+ fs/proc/proc_tty.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/proc/proc_tty.c b/fs/proc/proc_tty.c
+index c69ff191e5d8..b0d32504f220 100644
+--- a/fs/proc/proc_tty.c
++++ b/fs/proc/proc_tty.c
+@@ -103,7 +103,7 @@ static int show_tty_driver(struct seq_file *m, void *v)
+ }
+ 
+ /* iterator */
+-static void *t_start(struct seq_file *m, loff_t *pos)
++static void *t_start(struct seq_file *m, loff_t *pos) __attribute__((acquire_capability(tty_mutex)))
+ {
+ 	mutex_lock(&tty_mutex);
+ 	return seq_list_start(&tty_drivers, *pos);
+@@ -114,7 +114,7 @@ static void *t_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return seq_list_next(v, &tty_drivers, pos);
+ }
+ 
+-static void t_stop(struct seq_file *m, void *v)
++static void t_stop(struct seq_file *m, void *v) __attribute__((release_capability(tty_mutex)))
+ {
+ 	mutex_unlock(&tty_mutex);
+ }
+-- 
+2.17.1
+

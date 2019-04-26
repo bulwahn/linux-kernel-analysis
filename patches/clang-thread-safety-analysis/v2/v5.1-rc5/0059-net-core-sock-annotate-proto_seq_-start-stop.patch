@@ -1,0 +1,45 @@
+From ed6398f1c9fa9ccc59a4d9c721a5439422ed79c8 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:47:59 +0200
+Subject: [PATCH 59/75] net/core/sock: annotate proto_seq_{start,stop}
+
+HANDLES:
+
+net/core/sock.c:3440:1: warning: mutex 'proto_list_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+net/core/sock.c:3438:2: note: mutex acquired here
+        mutex_lock(&proto_list_mutex);
+        ^
+net/core/sock.c:3450:2: warning: releasing mutex 'proto_list_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&proto_list_mutex);
+        ^
+---
+ net/core/sock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 782343bb925b..9cce254f4931 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -3433,7 +3433,7 @@ EXPORT_SYMBOL(sock_load_diag_module);
+ 
+ #ifdef CONFIG_PROC_FS
+ static void *proto_seq_start(struct seq_file *seq, loff_t *pos)
+-	__acquires(proto_list_mutex)
++	__acquires(proto_list_mutex) __attribute__((acquire_capability(proto_list_mutex)))
+ {
+ 	mutex_lock(&proto_list_mutex);
+ 	return seq_list_start_head(&proto_list, *pos);
+@@ -3445,7 +3445,7 @@ static void *proto_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+ }
+ 
+ static void proto_seq_stop(struct seq_file *seq, void *v)
+-	__releases(proto_list_mutex)
++	__releases(proto_list_mutex) __attribute__((release_capability(proto_list_mutex)))
+ {
+ 	mutex_unlock(&proto_list_mutex);
+ }
+-- 
+2.17.1
+

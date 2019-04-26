@@ -1,0 +1,45 @@
+From cb4e4764f4d06fd7d0ad5e4702418d34010a7fb0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 08:25:05 +0200
+Subject: [PATCH 43/75] mm/swapfile: annotate swap_{start,stop}
+
+HANDLES:
+
+mm/swapfile.c:2615:1: warning: mutex 'swapon_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+mm/swapfile.c:2602:2: note: mutex acquired here
+        mutex_lock(&swapon_mutex);
+        ^
+mm/swapfile.c:2639:2: warning: releasing mutex 'swapon_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&swapon_mutex);
+        ^
+---
+ mm/swapfile.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index 2b8d9c3fbb47..9d379913a7e5 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -2593,7 +2593,7 @@ static __poll_t swaps_poll(struct file *file, poll_table *wait)
+ }
+ 
+ /* iterator */
+-static void *swap_start(struct seq_file *swap, loff_t *pos)
++static void *swap_start(struct seq_file *swap, loff_t *pos)  __attribute__((acquire_capability(swapon_mutex)))
+ {
+ 	struct swap_info_struct *si;
+ 	int type;
+@@ -2634,7 +2634,7 @@ static void *swap_next(struct seq_file *swap, void *v, loff_t *pos)
+ 	return NULL;
+ }
+ 
+-static void swap_stop(struct seq_file *swap, void *v)
++static void swap_stop(struct seq_file *swap, void *v) __attribute__((release_capability(swapon_mutex)))
+ {
+ 	mutex_unlock(&swapon_mutex);
+ }
+-- 
+2.17.1
+

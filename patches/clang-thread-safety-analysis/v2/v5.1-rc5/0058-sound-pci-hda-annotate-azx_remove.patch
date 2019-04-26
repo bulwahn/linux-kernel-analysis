@@ -1,0 +1,36 @@
+From 858e746f9903b57fa3ec399a5e990ee153098f16 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:41:19 +0200
+Subject: [PATCH 58/75] sound/pci/hda: annotate azx_remove
+
+HANDLES:
+
+sound/pci/hda/hda_intel.c:2304:3: warning: releasing mutex 'pci->dev.mutex' that was not held [-Wthread-safety-analysis]
+                device_unlock(&pci->dev);
+                ^
+sound/pci/hda/hda_intel.c:2310:1: warning: mutex 'pci->dev.mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+sound/pci/hda/hda_intel.c:2306:3: note: mutex acquired here
+                device_lock(&pci->dev);
+                ^
+---
+ sound/pci/hda/hda_intel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 2ec91085fa3e..876053eaec79 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -2280,7 +2280,7 @@ static int azx_probe_continue(struct azx *chip)
+ 	return err;
+ }
+ 
+-static void azx_remove(struct pci_dev *pci)
++static void azx_remove(struct pci_dev *pci) __attribute__((requires_capability(pci->dev.mutex)))
+ {
+ 	struct snd_card *card = pci_get_drvdata(pci);
+ 	struct azx *chip;
+-- 
+2.17.1
+

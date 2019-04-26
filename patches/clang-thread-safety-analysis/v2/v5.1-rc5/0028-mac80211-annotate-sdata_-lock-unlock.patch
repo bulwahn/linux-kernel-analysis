@@ -1,7 +1,7 @@
 From 8d94ec0698d78987b004a795e4073ccc0ad58cf9 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 04:06:22 +0200
-Subject: [PATCH 28/35] mac80211: annotate sdata_{lock,unlock}
+Subject: [PATCH 28/75] mac80211: annotate sdata_{lock,unlock}
 
 net/mac80211/ieee80211_i.h:1005:1: warning: mutex 'sdata->wdev.mtx' is still held at the end of function [-Wthread-sa
 fety-analysis]

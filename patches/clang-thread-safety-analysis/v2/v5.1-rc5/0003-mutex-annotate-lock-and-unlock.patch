@@ -1,7 +1,7 @@
 From d5617f3bd8bb9ebb867dd6e8b5aebfa005d6458b Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 07:15:12 +0200
-Subject: [PATCH 03/35] mutex: annotate lock and unlock
+Subject: [PATCH 03/75] mutex: annotate lock and unlock
 
 ---
  include/linux/mutex.h | 6 +++---

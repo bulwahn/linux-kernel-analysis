@@ -1,0 +1,45 @@
+From 2b8e69e152b5c9e573e584b0b64481888e419a20 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 21 Apr 2019 08:16:51 +0200
+Subject: [PATCH 38/75] mutex: annotate mutex_lock_io
+
+kernel/locking/mutex.c:1327:1: warning: mutex 'lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/locking/mutex.c:1325:2: note: mutex acquired here
+        mutex_lock(lock);
+        ^
+---
+ include/linux/mutex.h  | 2 +-
+ kernel/locking/mutex.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index d88a18a61475..c7350b1faa91 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -178,7 +178,7 @@ do {									\
+ extern void mutex_lock(struct mutex *lock) __attribute__((acquire_capability(lock)));
+ extern int __must_check mutex_lock_interruptible(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)));
+ extern int __must_check mutex_lock_killable(struct mutex *lock) __attribute__((try_acquire_capability(0, lock)));
+-extern void mutex_lock_io(struct mutex *lock);
++extern void mutex_lock_io(struct mutex *lock) __attribute__((acquire_capability(lock)));
+ 
+ # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
+ # define mutex_lock_interruptible_nested(lock, subclass) mutex_lock_interruptible(lock)
+diff --git a/kernel/locking/mutex.c b/kernel/locking/mutex.c
+index 0693757197da..a98e65247a6b 100644
+--- a/kernel/locking/mutex.c
++++ b/kernel/locking/mutex.c
+@@ -1317,7 +1317,7 @@ EXPORT_SYMBOL(mutex_lock_killable);
+  *
+  * Context: Process context.
+  */
+-void __sched mutex_lock_io(struct mutex *lock)
++void __sched mutex_lock_io(struct mutex *lock) __attribute__((acquire_capability(lock)))
+ {
+ 	int token;
+ 
+-- 
+2.17.1
+

@@ -1,0 +1,45 @@
+From d1efb1a0f577c3ea8787bf8d44c18690d55af782 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 04:18:19 +0200
+Subject: [PATCH 71/75] INCOMPLETE: kernel/rcu: annotate srcu_gp_end
+
+TRIED TO HANDLE:
+
+kernel/rcu/srcutree.c:543:2: warning: releasing mutex 'ssp->srcu_gp_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ssp->srcu_gp_mutex);
+        ^
+kernel/rcu/srcutree.c:1152:1: warning: mutex 'ssp->srcu_gp_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/rcu/srcutree.c:1098:2: note: mutex acquired here
+        mutex_lock(&ssp->srcu_gp_mutex);
+        ^
+kernel/rcu/srcutree.c:1152:1: warning: mutex 'ssp->srcu_gp_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/rcu/srcutree.c:1098:2: note: mutex acquired here
+        mutex_lock(&ssp->srcu_gp_mutex);
+        ^
+3 warnings generated.
+
+ONE WARNING REMAINED. REVISIT.
+---
+ kernel/rcu/srcutree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index a60b8ba9e1ac..82ca4f393377 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -513,7 +513,7 @@ static void srcu_schedule_cbs_snp(struct srcu_struct *ssp, struct srcu_node *snp
+  * are initiating callback invocation.  This allows the ->srcu_have_cbs[]
+  * array to have a finite number of elements.
+  */
+-static void srcu_gp_end(struct srcu_struct *ssp)
++static void srcu_gp_end(struct srcu_struct *ssp) __attribute__((release_capability(ssp->srcu_gp_mutex)))
+ {
+ 	unsigned long cbdelay;
+ 	bool cbs;
+-- 
+2.17.1
+

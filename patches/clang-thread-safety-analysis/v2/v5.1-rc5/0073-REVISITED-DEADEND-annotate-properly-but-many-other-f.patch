@@ -1,0 +1,44 @@
+From 8685cd50eb84fec5c91872c78a6b5443363798b6 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 05:38:34 +0200
+Subject: [PATCH 73/75] REVISITED: DEADEND: annotate properly, but many other
+ functions to consider; need a new approach
+
+---
+ drivers/pci/pci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index badcf78efb98..be0895576871 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4727,7 +4727,7 @@ static int pci_dev_reset_slot_function(struct pci_dev *dev, int probe)
+ 	return pci_reset_hotplug_slot(dev->slot->hotplug, probe);
+ }
+ 
+-static void pci_dev_lock(struct pci_dev *dev) __attribute__((acquire_capability(dev->dev)))
++static void pci_dev_lock(struct pci_dev *dev) __attribute__((acquire_capability(dev->dev.mutex)))
+ {
+ 	pci_cfg_access_lock(dev);
+ 	/* block PM suspend, driver probe, etc. */
+@@ -4735,7 +4735,7 @@ static void pci_dev_lock(struct pci_dev *dev) __attribute__((acquire_capability(
+ }
+ 
+ /* Return 1 on successful lock, 0 on contention */
+-static int pci_dev_trylock(struct pci_dev *dev) __attribute__((try_acquire_capability(1, dev->dev)))
++static int pci_dev_trylock(struct pci_dev *dev) __attribute__((try_acquire_capability(1, dev->dev.mutex)))
+ {
+ 	if (pci_cfg_access_trylock(dev)) {
+ 		if (device_trylock(&dev->dev))
+@@ -4746,7 +4746,7 @@ static int pci_dev_trylock(struct pci_dev *dev) __attribute__((try_acquire_capab
+ 	return 0;
+ }
+ 
+-static void pci_dev_unlock(struct pci_dev *dev) __attribute__((release_capability(dev->dev)))
++static void pci_dev_unlock(struct pci_dev *dev) __attribute__((release_capability(dev->dev.mutex)))
+ {
+ 	device_unlock(&dev->dev);
+ 	pci_cfg_access_unlock(dev);
+-- 
+2.17.1
+

@@ -1,7 +1,7 @@
 From af0f1a7c115059a0a77b56f818a97bf9c7248522 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 13:09:12 +0200
-Subject: [PATCH 35/35] nf_log: annotate seq_{start,stop}
+Subject: [PATCH 35/75] nf_log: annotate seq_{start,stop}
 
 net/netfilter/nf_log.c:335:1: warning: mutex 'nf_log_mutex' is still held at the end of function [-
 Wthread-safety-analysis]
