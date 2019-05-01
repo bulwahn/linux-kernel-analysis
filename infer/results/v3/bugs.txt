@@ -1,0 +1,1399 @@
+Found 174 issues
+
+drivers/dma-buf/seqno-fence.c:28: error: NULL_DEREFERENCE
+  pointer `seqno_fence` last assigned on line 26 could be null and is dereferenced at line 28, column 9.
+  26.   	struct seqno_fence *seqno_fence = to_seqno_fence(fence);
+  27.   
+  28. > 	return seqno_fence->ops->get_driver_name(fence);
+  29.   }
+  30.   
+
+drivers/dma-buf/seqno-fence.c:35: error: NULL_DEREFERENCE
+  pointer `seqno_fence` last assigned on line 33 could be null and is dereferenced at line 35, column 9.
+  33.   	struct seqno_fence *seqno_fence = to_seqno_fence(fence);
+  34.   
+  35. > 	return seqno_fence->ops->get_timeline_name(fence);
+  36.   }
+  37.   
+
+drivers/dma-buf/seqno-fence.c:42: error: NULL_DEREFERENCE
+  pointer `seqno_fence` last assigned on line 40 could be null and is dereferenced at line 42, column 9.
+  40.   	struct seqno_fence *seqno_fence = to_seqno_fence(fence);
+  41.   
+  42. > 	return seqno_fence->ops->enable_signaling(fence);
+  43.   }
+  44.   
+
+drivers/dma-buf/seqno-fence.c:49: error: NULL_DEREFERENCE
+  pointer `seqno_fence` last assigned on line 47 could be null and is dereferenced at line 49, column 9.
+  47.   	struct seqno_fence *seqno_fence = to_seqno_fence(fence);
+  48.   
+  49. > 	return seqno_fence->ops->signaled && seqno_fence->ops->signaled(fence);
+  50.   }
+  51.   
+
+drivers/dma-buf/seqno-fence.c:56: error: NULL_DEREFERENCE
+  pointer `f` last assigned on line 54 could be null and is dereferenced at line 56, column 14.
+  54.   	struct seqno_fence *f = to_seqno_fence(fence);
+  55.   
+  56. > 	dma_buf_put(f->sync_buf);
+  57.   	if (f->ops->release)
+  58.   		f->ops->release(fence);
+
+drivers/dma-buf/dma-fence-array.c:61: error: NULL_DEREFERENCE
+  pointer `array` last assigned on line 57 could be null and is dereferenced at line 61, column 18.
+  59.   	unsigned i;
+  60.   
+  61. > 	for (i = 0; i < array->num_fences; ++i) {
+  62.   		cb[i].array = array;
+  63.   		/*
+
+drivers/dma-buf/seqno-fence.c:68: error: NULL_DEREFERENCE
+  pointer `f` last assigned on line 66 could be null and is dereferenced at line 68, column 9.
+  66.   	struct seqno_fence *f = to_seqno_fence(fence);
+  67.   
+  68. > 	return f->ops->wait(fence, intr, timeout);
+  69.   }
+  70.   
+
+net/ipv6/xfrm6_mode_transport.c:77: error: NULL_DEREFERENCE
+  pointer `xo` last assigned on line 74 could be null and is dereferenced at line 77, column 8.
+  75.   
+  76.   	skb->transport_header += x->props.header_len;
+  77. > 	ops = rcu_dereference(inet6_offloads[xo->proto]);
+  78.   	if (likely(ops && ops->callbacks.gso_segment))
+  79.   		segs = ops->callbacks.gso_segment(skb, features);
+
+kernel/cgroup/stat.c:96: error: NULL_DEREFERENCE
+  pointer `pos` last assigned on line 92 could be null and is dereferenced by call to `cgroup_cpu_stat()` at line 96, column 11.
+  94.   	/* walk down to the first leaf */
+  95.   	while (true) {
+  96. > 		cstat = cgroup_cpu_stat(pos, cpu);
+  97.   		if (cstat->updated_children == pos)
+  98.   			break;
+
+drivers/gpu/drm/i915/intel_dp_aux_backlight.c:90: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 84 could be null and is dereferenced at line 90, column 6.
+  88.   
+  89.   	/* Write the MSB and/or LSB */
+  90. > 	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT) {
+  91.   		vals[0] = (level & 0xFF00) >> 8;
+  92.   		vals[1] = (level & 0xFF);
+
+drivers/dma-buf/dma-fence-array.c:95: error: NULL_DEREFERENCE
+  pointer `array` last assigned on line 92 could be null and is dereferenced at line 95, column 18.
+  93.   	unsigned i;
+  94.   
+  95. > 	for (i = 0; i < array->num_fences; ++i)
+  96.   		dma_fence_put(array->fences[i]);
+  97.   
+
+net/netfilter/nf_nat_sip.c:112: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 99 could be null and is dereferenced at line 112, column 13.
+  110.   		   ct->tuplehash[dir].tuple.dst.u.udp.port == port) {
+  111.   		newaddr = ct->tuplehash[!dir].tuple.src.u3;
+  112. > 		newport = ct_sip_info->forced_dport ? :
+  113.   			  ct->tuplehash[!dir].tuple.src.u.udp.port;
+  114.   	} else
+
+drivers/gpu/drm/i915/intel_dp_mst.c:103: error: NULL_DEREFERENCE
+  pointer `old_conn_state` last assigned on line 102 could be null and is dereferenced at line 103, column 13.
+  101.   
+  102.   	old_conn_state = drm_atomic_get_old_connector_state(state, connector);
+  103. > 	old_crtc = old_conn_state->crtc;
+  104.   	if (!old_crtc)
+  105.   		return ret;
+
+kernel/sched/cpuacct.c:104: error: NULL_DEREFERENCE
+  pointer `ca` last assigned on line 102 could be null and is dereferenced at line 104, column 14.
+  102.   	struct cpuacct *ca = css_ca(css);
+  103.   
+  104. > 	free_percpu(ca->cpustat);
+  105.   	free_percpu(ca->cpuusage);
+  106.   	kfree(ca);
+
+kernel/cgroup/freezer.c:108: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 107 could be null and is dereferenced by call to `parent_freezer()` at line 108, column 27.
+  106.   {
+  107.   	struct freezer *freezer = css_freezer(css);
+  108. > 	struct freezer *parent = parent_freezer(freezer);
+  109.   
+  110.   	mutex_lock(&freezer_mutex);
+
+net/ipv6/xfrm6_mode_tunnel.c:116: error: NULL_DEREFERENCE
+  pointer `xo` last assigned on line 114 could be null and is dereferenced at line 116, column 6.
+  114.   	struct xfrm_offload *xo = xfrm_offload(skb);
+  115.   
+  116. > 	if (xo->flags & XFRM_GSO_SEGMENT) {
+  117.   		skb->network_header = skb->network_header - x->props.header_len;
+  118.   		skb->transport_header = skb->network_header + sizeof(struct ipv6hdr);
+
+kernel/cgroup/freezer.c:136: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 132 could be null and is dereferenced at line 136, column 6.
+  134.   	mutex_lock(&freezer_mutex);
+  135.   
+  136. > 	if (freezer->state & CGROUP_FREEZING)
+  137.   		atomic_dec(&system_freezing_cnt);
+  138.   
+
+init/initramfs.c:137: error: NULL_DEREFERENCE
+  pointer `de` last assigned on line 133 could be null and is dereferenced at line 137, column 2.
+  135.   		panic("can't allocate dir_entry buffer");
+  136.   	INIT_LIST_HEAD(&de->list);
+  137. > 	de->name = kstrdup(name, GFP_KERNEL);
+  138.   	de->mtime = mtime;
+  139.   	list_add(&de->list, &dir_list);
+
+drivers/tty/sysrq.c:147: error: NULL_DEREFERENCE
+  pointer `killer` last assigned on line 137 could be null and is dereferenced at line 147, column 2.
+  145.   	panic_on_oops = 1;	/* force panic */
+  146.   	wmb();
+  147. > 	*killer = 1;
+  148.   }
+  149.   static struct sysrq_key_op sysrq_crash_op = {
+
+drivers/gpu/drm/drm_framebuffer.c:181: error: NULL_DEREFERENCE
+  pointer `info` last assigned on line 169 could be null and is dereferenced at line 181, column 18.
+  179.   	}
+  180.   
+  181. > 	for (i = 0; i < info->num_planes; i++) {
+  182.   		unsigned int width = fb_plane_width(r->width, info, i);
+  183.   		unsigned int height = fb_plane_height(r->height, info, i);
+
+net/sched/sch_mq.c:157: error: NULL_DEREFERENCE
+  pointer `dev_queue` last assigned on line 155 could be null and is dereferenced at line 157, column 9.
+  155.   	struct netdev_queue *dev_queue = mq_queue_get(sch, cl);
+  156.   
+  157. > 	return dev_queue->qdisc_sleeping;
+  158.   }
+  159.   
+
+kernel/sched/cpuacct.c:174: error: NULL_DEREFERENCE
+  pointer `ca` last assigned on line 169 could be null and is dereferenced by call to `cpuacct_cpuusage_read()` at line 174, column 20.
+  172.   
+  173.   	for_each_possible_cpu(i)
+  174. > 		totalcpuusage += cpuacct_cpuusage_read(ca, i, index);
+  175.   
+  176.   	return totalcpuusage;
+
+net/sched/sch_mq.c:176: error: NULL_DEREFERENCE
+  pointer `dev_queue` last assigned on line 172 could be null and is dereferenced at line 176, column 18.
+  174.   	tcm->tcm_parent = TC_H_ROOT;
+  175.   	tcm->tcm_handle |= TC_H_MIN(cl);
+  176. > 	tcm->tcm_info = dev_queue->qdisc_sleeping->handle;
+  177.   	return 0;
+  178.   }
+
+block/blk-map.c:194: error: USE_AFTER_FREE
+  pointer `bio` was freed by call to `__blk_rq_unmap_user()` at line 189, column 10 and is dereferenced or freed at line 194, column 9.
+  192.   
+  193.   		mapped_bio = bio;
+  194. > 		bio = bio->bi_next;
+  195.   		bio_put(mapped_bio);
+  196.   	}
+
+drivers/gpu/drm/i915/intel_hdmi.c:189: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 183 could be null and is dereferenced at line 189, column 37.
+  187.   		return false;
+  188.   
+  189. > 	if ((val & VIDEO_DIP_PORT_MASK) != VIDEO_DIP_PORT(intel_dig_port->port))
+  190.   		return false;
+  191.   
+
+net/sched/sch_mq.c:185: error: NULL_DEREFERENCE
+  pointer `dev_queue` last assigned on line 183 could be null and is dereferenced at line 185, column 8.
+  183.   	struct netdev_queue *dev_queue = mq_queue_get(sch, cl);
+  184.   
+  185. > 	sch = dev_queue->qdisc_sleeping;
+  186.   	if (gnet_stats_copy_basic(&sch->running, d, NULL, &sch->bstats) < 0 ||
+  187.   	    gnet_stats_copy_queue(d, NULL, &sch->qstats, sch->q.qlen) < 0)
+
+security/selinux/hooks.c:199: error: NULL_DEREFERENCE
+  pointer `tsec` last assigned on line 195 could be null and is dereferenced at line 199, column 15.
+  197.   		panic("SELinux:  Failed to initialize initial task.\n");
+  198.   
+  199. > 	tsec->osid = tsec->sid = SECINITSID_KERNEL;
+  200.   	cred->security = tsec;
+  201.   }
+
+kernel/sched/cpuacct.c:209: error: NULL_DEREFERENCE
+  pointer `ca` last assigned on line 199 could be null and is dereferenced by call to `cpuacct_cpuusage_write()` at line 209, column 3.
+  207.   
+  208.   	for_each_possible_cpu(cpu)
+  209. > 		cpuacct_cpuusage_write(ca, cpu, 0);
+  210.   
+  211.   	return 0;
+
+drivers/gpu/drm/drm_drv.c:205: error: NULL_DEREFERENCE
+  pointer `slot` last assigned on line 204 could be null and is dereferenced at line 205, column 10.
+  203.   
+  204.   	slot = drm_minor_get_slot(dev, type);
+  205. > 	minor = *slot;
+  206.   	if (!minor)
+  207.   		return;
+
+kernel/cgroup/freezer.c:221: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 220 could be null and is dereferenced at line 221, column 6.
+  219.   
+  220.   	freezer = task_freezer(task);
+  221. > 	if (freezer->state & CGROUP_FREEZING)
+  222.   		freeze_task(task);
+  223.   
+
+drivers/gpu/drm/i915/intel_dp_aux_backlight.c:233: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 230 could be null and is dereferenced at line 233, column 6.
+  231.   	struct intel_panel *panel = &connector->panel;
+  232.   
+  233. > 	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_BYTE_COUNT)
+  234.   		panel->backlight.max = 0xFFFF;
+  235.   	else
+
+drivers/gpu/drm/i915/intel_hdmi.c:248: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 240 could be null and is dereferenced at line 248, column 37.
+  246.   		return false;
+  247.   
+  248. > 	if ((val & VIDEO_DIP_PORT_MASK) != VIDEO_DIP_PORT(intel_dig_port->port))
+  249.   		return false;
+  250.   
+
+kernel/cgroup/freezer.c:253: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 246 could be null and is dereferenced at line 253, column 8.
+  251.   	lockdep_assert_held(&freezer_mutex);
+  252.   
+  253. > 	if (!(freezer->state & CGROUP_FREEZING) ||
+  254.   	    (freezer->state & CGROUP_FROZEN))
+  255.   		return;
+
+drivers/gpu/drm/i915/intel_dp_aux_backlight.c:254: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 249 could be null and is dereferenced at line 254, column 6.
+  252.   	 * the panel can support backlight control over the aux channel
+  253.   	 */
+  254. > 	if (intel_dp->edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP &&
+  255.   	    (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP) &&
+  256.   	    !(intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_PWM_PIN_CAP)) {
+
+security/keys/request_key.c:272: error: NULL_DEREFERENCE
+  pointer `cred` last assigned on line 257 could be null and is dereferenced at line 272, column 11.
+  270.   		/* use a default keyring; falling through the cases until we
+  271.   		 * find one that we actually have */
+  272. > 		switch (cred->jit_keyring) {
+  273.   		case KEY_REQKEY_DEFL_DEFAULT:
+  274.   		case KEY_REQKEY_DEFL_REQUESTOR_KEYRING:
+
+drivers/tty/serial/serial_core.c:283: error: NULL_DEREFERENCE
+  pointer `uport` last assigned on line 264 could be null and is dereferenced by call to `uart_port_dtr_rts()` at line 283, column 4.
+  281.   
+  282.   		if (!tty || C_HUPCL(tty))
+  283. > 			uart_port_dtr_rts(uport, 0);
+  284.   
+  285.   		uart_port_shutdown(port);
+
+scripts/basic/fixdep.c:297: error: MEMORY_LEAK
+  memory dynamically allocated by call to `malloc()` at line 290, column 8 is not reachable after line 297, column 3.
+  295.   	}
+  296.   	if (read(fd, map, st.st_size) != st.st_size) {
+  297. > 		perror("fixdep: read");
+  298.   		close(fd);
+  299.   		return;
+
+drivers/cpuidle/governors/menu.c:294: error: NULL_DEREFERENCE
+  pointer `device` last assigned on line 286 could be null and is dereferenced by call to `dev_pm_qos_raw_read_value()` at line 294, column 23.
+  292.   	unsigned int expected_interval;
+  293.   	unsigned long nr_iowaiters, cpu_load;
+  294. > 	int resume_latency = dev_pm_qos_raw_read_value(device);
+  295.   
+  296.   	if (data->needs_update) {
+
+drivers/md/dm-io.c:315: error: NULL_DEREFERENCE
+  pointer `q` last assigned on line 306 could be null and is dereferenced at line 315, column 29.
+  313.   	 */
+  314.   	if (op == REQ_OP_DISCARD)
+  315. > 		special_cmd_max_sectors = q->limits.max_discard_sectors;
+  316.   	else if (op == REQ_OP_WRITE_ZEROES)
+  317.   		special_cmd_max_sectors = q->limits.max_write_zeroes_sectors;
+
+drivers/md/dm-io.c:317: error: NULL_DEREFERENCE
+  pointer `q` last assigned on line 306 could be null and is dereferenced at line 317, column 29.
+  315.   		special_cmd_max_sectors = q->limits.max_discard_sectors;
+  316.   	else if (op == REQ_OP_WRITE_ZEROES)
+  317. > 		special_cmd_max_sectors = q->limits.max_write_zeroes_sectors;
+  318.   	else if (op == REQ_OP_WRITE_SAME)
+  319.   		special_cmd_max_sectors = q->limits.max_write_same_sectors;
+
+drivers/md/dm-io.c:319: error: NULL_DEREFERENCE
+  pointer `q` last assigned on line 306 could be null and is dereferenced at line 319, column 29.
+  317.   		special_cmd_max_sectors = q->limits.max_write_zeroes_sectors;
+  318.   	else if (op == REQ_OP_WRITE_SAME)
+  319. > 		special_cmd_max_sectors = q->limits.max_write_same_sectors;
+  320.   	if ((op == REQ_OP_DISCARD || op == REQ_OP_WRITE_ZEROES ||
+  321.   	     op == REQ_OP_WRITE_SAME) && special_cmd_max_sectors == 0) {
+
+kernel/reboot.c:315: error: NULL_DEREFERENCE
+  pointer `pid_ns` last assigned on line 310 could be null and is dereferenced at line 315, column 18.
+  313.   
+  314.   	/* We only trust the superuser with rebooting the system. */
+  315. > 	if (!ns_capable(pid_ns->user_ns, CAP_SYS_BOOT))
+  316.   		return -EPERM;
+  317.   
+
+net/netfilter/nf_nat_sip.c:368: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 351 could be null and is dereferenced at line 368, column 12.
+  366.   	 * original direction, try to use the destination port in the opposite
+  367.   	 * direction. */
+  368. > 	srcport = ct_sip_info->forced_dport ? :
+  369.   		  ct->tuplehash[dir].tuple.src.u.udp.port;
+  370.   	if (exp->tuple.dst.u.udp.port == srcport)
+
+scripts/asn1_compiler.c:361: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `perror()` at line 361, column 3.
+  359.   	token_list = tokens = calloc((end - buffer) / 2, sizeof(struct token));
+  360.   	if (!tokens) {
+  361. > 		perror(NULL);
+  362.   		exit(1);
+  363.   	}
+
+net/sunrpc/auth_gss/gss_rpc_xdr.c:371: error: NULL_DEREFERENCE
+  pointer `p` last assigned on line 370 could be null and is dereferenced at line 371, column 2.
+  369.   	/* ctx->options */
+  370.   	p = xdr_reserve_space(xdr, 4);
+  371. > 	*p = cpu_to_be32(2);
+  372.   
+  373.   	/* we want a lucid_v1 context */
+
+kernel/sched/cpuacct.c:377: error: NULL_DEREFERENCE
+  pointer `ca` last assigned on line 376 could be null and is dereferenced at line 377, column 3.
+  375.   	rcu_read_lock();
+  376.   	for (ca = task_ca(tsk); ca != &root_cpuacct; ca = parent_ca(ca))
+  377. > 		this_cpu_ptr(ca->cpustat)->cpustat[index] += val;
+  378.   	rcu_read_unlock();
+  379.   }
+
+kernel/cgroup/cpuset.c:382: error: NULL_DEREFERENCE
+  pointer `cs` last assigned on line 382 could be null and is dereferenced by call to `parent_cs()` at line 382, column 8.
+  380.   {
+  381.   	while (!nodes_intersects(cs->effective_mems, node_states[N_MEMORY]))
+  382. > 		cs = parent_cs(cs);
+  383.   	nodes_and(*pmask, cs->effective_mems, node_states[N_MEMORY]);
+  384.   }
+
+kernel/cgroup/freezer.c:409: error: NULL_DEREFERENCE
+  pointer `parent` last assigned on line 398 could be null and is dereferenced at line 409, column 10.
+  407.   		else
+  408.   			freezer_apply_state(pos_f,
+  409. > 					    parent->state & CGROUP_FREEZING,
+  410.   					    CGROUP_FREEZING_PARENT);
+  411.   
+
+net/ipv6/raw.c:430: error: NULL_DEREFERENCE
+  pointer `rp` last assigned on line 422 could be null and is dereferenced at line 430, column 7.
+  428.   	}
+  429.   
+  430. > 	if (!rp->checksum)
+  431.   		skb->ip_summed = CHECKSUM_UNNECESSARY;
+  432.   
+
+block/blk-merge.c:445: error: NULL_DEREFERENCE
+  pointer `sg` last assigned on line 430 could be null and is dereferenced at line 445, column 3.
+  443.   			(q->dma_pad_mask & ~blk_rq_bytes(rq)) + 1;
+  444.   
+  445. > 		sg->length += pad_len;
+  446.   		rq->extra_len += pad_len;
+  447.   	}
+
+block/blk-merge.c:453: error: NULL_DEREFERENCE
+  pointer `sg` last assigned on line 430 could be null and is dereferenced by call to `sg_unmark_end()` at line 453, column 3.
+  451.   			memset(q->dma_drain_buffer, 0, q->dma_drain_size);
+  452.   
+  453. > 		sg_unmark_end(sg);
+  454.   		sg = sg_next(sg);
+  455.   		sg_set_page(sg, virt_to_page(q->dma_drain_buffer),
+
+drivers/cpuidle/sysfs.c:441: error: NULL_DEREFERENCE
+  pointer `drv` last assigned on line 438 could be null and is dereferenced at line 441, column 18.
+  439.   	int i;
+  440.   
+  441. > 	for (i = 0; i < drv->state_count; i++)
+  442.   		cpuidle_free_state_kobj(device, i);
+  443.   }
+
+kernel/cgroup/freezer.c:442: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 440 could be null and is dereferenced at line 442, column 16.
+  440.   	struct freezer *freezer = css_freezer(css);
+  441.   
+  442. > 	return (bool)(freezer->state & CGROUP_FREEZING_SELF);
+  443.   }
+  444.   
+
+drivers/gpu/drm/i915/intel_hdmi.c:459: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 443 could be null and is dereferenced at line 459, column 2.
+  457.   	len++;
+  458.   
+  459. > 	intel_dig_port->write_infoframe(encoder, crtc_state, frame->any.type, buffer, len);
+  460.   }
+  461.   
+
+net/netfilter/nf_conntrack_helper.c:449: error: NULL_DEREFERENCE
+  pointer `help` last assigned on line 442 could be null and is dereferenced at line 449, column 9.
+  447.   		return true;
+  448.   
+  449. > 	this = rcu_dereference_protected(help->helper,
+  450.   					 lockdep_is_held(&nf_conntrack_expect_lock));
+  451.   	return this == me;
+
+kernel/cgroup/freezer.c:450: error: NULL_DEREFERENCE
+  pointer `freezer` last assigned on line 448 could be null and is dereferenced at line 450, column 16.
+  448.   	struct freezer *freezer = css_freezer(css);
+  449.   
+  450. > 	return (bool)(freezer->state & CGROUP_FREEZING_PARENT);
+  451.   }
+  452.   
+
+drivers/cpuidle/cpuidle.c:484: error: NULL_DEREFERENCE
+  pointer `drv` last assigned on line 482 could be null and is dereferenced at line 484, column 22.
+  482.   	struct cpuidle_driver *drv = cpuidle_get_cpu_driver(dev);
+  483.   
+  484. > 	if (!try_module_get(drv->owner))
+  485.   		return -EINVAL;
+  486.   
+
+block/blk-core.c:531: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `blk_get_flush_queue()` at line 531, column 33.
+  529.   		 */
+  530.   		if (drain_all) {
+  531. > 			struct blk_flush_queue *fq = blk_get_flush_queue(q, NULL);
+  532.   			drain |= !list_empty(&q->queue_head);
+  533.   			for (i = 0; i < 2; i++) {
+
+drivers/gpu/drm/i915/intel_hdmi.c:539: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 535 could be null and is dereferenced at line 539, column 13.
+  537.   	i915_reg_t reg = VIDEO_DIP_CTL;
+  538.   	u32 val = I915_READ(reg);
+  539. > 	u32 port = VIDEO_DIP_PORT(intel_dig_port->port);
+  540.   
+  541.   	assert_hdmi_port_disabled(intel_hdmi);
+
+net/netfilter/nf_conntrack_ftp.c:557: error: NULL_DEREFERENCE
+  pointer `ftp` last assigned on line 551 could be null and is dereferenced at line 557, column 2.
+  555.   	 * failover breaks.
+  556.   	 */
+  557. > 	ftp->flags[IP_CT_DIR_ORIGINAL] |= NF_CT_FTP_SEQ_PICKUP;
+  558.   	ftp->flags[IP_CT_DIR_REPLY] |= NF_CT_FTP_SEQ_PICKUP;
+  559.   	return 0;
+
+kernel/exit.c:565: error: NULL_DEREFERENCE
+  pointer `pid_ns` last assigned on line 564 could be null and is dereferenced at line 565, column 31.
+  563.   {
+  564.   	struct pid_namespace *pid_ns = task_active_pid_ns(father);
+  565. > 	struct task_struct *reaper = pid_ns->child_reaper;
+  566.   
+  567.   	if (likely(reaper != father))
+
+net/netfilter/nf_conntrack_proto.c:581: error: NULL_DEREFERENCE
+  pointer `pn` last assigned on line 574 could be null and is dereferenced by call to `nf_ct_l4proto_register_sysctl()` at line 581, column 8.
+  579.   	if (err < 0)
+  580.   		return err;
+  581. > 	err = nf_ct_l4proto_register_sysctl(net,
+  582.   					    pn,
+  583.   					    &nf_conntrack_l4proto_generic);
+
+kernel/time/posix-timers.c:588: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `do_timer_create()` at line 588, column 9.
+  586.   		return do_timer_create(which_clock, &event, created_timer_id);
+  587.   	}
+  588. > 	return do_timer_create(which_clock, NULL, created_timer_id);
+  589.   }
+  590.   
+
+net/netfilter/nf_conntrack_proto.c:596: error: NULL_DEREFERENCE
+  pointer `pn` last assigned on line 593 could be null and is dereferenced at line 596, column 2.
+  594.   					&nf_conntrack_l4proto_generic);
+  595.   
+  596. > 	pn->users--;
+  597.   	nf_ct_l4proto_unregister_sysctl(net,
+  598.   					pn,
+
+kernel/time/posix-timers.c:603: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `do_timer_create()` at line 603, column 9.
+  601.   		return do_timer_create(which_clock, &event, created_timer_id);
+  602.   	}
+  603. > 	return do_timer_create(which_clock, NULL, created_timer_id);
+  604.   }
+  605.   #endif
+
+drivers/gpu/drm/i915/intel_dpio_phy.c:645: error: NULL_DEREFERENCE
+  pointer `dport` last assigned on line 644 could be null and is dereferenced at line 645, column 34.
+  643.   	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+  644.   	struct intel_digital_port *dport = enc_to_dig_port(&encoder->base);
+  645. > 	struct intel_crtc *intel_crtc = to_intel_crtc(dport->base.base.crtc);
+  646.   	enum dpio_channel ch = vlv_dport_to_channel(dport);
+  647.   	enum pipe pipe = intel_crtc->pipe;
+
+drivers/gpu/drm/i915/intel_hdmi.c:690: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 686 could be null and is dereferenced at line 690, column 13.
+  688.   	i915_reg_t reg = TVIDEO_DIP_CTL(intel_crtc->pipe);
+  689.   	u32 val = I915_READ(reg);
+  690. > 	u32 port = VIDEO_DIP_PORT(intel_dig_port->port);
+  691.   
+  692.   	assert_hdmi_port_disabled(intel_hdmi);
+
+kernel/cgroup/cgroup-v1.c:700: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 698 could be null and is dereferenced at line 700, column 7.
+  698.   	for_each_subsys(ss, i)
+  699.   		seq_printf(m, "%s\t%d\t%d\t%d\n",
+  700. > 			   ss->legacy_name, ss->root->hierarchy_id,
+  701.   			   atomic_read(&ss->root->nr_cgrps),
+  702.   			   cgroup_ssid_enabled(i));
+
+net/ipv6/ndisc.c:720: error: NULL_DEREFERENCE
+  pointer `saddr` last assigned on line 703 could be null and is dereferenced by call to `ndisc_send_ns()` at line 720, column 3.
+  718.   				  __func__, target);
+  719.   		}
+  720. > 		ndisc_send_ns(dev, target, target, saddr, 0);
+  721.   	} else if ((probes -= NEIGH_VAR(neigh->parms, APP_PROBES)) < 0) {
+  722.   		neigh_app_ns(neigh);
+
+net/ipv6/ndisc.c:725: error: NULL_DEREFERENCE
+  pointer `saddr` last assigned on line 703 could be null and is dereferenced by call to `ndisc_send_ns()` at line 725, column 3.
+  723.   	} else {
+  724.   		addrconf_addr_solict_mult(target, &mcaddr);
+  725. > 		ndisc_send_ns(dev, target, &mcaddr, saddr, 0);
+  726.   	}
+  727.   }
+
+drivers/iommu/dmar.c:801: error: USE_AFTER_FREE
+  pointer `info` last assigned on line 795 was freed by call to `dmar_free_pci_notify_info()` at line 801, column 5 and is dereferenced or freed at line 801, column 5.
+  799.   			} else {
+  800.   				dmar_pci_bus_add_dev(info);
+  801. > 				dmar_free_pci_notify_info(info);
+  802.   			}
+  803.   		}
+
+scripts/asn1_compiler.c:843: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `perror()` at line 843, column 3.
+  841.   	struct element *e = calloc(1, sizeof(*e));
+  842.   	if (!e) {
+  843. > 		perror(NULL);
+  844.   		exit(1);
+  845.   	}
+
+net/sunrpc/rpcb_clnt.c:858: error: NULL_DEREFERENCE
+  pointer `p` last assigned on line 858 could be null and is dereferenced at line 858, column 2.
+  856.   
+  857.   	p = xdr_reserve_space(xdr, RPCB_mappingargs_sz << 2);
+  858. > 	*p++ = cpu_to_be32(rpcb->r_prog);
+  859.   	*p++ = cpu_to_be32(rpcb->r_vers);
+  860.   	*p++ = cpu_to_be32(rpcb->r_prot);
+
+kernel/sched/topology.c:903: error: NULL_DEREFERENCE
+  pointer `last` last assigned on line 876 could be null and is dereferenced at line 903, column 2.
+  901.   		last = sg;
+  902.   	}
+  903. > 	last->next = first;
+  904.   	sd->groups = first;
+  905.   
+
+kernel/cgroup/cgroup-v1.c:897: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 895 could be null and is dereferenced at line 897, column 25.
+  895.   	for_each_subsys(ss, ssid)
+  896.   		if (root->subsys_mask & (1 << ssid))
+  897. > 			seq_show_option(seq, ss->legacy_name, NULL);
+  898.   	if (root->flags & CGRP_ROOT_NOPREFIX)
+  899.   		seq_puts(seq, ",noprefix");
+
+net/sunrpc/rpcb_clnt.c:920: error: NULL_DEREFERENCE
+  pointer `p` last assigned on line 919 could be null and is dereferenced by call to `xdr_encode_opaque()` at line 920, column 2.
+  918.   		len = maxstrlen;
+  919.   	p = xdr_reserve_space(xdr, 4 + len);
+  920. > 	xdr_encode_opaque(p, string, len);
+  921.   }
+  922.   
+
+net/sunrpc/rpcb_clnt.c:936: error: NULL_DEREFERENCE
+  pointer `p` last assigned on line 936 could be null and is dereferenced at line 936, column 2.
+  934.   
+  935.   	p = xdr_reserve_space(xdr, (RPCB_program_sz + RPCB_version_sz) << 2);
+  936. > 	*p++ = cpu_to_be32(rpcb->r_prog);
+  937.   	*p = cpu_to_be32(rpcb->r_vers);
+  938.   
+
+drivers/gpu/drm/i915/intel_dpio_phy.c:947: error: NULL_DEREFERENCE
+  pointer `dport` last assigned on line 944 could be null and is dereferenced at line 947, column 6.
+  945.   	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+  946.   
+  947. > 	if (dport->release_cl2_override) {
+  948.   		chv_phy_powergate_ch(dev_priv, DPIO_PHY0, DPIO_CH1, false);
+  949.   		dport->release_cl2_override = false;
+
+drivers/usb/core/hub.c:956: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 955 could be null and is dereferenced at line 956, column 9.
+  954.   		return -EINVAL;
+  955.   	hub = usb_hub_to_struct_hub(udev->parent);
+  956. > 	intf = to_usb_interface(hub->intfdev);
+  957.   
+  958.   	usb_autopm_get_interface(intf);
+
+drivers/gpu/drm/i915/intel_dpio_phy.c:993: error: NULL_DEREFERENCE
+  pointer `dport` last assigned on line 992 could be null and is dereferenced by call to `vlv_dport_to_channel()` at line 993, column 27.
+  991.   	struct intel_crtc *intel_crtc = to_intel_crtc(encoder->base.crtc);
+  992.   	struct intel_digital_port *dport = enc_to_dig_port(&encoder->base);
+  993. > 	enum dpio_channel port = vlv_dport_to_channel(dport);
+  994.   	int pipe = intel_crtc->pipe;
+  995.   
+
+net/ipv6/route.c:1061: error: NULL_DEREFERENCE
+  pointer `dev` last assigned on line 1060 could be null and is dereferenced by call to `dev_net()` at line 1061, column 23.
+  1059.   	rcu_read_lock();
+  1060.   	dev = ip6_rt_get_dev_rcu(ort);
+  1061. > 	rt = __ip6_dst_alloc(dev_net(dev), dev, 0);
+  1062.   	rcu_read_unlock();
+  1063.   	if (!rt)
+
+drivers/gpu/drm/i915/intel_ddi.c:1068: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 1065 could be null and is dereferenced at line 1068, column 17.
+  1066.   		enc_to_dig_port(&encoder->base);
+  1067.   
+  1068. > 	intel_dp->DP = intel_dig_port->saved_port_bits |
+  1069.   		DDI_BUF_CTL_ENABLE | DDI_BUF_TRANS_SELECT(0);
+  1070.   	intel_dp->DP |= DDI_PORT_WIDTH(intel_dp->lane_count);
+
+drivers/gpu/drm/i915/intel_ddi.c:1068: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 1064 could be null and is dereferenced at line 1068, column 2.
+  1066.   		enc_to_dig_port(&encoder->base);
+  1067.   
+  1068. > 	intel_dp->DP = intel_dig_port->saved_port_bits |
+  1069.   		DDI_BUF_CTL_ENABLE | DDI_BUF_TRANS_SELECT(0);
+  1070.   	intel_dp->DP |= DDI_PORT_WIDTH(intel_dp->lane_count);
+
+net/netfilter/nf_conntrack_sip.c:1099: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1094 could be null and is dereferenced at line 1099, column 11.
+  1097.   	    (code >= 200 && code <= 299))
+  1098.   		return process_sdp(skb, protoff, dataoff, dptr, datalen, cseq);
+  1099. > 	else if (ct_sip_info->invite_cseq == cseq)
+  1100.   		flush_expectations(ct, true);
+  1101.   	return NF_ACCEPT;
+
+net/ipv6/route.c:1095: error: NULL_DEREFERENCE
+  pointer `dev` last assigned on line 1094 could be null and is dereferenced by call to `dev_net()` at line 1095, column 28.
+  1093.   	rcu_read_lock();
+  1094.   	dev = ip6_rt_get_dev_rcu(rt);
+  1095. > 	pcpu_rt = __ip6_dst_alloc(dev_net(dev), dev, rt->dst.flags);
+  1096.   	rcu_read_unlock();
+  1097.   	if (!pcpu_rt)
+
+net/netfilter/nf_conntrack_sip.c:1116: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1111 could be null and is dereferenced at line 1116, column 11.
+  1114.   	    (code >= 200 && code <= 299))
+  1115.   		return process_sdp(skb, protoff, dataoff, dptr, datalen, cseq);
+  1116. > 	else if (ct_sip_info->invite_cseq == cseq)
+  1117.   		flush_expectations(ct, true);
+  1118.   	return NF_ACCEPT;
+
+security/keys/keyctl.c:1138: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `keyctl_instantiate_key_common()` at line 1138, column 9.
+  1136.   	}
+  1137.   
+  1138. > 	return keyctl_instantiate_key_common(id, NULL, ringid);
+  1139.   }
+  1140.   
+
+net/netfilter/nf_conntrack_sip.c:1133: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1128 could be null and is dereferenced at line 1133, column 11.
+  1131.   	    (code >= 200 && code <= 299))
+  1132.   		return process_sdp(skb, protoff, dataoff, dptr, datalen, cseq);
+  1133. > 	else if (ct_sip_info->invite_cseq == cseq)
+  1134.   		flush_expectations(ct, true);
+  1135.   	return NF_ACCEPT;
+
+net/netfilter/nf_conntrack_sip.c:1151: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1145 could be null and is dereferenced at line 1151, column 3.
+  1149.   	ret = process_sdp(skb, protoff, dataoff, dptr, datalen, cseq);
+  1150.   	if (ret == NF_ACCEPT)
+  1151. > 		ct_sip_info->invite_cseq = cseq;
+  1152.   	return ret;
+  1153.   }
+
+kernel/cgroup/cpuset.c:1165: error: NULL_DEREFERENCE
+  pointer `parent` last assigned on line 1156 could be null and is dereferenced at line 1165, column 16.
+  1163.   		 */
+  1164.   		if (is_in_v2_mode() && nodes_empty(*new_mems))
+  1165. > 			*new_mems = parent->effective_mems;
+  1166.   
+  1167.   		/* Skip the whole subtree if the nodemask remains the same. */
+
+kernel/irq/irqdomain.c:1208: error: NULL_DEREFERENCE
+  pointer `irq_data` last assigned on line 1207 could be null and is dereferenced at line 1208, column 9.
+  1206.   	for (i = 0; i < nr_irqs; i++) {
+  1207.   		irq_data = irq_get_irq_data(virq + i);
+  1208. > 		tmp = irq_data->parent_data;
+  1209.   		irq_data->parent_data = NULL;
+  1210.   		irq_data->domain = NULL;
+
+net/ipv6/calipso.c:1216: error: NULL_DEREFERENCE
+  pointer `req_inet` last assigned on line 1212 could be null and is dereferenced at line 1216, column 6.
+  1214.   	struct sock *sk = sk_to_full_sk(req_to_sk(req));
+  1215.   
+  1216. > 	if (req_inet->ipv6_opt && req_inet->ipv6_opt->hopopt)
+  1217.   		old = req_inet->ipv6_opt->hopopt;
+  1218.   	else
+
+kernel/irq/irqdomain.c:1230: error: NULL_DEREFERENCE
+  pointer `irq_data` last assigned on line 1229 could be null and is dereferenced at line 1230, column 3.
+  1228.   	for (i = 0; i < nr_irqs; i++) {
+  1229.   		irq_data = irq_get_irq_data(virq + i);
+  1230. > 		irq_data->domain = domain;
+  1231.   
+  1232.   		for (parent = domain->parent; parent; parent = parent->parent) {
+
+net/ipv6/calipso.c:1257: error: NULL_DEREFERENCE
+  pointer `req_inet` last assigned on line 1252 could be null and is dereferenced at line 1257, column 7.
+  1255.   	struct sock *sk = sk_to_full_sk(req_to_sk(req));
+  1256.   
+  1257. > 	if (!req_inet->ipv6_opt || !req_inet->ipv6_opt->hopopt)
+  1258.   		return;
+  1259.   
+
+net/netfilter/nf_conntrack_sip.c:1293: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1276 could be null and is dereferenced at line 1293, column 6.
+  1291.   	 * request and compare it here.
+  1292.   	 */
+  1293. > 	if (ct_sip_info->register_cseq != cseq)
+  1294.   		return NF_ACCEPT;
+  1295.   
+
+drivers/iommu/iommu.c:1315: error: NULL_DEREFERENCE
+  pointer `group` last assigned on line 1305 could be null and is dereferenced by call to `__iommu_attach_group()` at line 1315, column 8.
+  1313.   		goto out_unlock;
+  1314.   
+  1315. > 	ret = __iommu_attach_group(domain, group);
+  1316.   
+  1317.   out_unlock:
+
+drivers/iommu/iommu.c:1351: error: NULL_DEREFERENCE
+  pointer `group` last assigned on line 1343 could be null and is dereferenced by call to `__iommu_detach_group()` at line 1351, column 2.
+  1349.   	}
+  1350.   
+  1351. > 	__iommu_detach_group(domain, group);
+  1352.   
+  1353.   out_unlock:
+
+net/netfilter/nf_conntrack_sip.c:1423: error: NULL_DEREFERENCE
+  pointer `ct_sip_info` last assigned on line 1405 could be null and is dereferenced at line 1423, column 3.
+  1421.   	    port != ct->tuplehash[dir].tuple.src.u.udp.port &&
+  1422.   	    nf_inet_addr_cmp(&addr, &ct->tuplehash[dir].tuple.src.u3))
+  1423. > 		ct_sip_info->forced_dport = port;
+  1424.   
+  1425.   	for (i = 0; i < ARRAY_SIZE(sip_handlers); i++) {
+
+drivers/net/ethernet/broadcom/tg3.c:1415: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 1414 could be null and is dereferenced at line 1415, column 10.
+  1413.   
+  1414.   	phydev = mdiobus_get_phy(tp->mdio_bus, tp->phy_addr);
+  1415. > 	switch (phydev->drv->phy_id & phydev->drv->phy_id_mask) {
+  1416.   	case PHY_ID_BCM50610:
+  1417.   	case PHY_ID_BCM50610M:
+
+drivers/gpu/drm/i915/intel_tv.c:1430: error: NULL_DEREFERENCE
+  pointer `old_state` last assigned on line 1427 could be null and is dereferenced at line 1430, column 6.
+  1428.   	new_crtc_state = drm_atomic_get_new_crtc_state(new_state->state, new_state->crtc);
+  1429.   
+  1430. > 	if (old_state->tv.mode != new_state->tv.mode ||
+  1431.   	    old_state->tv.margins.left != new_state->tv.margins.left ||
+  1432.   	    old_state->tv.margins.right != new_state->tv.margins.right ||
+
+net/xfrm/xfrm_policy.c:1633: error: NULL_DEREFERENCE
+  pointer `dst_prev` last assigned on line 1554 could be null and is dereferenced at line 1633, column 2.
+  1631.   	}
+  1632.   
+  1633. > 	dst_prev->child = dst;
+  1634.   	dst0->path = dst;
+  1635.   
+
+drivers/scsi/scsi_lib.c:1606: error: NULL_DEREFERENCE
+  pointer `cmd` last assigned on line 1597 could be null and is dereferenced at line 1606, column 9.
+  1604.   	scmd_printk(KERN_INFO, cmd, "killing request\n");
+  1605.   
+  1606. > 	sdev = cmd->device;
+  1607.   	starget = scsi_target(sdev);
+  1608.   	shost = sdev->host;
+
+kernel/cgroup/cpuset.c:1614: error: NULL_DEREFERENCE
+  pointer `cs` last assigned on line 1609 could be null and is dereferenced by call to `is_cpuset_online()` at line 1614, column 7.
+  1612.   
+  1613.   	mutex_lock(&cpuset_mutex);
+  1614. > 	if (!is_cpuset_online(cs)) {
+  1615.   		retval = -ENODEV;
+  1616.   		goto out_unlock;
+
+kernel/cgroup/cpuset.c:1661: error: NULL_DEREFERENCE
+  pointer `cs` last assigned on line 1656 could be null and is dereferenced by call to `is_cpuset_online()` at line 1661, column 7.
+  1659.   
+  1660.   	mutex_lock(&cpuset_mutex);
+  1661. > 	if (!is_cpuset_online(cs))
+  1662.   		goto out_unlock;
+  1663.   
+
+drivers/gpu/drm/i915/intel_hdmi.c:1672: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 1667 could be null and is dereferenced at line 1672, column 2.
+  1670.   	intel_hdmi_prepare(encoder, pipe_config);
+  1671.   
+  1672. > 	intel_dig_port->set_infoframes(&encoder->base,
+  1673.   				       pipe_config->has_infoframe,
+  1674.   				       pipe_config, conn_state);
+
+drivers/gpu/drm/i915/intel_hdmi.c:1691: error: NULL_DEREFERENCE
+  pointer `dport` last assigned on line 1681 could be null and is dereferenced at line 1691, column 2.
+  1689.   				 0x2b247878);
+  1690.   
+  1691. > 	dport->set_infoframes(&encoder->base,
+  1692.   			      pipe_config->has_infoframe,
+  1693.   			      pipe_config, conn_state);
+
+drivers/gpu/drm/i915/intel_hdmi.c:1762: error: NULL_DEREFERENCE
+  pointer `dport` last assigned on line 1752 could be null and is dereferenced at line 1762, column 2.
+  1760.   	chv_set_phy_signal_level(encoder, 128, 102, false);
+  1761.   
+  1762. > 	dport->set_infoframes(&encoder->base,
+  1763.   			      pipe_config->has_infoframe,
+  1764.   			      pipe_config, conn_state);
+
+drivers/usb/core/hub.c:1816: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 1802 could be null and is dereferenced at line 1816, column 9.
+  1814.   			info->nports = hdev->maxchild;
+  1815.   			for (i = 0; i < info->nports; i++) {
+  1816. > 				if (hub->ports[i]->child == NULL)
+  1817.   					info->port[i] = 0;
+  1818.   				else
+
+kernel/cgroup/cpuset.c:1817: error: NULL_DEREFERENCE
+  pointer `cs` last assigned on line 1813 could be null and is dereferenced at line 1817, column 10.
+  1815.   	switch (type) {
+  1816.   	case FILE_SCHED_RELAX_DOMAIN_LEVEL:
+  1817. > 		return cs->relax_domain_level;
+  1818.   	default:
+  1819.   		BUG();
+
+drivers/gpu/drm/i915/intel_ddi.c:1839: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 1838 could be null and is dereferenced at line 1839, column 46.
+  1837.   {
+  1838.   	struct intel_digital_port *intel_dig_port = enc_to_dig_port(&encoder->base);
+  1839. > 	struct drm_i915_private *dev_priv = to_i915(intel_dig_port->base.base.dev);
+  1840.   	enum port port = intel_dig_port->port;
+  1841.   	uint8_t iboost;
+
+drivers/usb/core/hub.c:1850: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 1840 could be null and is dereferenced at line 1850, column 15.
+  1848.   	 * will always have maxchild equal to 0.
+  1849.   	 */
+  1850. > 	*ppowner = &(hub->ports[port1 - 1]->port_owner);
+  1851.   	return 0;
+  1852.   }
+
+include/net/tcp.h:1886: error: NULL_DEREFERENCE
+  pointer `skb` last assigned on line 1884 could be null and is dereferenced at line 1886, column 26.
+  1884.   	const struct sk_buff *skb = tcp_rtx_queue_head(sk);
+  1885.   	u32 rto = inet_csk(sk)->icsk_rto;
+  1886. > 	u64 rto_time_stamp_us = skb->skb_mstamp + jiffies_to_usecs(rto);
+  1887.   
+  1888.   	return rto_time_stamp_us - tcp_sk(sk)->tcp_mstamp;
+
+drivers/usb/core/hub.c:1893: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 1889 could be null and is dereferenced at line 1893, column 7.
+  1891.   
+  1892.   	for (n = 0; n < hdev->maxchild; n++) {
+  1893. > 		if (hub->ports[n]->port_owner == owner)
+  1894.   			hub->ports[n]->port_owner = NULL;
+  1895.   	}
+
+drivers/usb/core/hub.c:1907: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 1906 could be null and is dereferenced at line 1907, column 11.
+  1905.   		return false;
+  1906.   	hub = usb_hub_to_struct_hub(udev->parent);
+  1907. > 	return !!hub->ports[udev->portnum - 1]->port_owner;
+  1908.   }
+  1909.   
+
+drivers/usb/core/hub.c:1916: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 1912 could be null and is dereferenced at line 1916, column 7.
+  1914.   
+  1915.   	for (i = 0; i < udev->maxchild; ++i) {
+  1916. > 		if (hub->ports[i]->child)
+  1917.   			recursively_mark_NOTATTACHED(hub->ports[i]->child);
+  1918.   	}
+
+block/blk-mq.c:1966: error: NULL_DEREFERENCE
+  pointer `hctx` last assigned on line 1965 could be null and is dereferenced at line 1966, column 25.
+  1964.   
+  1965.   	hctx = hlist_entry_safe(node, struct blk_mq_hw_ctx, cpuhp_dead);
+  1966. > 	ctx = __blk_mq_get_ctx(hctx->queue, cpu);
+  1967.   
+  1968.   	spin_lock(&ctx->lock);
+
+kernel/cgroup/cpuset.c:1974: error: NULL_DEREFERENCE
+  pointer `cs` last assigned on line 1973 could be null and is dereferenced by call to `parent_cs()` at line 1974, column 26.
+  1972.   {
+  1973.   	struct cpuset *cs = css_cs(css);
+  1974. > 	struct cpuset *parent = parent_cs(cs);
+  1975.   	struct cpuset *tmp_cs;
+  1976.   	struct cgroup_subsys_state *pos_css;
+
+drivers/net/ethernet/broadcom/tg3.c:2017: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 2008 could be null and is dereferenced at line 2017, column 6.
+  2015.   	oldflowctrl = tp->link_config.active_flowctrl;
+  2016.   
+  2017. > 	if (phydev->link) {
+  2018.   		lcl_adv = 0;
+  2019.   		rmt_adv = 0;
+
+kernel/cgroup/cgroup.c:2022: error: NULL_DEREFERENCE
+  pointer `ns` last assigned on line 2015 could be null and is dereferenced at line 2022, column 18.
+  2020.   
+  2021.   	/* Check if the caller has permission to mount. */
+  2022. > 	if (!ns_capable(ns->user_ns, CAP_SYS_ADMIN)) {
+  2023.   		put_cgroup_ns(ns);
+  2024.   		return ERR_PTR(-EPERM);
+
+net/ipv4/tcp_output.c:2035: error: NULL_DEREFERENCE
+  pointer `skb` last assigned on line 2034 could be null and is dereferenced at line 2035, column 2.
+  2033.   
+  2034.   	skb = tcp_send_head(sk);
+  2035. > 	tcp_for_write_queue_from_safe(skb, next, sk) {
+  2036.   		if (len <= skb->len)
+  2037.   			break;
+
+drivers/usb/core/hub.c:2073: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 2068 could be null and is dereferenced at line 2073, column 7.
+  2071.   	/* Free up all the children before we remove this device */
+  2072.   	for (i = 0; i < udev->maxchild; i++) {
+  2073. > 		if (hub->ports[i]->child)
+  2074.   			usb_disconnect(&hub->ports[i]->child);
+  2075.   	}
+
+drivers/net/ethernet/broadcom/tg3.c:2100: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 2097 could be null and is dereferenced by call to `phydev_name()` at line 2100, column 32.
+  2098.   
+  2099.   	/* Attach the MAC to the PHY. */
+  2100. > 	phydev = phy_connect(tp->dev, phydev_name(phydev),
+  2101.   			     tg3_adjust_link, phydev->interface);
+  2102.   	if (IS_ERR(phydev)) {
+
+net/ipv4/route.c:2136: error: NULL_DEREFERENCE
+  pointer `in_dev` last assigned on line 2114 could be null and is dereferenced at line 2136, column 8.
+  2134.   			||
+  2135.   		    (!ipv4_is_local_multicast(daddr) &&
+  2136. > 		     IN_DEV_MFORWARD(in_dev))
+  2137.   #endif
+  2138.   		   ) {
+
+drivers/net/ethernet/broadcom/tg3.c:2148: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 2144 could be null and is dereferenced at line 2148, column 3.
+  2146.   	if (tp->phy_flags & TG3_PHYFLG_IS_LOW_POWER) {
+  2147.   		tp->phy_flags &= ~TG3_PHYFLG_IS_LOW_POWER;
+  2148. > 		phydev->speed = tp->link_config.speed;
+  2149.   		phydev->duplex = tp->link_config.duplex;
+  2150.   		phydev->autoneg = tp->link_config.autoneg;
+
+drivers/net/ethernet/broadcom/tg3.c:2154: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 2144 could be null and is dereferenced by call to `phy_start()` at line 2154, column 2.
+  2152.   	}
+  2153.   
+  2154. > 	phy_start(phydev);
+  2155.   
+  2156.   	phy_start_aneg(phydev);
+
+drivers/tty/serial/serial_core.c:2154: error: NULL_DEREFERENCE
+  pointer `tty_dev` last assigned on line 2153 could be null and is dereferenced by call to `device_may_wakeup()` at line 2154, column 27.
+  2152.   
+  2153.   	tty_dev = device_find_child(uport->dev, &match, serial_match_port);
+  2154. > 	if (!uport->suspended && device_may_wakeup(tty_dev)) {
+  2155.   		if (irqd_is_wakeup_set(irq_get_irq_data((uport->irq))))
+  2156.   			disable_irq_wake(uport->irq);
+
+kernel/cgroup/cpuset.c:2160: error: NULL_DEREFERENCE
+  pointer `parent` last assigned on line 2157 could be null and is dereferenced by call to `parent_cs()` at line 2160, column 12.
+  2158.   	while (cpumask_empty(parent->cpus_allowed) ||
+  2159.   			nodes_empty(parent->mems_allowed))
+  2160. > 		parent = parent_cs(parent);
+  2161.   
+  2162.   	if (cgroup_transfer_tasks(parent->css.cgroup, cs->css.cgroup)) {
+
+block/cfq-iosched.c:2213: error: NULL_DEREFERENCE
+  pointer `st` last assigned on line 2210 could be null and is dereferenced at line 2213, column 12.
+  2211.   	if (cfq_class_idle(cfqq)) {
+  2212.   		rb_key = CFQ_IDLE_DELAY;
+  2213. > 		parent = st->rb_rightmost;
+  2214.   		if (parent && parent != &cfqq->rb_node) {
+  2215.   			__cfqq = rb_entry(parent, struct cfq_queue, rb_node);
+
+block/cfq-iosched.c:2231: error: NULL_DEREFERENCE
+  pointer `st` last assigned on line 2210 could be null and is dereferenced by call to `cfq_rb_first()` at line 2231, column 12.
+  2229.   	} else {
+  2230.   		rb_key = -NSEC_PER_SEC;
+  2231. > 		__cfqq = cfq_rb_first(st);
+  2232.   		rb_key += __cfqq ? __cfqq->rb_key : now;
+  2233.   	}
+
+drivers/gpu/drm/i915/intel_ddi.c:2331: error: NULL_DEREFERENCE
+  pointer `dig_port` last assigned on line 2326 could be null and is dereferenced at line 2331, column 2.
+  2329.   	intel_disable_ddi_buf(encoder);
+  2330.   
+  2331. > 	dig_port->set_infoframes(&encoder->base, false,
+  2332.   				 old_crtc_state, old_conn_state);
+  2333.   
+
+drivers/usb/core/hub.c:2345: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 2339 could be null and is dereferenced at line 2345, column 10.
+  2343.   	 * use that to determine whether it's removable.
+  2344.   	 */
+  2345. > 	switch (hub->ports[udev->portnum - 1]->connect_type) {
+  2346.   	case USB_PORT_CONNECT_TYPE_HOT_PLUG:
+  2347.   		udev->removable = USB_DEVICE_REMOVABLE;
+
+drivers/gpu/drm/i915/intel_ddi.c:2429: error: NULL_DEREFERENCE
+  pointer `dig_port` last assigned on line 2417 could be null and is dereferenced at line 2429, column 2.
+  2427.   	 * enabling the port.
+  2428.   	 */
+  2429. > 	I915_WRITE(DDI_BUF_CTL(port),
+  2430.   		   dig_port->saved_port_bits | DDI_BUF_CTL_ENABLE);
+  2431.   
+
+drivers/gpu/drm/i915/intel_ddi.c:2597: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 2595 could be null and is dereferenced at line 2597, column 7.
+  2595.   		intel_dig_port = enc_to_dig_port(&encoder->base);
+  2596.   
+  2597. > 		if (intel_dig_port->infoframe_enabled(&encoder->base, pipe_config))
+  2598.   			pipe_config->has_infoframe = true;
+  2599.   
+
+net/sunrpc/clnt.c:2673: error: NULL_DEREFERENCE
+  pointer `xprt` last assigned on line 2643 could be null and is dereferenced at line 2673, column 2.
+  2671.   	xprt_put(xprt);
+  2672.   	xprt_switch_put(xps);
+  2673. > 	pr_info("RPC:   rpc_clnt_test_xprt failed: %d addr %s not added\n",
+  2674.   		status, xprt->address_strings[RPC_DISPLAY_ADDR]);
+  2675.   	return status;
+
+block/blk-core.c:2677: error: NULL_DEREFERENCE
+  pointer `null` could be null and is dereferenced by call to `blk_get_flush_queue()` at line 2677, column 31.
+  2675.   {
+  2676.   	struct request *rq;
+  2677. > 	struct blk_flush_queue *fq = blk_get_flush_queue(q, NULL);
+  2678.   
+  2679.   	WARN_ON_ONCE(q->mq_ops);
+
+kernel/cgroup/cgroup.c:2685: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 2684 could be null and is dereferenced at line 2685, column 7.
+  2683.   	percpu_up_write(&cgroup_threadgroup_rwsem);
+  2684.   	for_each_subsys(ss, ssid)
+  2685. > 		if (ss->post_attach)
+  2686.   			ss->post_attach();
+  2687.   }
+
+net/ipv4/tcp_output.c:2739: error: NULL_DEREFERENCE
+  pointer `next_skb` last assigned on line 2735 could be null and is dereferenced at line 2739, column 18.
+  2737.   
+  2738.   	skb_size = skb->len;
+  2739. > 	next_skb_size = next_skb->len;
+  2740.   
+  2741.   	BUG_ON(tcp_skb_pcount(skb) != 1 || tcp_skb_pcount(next_skb) != 1);
+
+kernel/cgroup/cgroup.c:2912: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 2907 could be null and is dereferenced at line 2912, column 39.
+  2910.   			WARN_ON_ONCE(css && percpu_ref_is_dying(&css->refcnt));
+  2911.   
+  2912. > 			if (!(cgroup_ss_mask(dsct) & (1 << ss->id)))
+  2913.   				continue;
+  2914.   
+
+net/netfilter/nf_conntrack_netlink.c:2920: error: NULL_DEREFERENCE
+  pointer `m_help` last assigned on line 2918 could be null and is dereferenced at line 2920, column 16.
+  2918.   	m_help = nfct_help(exp->master);
+  2919.   
+  2920. > 	return strcmp(m_help->helper->name, name) == 0;
+  2921.   }
+  2922.   
+
+kernel/cgroup/cgroup.c:2966: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 2953 could be null and is dereferenced at line 2966, column 9.
+  2964.   			} else if (!css_visible(css)) {
+  2965.   				css_clear_dir(css);
+  2966. > 				if (ss->css_reset)
+  2967.   					ss->css_reset(css);
+  2968.   			}
+
+block/blk-mq.c:2970: error: NULL_DEREFERENCE
+  pointer `rq` last assigned on line 2957 could be null and is dereferenced by call to `__blk_mq_poll()` at line 2970, column 9.
+  2968.   	}
+  2969.   
+  2970. > 	return __blk_mq_poll(hctx, rq);
+  2971.   }
+  2972.   
+
+drivers/gpu/drm/i915/i915_debugfs.c:2976: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 2974 could be null and is dereferenced at line 2976, column 36.
+  2974.   	struct intel_dp *intel_dp = enc_to_intel_dp(&intel_encoder->base);
+  2975.   
+  2976. > 	seq_printf(m, "\tDPCD rev: %x\n", intel_dp->dpcd[DP_DPCD_REV]);
+  2977.   	seq_printf(m, "\taudio support: %s\n", yesno(intel_dp->has_audio));
+  2978.   	if (intel_connector->base.connector_type == DRM_MODE_CONNECTOR_eDP)
+
+drivers/usb/core/hub.c:3131: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 3130 could be null and is dereferenced at line 3131, column 30.
+  3129.   {
+  3130.   	struct usb_hub	*hub = usb_hub_to_struct_hub(udev->parent);
+  3131. > 	struct usb_port *port_dev = hub->ports[udev->portnum - 1];
+  3132.   	int		port1 = udev->portnum;
+  3133.   	int		status;
+
+kernel/cgroup/cgroup.c:3177: error: NULL_DEREFERENCE
+  pointer `parent` last assigned on line 3176 could be null and is dereferenced at line 3177, column 28.
+  3175.   {
+  3176.   	struct cgroup *parent = cgroup_parent(cgrp);
+  3177. > 	struct cgroup *dom_cgrp = parent->dom_cgrp;
+  3178.   	int ret;
+  3179.   
+
+net/core/rtnetlink.c:3238: error: NULL_DEREFERENCE
+  pointer `br_dev` last assigned on line 3237 could be null and is dereferenced at line 3238, column 38.
+  3236.   	    (dev->priv_flags & IFF_BRIDGE_PORT)) {
+  3237.   		struct net_device *br_dev = netdev_master_upper_dev_get(dev);
+  3238. > 		const struct net_device_ops *ops = br_dev->netdev_ops;
+  3239.   
+  3240.   		err = ops->ndo_fdb_add(ndm, tb, dev, addr, vid,
+
+net/socket.c:3300: error: NULL_DEREFERENCE
+  pointer `*newsock` last assigned on line 3288 could be null and is dereferenced at line 3300, column 2.
+  3298.   	}
+  3299.   
+  3300. > 	(*newsock)->ops = sock->ops;
+  3301.   	__module_get((*newsock)->ops->owner);
+  3302.   
+
+drivers/usb/core/hub.c:3400: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 3399 could be null and is dereferenced at line 3400, column 30.
+  3398.   {
+  3399.   	struct usb_hub	*hub = usb_hub_to_struct_hub(udev->parent);
+  3400. > 	struct usb_port *port_dev = hub->ports[udev->portnum  - 1];
+  3401.   	int		port1 = udev->portnum;
+  3402.   	int		status;
+
+drivers/gpu/drm/i915/i915_debugfs.c:3600: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 3599 could be null and is dereferenced at line 3600, column 8.
+  3598.   
+  3599.   		intel_dig_port = enc_to_dig_port(&intel_encoder->base);
+  3600. > 		if (!intel_dig_port->dp.can_mst)
+  3601.   			continue;
+  3602.   
+
+drivers/gpu/drm/i915/i915_debugfs.c:3657: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 3648 could be null and is dereferenced at line 3657, column 5.
+  3655.   			 */
+  3656.   			if (val == 1)
+  3657. > 				intel_dp->compliance.test_active = 1;
+  3658.   			else
+  3659.   				intel_dp->compliance.test_active = 0;
+
+drivers/gpu/drm/i915/i915_debugfs.c:3659: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 3648 could be null and is dereferenced at line 3659, column 5.
+  3657.   				intel_dp->compliance.test_active = 1;
+  3658.   			else
+  3659. > 				intel_dp->compliance.test_active = 0;
+  3660.   		}
+  3661.   	}
+
+drivers/gpu/drm/i915/i915_debugfs.c:3692: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 3691 could be null and is dereferenced at line 3692, column 8.
+  3690.   		if (encoder && connector->status == connector_status_connected) {
+  3691.   			intel_dp = enc_to_intel_dp(&encoder->base);
+  3692. > 			if (intel_dp->compliance.test_active)
+  3693.   				seq_puts(m, "1");
+  3694.   			else
+
+drivers/gpu/drm/i915/i915_debugfs.c:3743: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 3742 could be null and is dereferenced at line 3743, column 8.
+  3741.   		if (encoder && connector->status == connector_status_connected) {
+  3742.   			intel_dp = enc_to_intel_dp(&encoder->base);
+  3743. > 			if (intel_dp->compliance.test_type ==
+  3744.   			    DP_TEST_LINK_EDID_READ)
+  3745.   				seq_printf(m, "%lx",
+
+drivers/gpu/drm/i915/i915_debugfs.c:3801: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 3800 could be null and is dereferenced at line 3801, column 27.
+  3799.   		if (encoder && connector->status == connector_status_connected) {
+  3800.   			intel_dp = enc_to_intel_dp(&encoder->base);
+  3801. > 			seq_printf(m, "%02lx", intel_dp->compliance.test_type);
+  3802.   		} else
+  3803.   			seq_puts(m, "0");
+
+kernel/sched/fair.c:4188: error: NULL_DEREFERENCE
+  pointer `se` last assigned on line 4187 could be null and is dereferenced at line 4188, column 27.
+  4186.   
+  4187.   	se = __pick_first_entity(cfs_rq);
+  4188. > 	delta = curr->vruntime - se->vruntime;
+  4189.   
+  4190.   	if (delta < 0)
+
+drivers/usb/core/hub.c:4197: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 4195 could be null and is dereferenced by call to `hub_port_disable()` at line 4197, column 9.
+  4195.   	struct usb_hub *hub = usb_hub_to_struct_hub(udev->parent);
+  4196.   
+  4197. > 	return hub_port_disable(hub, udev->portnum, 0);
+  4198.   }
+  4199.   
+
+net/core/filter.c:4270: error: NULL_DEREFERENCE
+  pointer `insn` last assigned on line 4270 could be null and is dereferenced at line 4270, column 13.
+  4268.   	switch (si->off) {
+  4269.   	case offsetof(struct __sk_buff, ifindex):
+  4270. > 		*insn++ = BPF_LDX_MEM(BPF_FIELD_SIZEOF(struct sk_buff, dev),
+  4271.   				      si->dst_reg, si->src_reg,
+  4272.   				      offsetof(struct sk_buff, dev));
+
+kernel/cgroup/cgroup.c:4320: error: NULL_DEREFERENCE
+  pointer `com_cgrp` last assigned on line 4321 could be null and is dereferenced by call to `cgroup_is_descendant()` at line 4320, column 10.
+  4318.   
+  4319.   	/* find the common ancestor */
+  4320. > 	while (!cgroup_is_descendant(dst_cgrp, com_cgrp))
+  4321.   		com_cgrp = cgroup_parent(com_cgrp);
+  4322.   
+
+drivers/gpu/drm/i915/i915_gem.c:4442: error: NULL_DEREFERENCE
+  pointer `obj->base.filp` last assigned on line 4431 could be null and is dereferenced at line 4442, column 12.
+  4440.   	}
+  4441.   
+  4442. > 	mapping = obj->base.filp->f_mapping;
+  4443.   	mapping_set_gfp_mask(mapping, mask);
+  4444.   	GEM_BUG_ON(!(mapping_gfp_mask(mapping) & __GFP_RECLAIM));
+
+drivers/gpu/drm/i915/intel_dp.c:4947: error: NULL_DEREFERENCE
+  pointer `intel_dig_port` last assigned on line 4944 could be null and is dereferenced by call to `intel_dp_mst_encoder_cleanup()` at line 4947, column 2.
+  4945.   	struct intel_dp *intel_dp = &intel_dig_port->dp;
+  4946.   
+  4947. > 	intel_dp_mst_encoder_cleanup(intel_dig_port);
+  4948.   	if (intel_dp_is_edp(intel_dp)) {
+  4949.   		cancel_delayed_work_sync(&intel_dp->panel_vdd_work);
+
+drivers/gpu/drm/i915/intel_dp.c:5030: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 5026 could be null and is dereferenced at line 5030, column 18.
+  5028.   
+  5029.   	if (!HAS_DDI(dev_priv))
+  5030. > 		intel_dp->DP = I915_READ(intel_dp->output_reg);
+  5031.   
+  5032.   	if (lspcon->active)
+
+drivers/gpu/drm/i915/intel_dp.c:5035: error: NULL_DEREFERENCE
+  pointer `intel_dp` last assigned on line 5026 could be null and is dereferenced at line 5035, column 2.
+  5033.   		lspcon_resume(lspcon);
+  5034.   
+  5035. > 	intel_dp->reset_link_params = true;
+  5036.   
+  5037.   	pps_lock(intel_dp);
+
+drivers/ata/libata-core.c:5105: error: NULL_DEREFERENCE
+  pointer `qc` last assigned on line 5104 could be null and is dereferenced at line 5105, column 2.
+  5103.   
+  5104.   	qc = __ata_qc_from_tag(ap, tag);
+  5105. > 	qc->tag = tag;
+  5106.   	qc->scsicmd = NULL;
+  5107.   	qc->ap = ap;
+
+kernel/cgroup/cgroup.c:5209: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 5208 could be null and is dereferenced at line 5209, column 3.
+  5207.   
+  5208.   	for_each_subsys(ss, i) {
+  5209. > 		WARN(!ss->css_alloc || !ss->css_free || ss->name || ss->id,
+  5210.   		     "invalid cgroup_subsys %d:%s css_alloc=%p css_free=%p id:name=%d:%s\n",
+  5211.   		     i, cgroup_subsys_name[i], ss->css_alloc, ss->css_free,
+
+kernel/cgroup/cgroup.c:5505: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 5504 could be null and is dereferenced at line 5505, column 7.
+  5503.   
+  5504.   	for_each_subsys(ss, i)
+  5505. > 		if (ss->cancel_fork)
+  5506.   			ss->cancel_fork(child);
+  5507.   }
+
+drivers/usb/core/hub.c:5647: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 5632 could be null and is dereferenced at line 5647, column 13.
+  5645.   	}
+  5646.   
+  5647. > 	port_dev = hub->ports[udev->portnum - 1];
+  5648.   
+  5649.   	/*
+
+drivers/usb/core/hub.c:5768: error: NULL_DEREFERENCE
+  pointer `hub` last assigned on line 5764 could be null and is dereferenced at line 5768, column 9.
+  5766.   	if (port1 < 1 || port1 > hdev->maxchild)
+  5767.   		return NULL;
+  5768. > 	return hub->ports[port1 - 1]->child;
+  5769.   }
+  5770.   EXPORT_SYMBOL_GPL(usb_hub_find_child);
+
+kernel/cgroup/cgroup.c:5903: error: NULL_DEREFERENCE
+  pointer `ss` last assigned on line 5902 could be null and is dereferenced at line 5903, column 33.
+  5901.   
+  5902.   	for_each_subsys(ss, ssid)
+  5903. > 		ret += show_delegatable_files(ss->dfl_cftypes, buf + ret,
+  5904.   					      PAGE_SIZE - ret,
+  5905.   					      cgroup_subsys_name[ssid]);
+
+kernel/sched/core.c:6327: error: NULL_DEREFERENCE
+  pointer `tg` last assigned on line 6325 could be null and is dereferenced by call to `sched_offline_group()` at line 6327, column 2.
+  6325.   	struct task_group *tg = css_tg(css);
+  6326.   
+  6327. > 	sched_offline_group(tg);
+  6328.   }
+  6329.   
+
+kernel/sched/core.c:6413: error: NULL_DEREFERENCE
+  pointer `tg` last assigned on line 6411 could be null and is dereferenced at line 6413, column 15.
+  6411.   	struct task_group *tg = css_tg(css);
+  6412.   
+  6413. > 	return (u64) scale_load_down(tg->shares);
+  6414.   }
+  6415.   
+
+kernel/sched/core.c:6754: error: NULL_DEREFERENCE
+  pointer `tg` last assigned on line 6753 could be null and is dereferenced at line 6754, column 15.
+  6752.   {
+  6753.   	struct task_group *tg = css_tg(css);
+  6754. > 	u64 weight = scale_load_down(tg->shares);
+  6755.   
+  6756.   	return DIV_ROUND_CLOSEST_ULL(weight * CGROUP_WEIGHT_DFL, 1024);
+
+net/wireless/nl80211.c:7463: error: NULL_DEREFERENCE
+  pointer `sched_scan_req` last assigned on line 7451 could be null and is dereferenced at line 7463, column 11.
+  7461.   	 */
+  7462.   	if (want_multi && rdev->wiphy.max_sched_scan_reqs > 1) {
+  7463. > 		while (!sched_scan_req->reqid)
+  7464.   			sched_scan_req->reqid = rdev->wiphy.cookie_counter++;
+  7465.   	}
+
+net/wireless/nl80211.c:7467: error: NULL_DEREFERENCE
+  pointer `sched_scan_req` last assigned on line 7451 could be null and is dereferenced by call to `rdev_sched_scan_start()` at line 7467, column 8.
+  7465.   	}
+  7466.   
+  7467. > 	err = rdev_sched_scan_start(rdev, dev, sched_scan_req);
+  7468.   	if (err)
+  7469.   		goto out_free;
+
+drivers/gpu/drm/i915/intel_display.c:9248: error: NULL_DEREFERENCE
+  pointer `obj` last assigned on line 9244 could be null and is dereferenced at line 9248, column 10.
+  9246.   
+  9247.   	if (INTEL_INFO(dev_priv)->cursor_needs_physical)
+  9248. > 		base = obj->phys_handle->busaddr;
+  9249.   	else
+  9250.   		base = intel_plane_ggtt_offset(plane_state);
+
+drivers/net/ethernet/broadcom/tg3.c:12186: error: NULL_DEREFERENCE
+  pointer `phydev` last assigned on line 12185 could be null and is dereferenced by call to `phy_ethtool_ksettings_set()` at line 12186, column 10.
+  12184.   			return -EAGAIN;
+  12185.   		phydev = mdiobus_get_phy(tp->mdio_bus, tp->phy_addr);
+  12186. > 		return phy_ethtool_ksettings_set(phydev, cmd);
+  12187.   	}
+  12188.   
+
+Summary of the reports
+
+  NULL_DEREFERENCE: 171
+    USE_AFTER_FREE: 2
+       MEMORY_LEAK: 1
