@@ -1,7 +1,7 @@
 From c1360e56d10c453cc13575643d1f39f856ebd35c Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 17:46:11 +0200
-Subject: [PATCH 19/75] mm/mmap: annotate mm_{take_all,drop_all}_locks
+Subject: [PATCH 19/79] mm/mmap: annotate mm_{take_all,drop_all}_locks
 
 Address these warnings:
 

@@ -1,7 +1,7 @@
 From fce3d73147c7abdb5d0901920d00bb7ac1a7518e Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:29:56 +0200
-Subject: [PATCH 48/75] trace_events_trigger: annotate trigger_{start,stop}
+Subject: [PATCH 48/79] trace_events_trigger: annotate trigger_{start,stop}
 
 HANDLES:
 

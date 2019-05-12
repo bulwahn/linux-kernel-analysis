@@ -1,7 +1,7 @@
 From fe6924a1b6eb06a6cd2f4acafaefe06fa10a9f19 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 09:36:14 +0200
-Subject: [PATCH 09/75] FAILED: events/core: annotate perf_even_ctx_lock_nested
+Subject: [PATCH 09/79] FAILED: events/core: annotate perf_even_ctx_lock_nested
 
 I tried to handle this warning:
 

@@ -1,7 +1,7 @@
 From 50f02e0c9af9e0fd78bd0a94082bc7c609d89eb5 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 05:40:20 +0200
-Subject: [PATCH 74/75] video/fbdev/core: annotate fb_seq_{start,stop}
+Subject: [PATCH 74/79] video/fbdev/core: annotate fb_seq_{start,stop}
 
 HANDLES:
 

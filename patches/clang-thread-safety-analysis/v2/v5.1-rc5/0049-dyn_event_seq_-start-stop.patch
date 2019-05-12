@@ -1,7 +1,7 @@
 From c42b5674bb5328263cab4b3a76f7daae2c73330a Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:31:29 +0200
-Subject: [PATCH 49/75] dyn_event_seq_{start,stop}
+Subject: [PATCH 49/79] dyn_event_seq_{start,stop}
 
 ---
  kernel/trace/trace_dynevent.c | 4 ++--

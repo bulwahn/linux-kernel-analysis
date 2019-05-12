@@ -1,7 +1,7 @@
 From 3563d99cef291e9d8c74feb053e06c34e87a56b5 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 04:32:18 +0200
-Subject: [PATCH 72/75] REVISIT: drivers/pci: annotate pci_dev functions
+Subject: [PATCH 72/79] REVISIT: drivers/pci: annotate pci_dev functions
 
 drivers/pci/pci.c:4735:1: warning: mutex 'dev->dev.mutex' is still held at the end of function [-Wthread-safety-analysis]
 }

@@ -1,0 +1,55 @@
+From d58226980d485b51c1223aaa4bbf08cd85015348 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 27 Apr 2019 12:37:37 +0200
+Subject: [PATCH 77/79] md: annotate md_set_readonly and do_md_stop
+
+HANDLES:
+
+drivers/md/md.c:5938:2: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+        mddev_unlock(mddev);
+        ^
+drivers/md/md.c:5975:1: warning: mutex 'mddev->reconfig_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/md/md.c:5943:2: note: mutex acquired here
+        mddev_lock_nointr(mddev);
+        ^
+
+drivers/md/md.c:6000:2: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+        mddev_unlock(mddev);
+        ^
+drivers/md/md.c:6068:1: warning: mutex 'mddev->reconfig_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/md/md.c:6004:2: note: mutex acquired here
+        mddev_lock_nointr(mddev);
+        ^
+---
+ drivers/md/md.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index bd613315cd6b..bf1906819063 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5916,7 +5916,7 @@ void md_stop(struct mddev *mddev)
+ 
+ EXPORT_SYMBOL_GPL(md_stop);
+ 
+-static int md_set_readonly(struct mddev *mddev, struct block_device *bdev)
++static int md_set_readonly(struct mddev *mddev, struct block_device *bdev) __attribute__((requires_capability(mddev->reconfig_mutex)))
+ {
+ 	int err = 0;
+ 	int did_freeze = 0;
+@@ -5979,7 +5979,7 @@ static int md_set_readonly(struct mddev *mddev, struct block_device *bdev)
+  *   2 - stop but do not disassemble array
+  */
+ static int do_md_stop(struct mddev *mddev, int mode,
+-		      struct block_device *bdev)
++		      struct block_device *bdev) __attribute__((requires_capability(mddev->reconfig_mutex)))
+ {
+ 	struct gendisk *disk = mddev->gendisk;
+ 	struct md_rdev *rdev;
+-- 
+2.17.1
+

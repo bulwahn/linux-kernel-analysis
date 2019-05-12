@@ -1,7 +1,7 @@
 From cfd04b3e1eb893431382d84fda964be6b17f8156 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:49:24 +0200
-Subject: [PATCH 60/75] rtnetlink: annotate rtnl_unlock
+Subject: [PATCH 60/79] rtnetlink: annotate rtnl_unlock
 
 handles quite a few warnings, some few remaining. Needs another
 visit.

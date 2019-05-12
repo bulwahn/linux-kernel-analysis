@@ -1,7 +1,7 @@
 From 6d229aad4bbf636d9cb1d3613381fed1e923b87b Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:35:01 +0200
-Subject: [PATCH 56/75] phy-core: annotate phy_select_page
+Subject: [PATCH 56/79] phy-core: annotate phy_select_page
 
 HANDLES:
 

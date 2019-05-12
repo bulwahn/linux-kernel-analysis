@@ -1,7 +1,7 @@
 From 7dd052fb947a6949e18bbc826091a67814d44840 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 12:50:25 +0200
-Subject: [PATCH 30/75] lib/error-inject: annotate ei_seq_{start,stop}
+Subject: [PATCH 30/79] lib/error-inject: annotate ei_seq_{start,stop}
 
 This handles:
 

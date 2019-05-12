@@ -1,7 +1,7 @@
 From 4f7dbfa9b34c23623630925fc5464eb9a0ea6b0d Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 08:27:43 +0200
-Subject: [PATCH 44/75] psmouse-base: annotate ps_attr_set_protocol
+Subject: [PATCH 44/79] psmouse-base: annotate ps_attr_set_protocol
 
 HANDLES:
 

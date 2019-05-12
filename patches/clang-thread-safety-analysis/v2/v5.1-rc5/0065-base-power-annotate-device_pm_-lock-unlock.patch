@@ -1,7 +1,7 @@
 From a3f9db368ceb14bee1245a4dd803b02ed4c72089 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 19:23:51 +0200
-Subject: [PATCH 65/75] base/power: annotate device_pm_{lock,unlock}
+Subject: [PATCH 65/79] base/power: annotate device_pm_{lock,unlock}
 
 HANDLES:
 

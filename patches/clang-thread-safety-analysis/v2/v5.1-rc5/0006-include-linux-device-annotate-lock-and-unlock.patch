@@ -1,7 +1,7 @@
 From 82e7ab9e592db37e8caf78d03cd5d51b7dd2e0dc Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 07:45:50 +0200
-Subject: [PATCH 06/75] include/linux/device: annotate lock and unlock
+Subject: [PATCH 06/79] include/linux/device: annotate lock and unlock
 
 This makes these warnings go away:
 

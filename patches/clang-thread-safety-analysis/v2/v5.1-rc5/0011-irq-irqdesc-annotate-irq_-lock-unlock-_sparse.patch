@@ -1,7 +1,7 @@
 From 1689cc4a24acf0df7944eec545d049544d7d0ce9 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 10:06:01 +0200
-Subject: [PATCH 11/75] irq/irqdesc: annotate irq_{lock,unlock}_sparse
+Subject: [PATCH 11/79] irq/irqdesc: annotate irq_{lock,unlock}_sparse
 
 To handle these warnings:
 

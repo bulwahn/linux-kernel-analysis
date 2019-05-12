@@ -1,7 +1,7 @@
 From 86bd7899ebb05a23cf44a81a1c49114c75b622c6 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 12:43:38 +0200
-Subject: [PATCH 18/75] drivers/base/core: annotate some functions
+Subject: [PATCH 18/79] drivers/base/core: annotate some functions
 
 To address these warnings:
 

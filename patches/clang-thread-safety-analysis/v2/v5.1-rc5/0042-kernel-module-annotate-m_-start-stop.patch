@@ -1,7 +1,7 @@
 From 544f1479c5a9d38b66e585a493e92dbb3df448e7 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 08:22:50 +0200
-Subject: [PATCH 42/75] kernel/module: annotate m_{start,stop}
+Subject: [PATCH 42/79] kernel/module: annotate m_{start,stop}
 
 ---
  kernel/module.c | 4 ++--

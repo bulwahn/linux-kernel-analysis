@@ -1,7 +1,7 @@
 From da41d1d01e2c20838667b8b26991434f79c95d74 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 19:10:05 +0200
-Subject: [PATCH 52/75] cpuidle: annotate
+Subject: [PATCH 52/79] cpuidle: annotate
  cpuidle_{pause_and_lock,resume_and_unlock}
 
 HANDLES:

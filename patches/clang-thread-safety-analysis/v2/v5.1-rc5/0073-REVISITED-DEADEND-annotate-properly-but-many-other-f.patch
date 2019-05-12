@@ -1,7 +1,7 @@
 From 8685cd50eb84fec5c91872c78a6b5443363798b6 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 05:38:34 +0200
-Subject: [PATCH 73/75] REVISITED: DEADEND: annotate properly, but many other
+Subject: [PATCH 73/79] REVISITED: DEADEND: annotate properly, but many other
  functions to consider; need a new approach
 
 ---

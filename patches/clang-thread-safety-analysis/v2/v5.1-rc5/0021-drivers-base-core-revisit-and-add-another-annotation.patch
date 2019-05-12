@@ -1,7 +1,7 @@
 From 06947786fc3c9fd02fbf7eaf5b04c765e532392f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 18:25:30 +0200
-Subject: [PATCH 21/75] drivers/base/core: revisit and add another annotation
+Subject: [PATCH 21/79] drivers/base/core: revisit and add another annotation
  for lock_device_hotplug_sysfs
 
 Hence, handling also these warnings:

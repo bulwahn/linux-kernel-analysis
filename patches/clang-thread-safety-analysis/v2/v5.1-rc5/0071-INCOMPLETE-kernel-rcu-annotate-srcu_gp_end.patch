@@ -1,7 +1,7 @@
 From d1efb1a0f577c3ea8787bf8d44c18690d55af782 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 04:18:19 +0200
-Subject: [PATCH 71/75] INCOMPLETE: kernel/rcu: annotate srcu_gp_end
+Subject: [PATCH 71/79] INCOMPLETE: kernel/rcu: annotate srcu_gp_end
 
 TRIED TO HANDLE:
 

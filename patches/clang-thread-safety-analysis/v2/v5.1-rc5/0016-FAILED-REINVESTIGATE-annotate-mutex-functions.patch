@@ -1,7 +1,7 @@
 From fe10348c536e8cc64f45c217430c8c56448efc8c Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 12:02:52 +0200
-Subject: [PATCH 16/75] FAILED: REINVESTIGATE: annotate mutex functions
+Subject: [PATCH 16/79] FAILED: REINVESTIGATE: annotate mutex functions
 
 kernel/locking/mutex.c:258:1: warning: expecting mutex 'lock' to be held at the end of function [-Wthread-safety-analysis]
 }

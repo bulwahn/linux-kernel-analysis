@@ -1,7 +1,7 @@
 From 2d9f68160e01f02ff143ee9c4dedbdc5227b145e Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 19:18:08 +0200
-Subject: [PATCH 62/75] kernel/audit: annotate audit_ctl_{lock,unlock}
+Subject: [PATCH 62/79] kernel/audit: annotate audit_ctl_{lock,unlock}
 
 HANDLES:
 

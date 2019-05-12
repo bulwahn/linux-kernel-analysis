@@ -1,0 +1,33 @@
+From 07d369aa176ee537a340a8d42f75a94ed7596238 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 22:50:13 +0200
+Subject: [PATCH 76/79] md: annotate mddev_trylock()
+
+HANDLES:
+
+drivers/md/md.c:8963:3: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+                mddev_unlock(mddev);
+                ^
+drivers/md/md.c:9112:4: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+                        mddev_unlock(mddev);
+                        ^
+---
+ drivers/md/md.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/md/md.h b/drivers/md/md.h
+index 236a9e919ebf..05a6882263dd 100644
+--- a/drivers/md/md.h
++++ b/drivers/md/md.h
+@@ -512,7 +512,7 @@ static inline void mddev_lock_nointr(struct mddev *mddev) __attribute__((acquire
+ 	mutex_lock(&mddev->reconfig_mutex);
+ }
+ 
+-static inline int mddev_trylock(struct mddev *mddev)
++static inline int mddev_trylock(struct mddev *mddev) __attribute__((try_acquire_capability(1, mddev->reconfig_mutex)))
+ {
+ 	return mutex_trylock(&mddev->reconfig_mutex);
+ }
+-- 
+2.17.1
+

@@ -1,7 +1,7 @@
 From da41bd73669566dde6c05cd4c67c61fbb570682d Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 04:16:08 +0200
-Subject: [PATCH 70/75] include/linux/fb.h: annotate lock_fb_info
+Subject: [PATCH 70/79] include/linux/fb.h: annotate lock_fb_info
 
 ---
  include/linux/fb.h | 2 +-

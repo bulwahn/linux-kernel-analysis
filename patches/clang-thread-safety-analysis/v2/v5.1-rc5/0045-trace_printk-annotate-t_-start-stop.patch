@@ -1,7 +1,7 @@
 From a47f41ba79efdab787237e9a63277edad52bd997 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:20:40 +0200
-Subject: [PATCH 45/75] trace_printk: annotate t_{start,stop}
+Subject: [PATCH 45/79] trace_printk: annotate t_{start,stop}
 
 HANDLES:
 

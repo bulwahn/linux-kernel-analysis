@@ -1,7 +1,7 @@
 From c80c2a5dc11879fcbdd4c9a1d8555bd0290583ad Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:23:40 +0200
-Subject: [PATCH 46/75] fs/proc/proc_tty: annotate t_{start,stop}
+Subject: [PATCH 46/79] fs/proc/proc_tty: annotate t_{start,stop}
 
 ---
  fs/proc/proc_tty.c | 4 ++--

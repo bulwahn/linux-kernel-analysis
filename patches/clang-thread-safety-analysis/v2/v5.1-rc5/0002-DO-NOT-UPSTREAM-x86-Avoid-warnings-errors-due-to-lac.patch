@@ -1,7 +1,7 @@
 From b11466060eda897092152503ace0cd054145b4aa Mon Sep 17 00:00:00 2001
 From: Nathan Chancellor <natechancellor@gmail.com>
 Date: Tue, 25 Sep 2018 13:32:33 -0700
-Subject: [PATCH 02/75] DO-NOT-UPSTREAM: x86: Avoid warnings/errors due to lack
+Subject: [PATCH 02/79] DO-NOT-UPSTREAM: x86: Avoid warnings/errors due to lack
  of asm goto
 
 We don't want to see an inordinate amount of warning spam from

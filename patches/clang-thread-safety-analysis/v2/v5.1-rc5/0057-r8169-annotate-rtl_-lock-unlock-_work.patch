@@ -1,7 +1,7 @@
 From 769f3c5e5016306fb7aaa81fe84c321045fc6fae Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:36:18 +0200
-Subject: [PATCH 57/75] r8169: annotate rtl_{lock,unlock}_work
+Subject: [PATCH 57/79] r8169: annotate rtl_{lock,unlock}_work
 
 HANDLES:
 

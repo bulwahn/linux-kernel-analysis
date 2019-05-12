@@ -1,7 +1,7 @@
 From bda0e0671c5ca328435b21fd4df94753420b0cf2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 05:53:22 +0200
-Subject: [PATCH 75/75] drivers/md: annotate mddev_{lock,lock_nointr,unlock}
+Subject: [PATCH 75/79] drivers/md: annotate mddev_{lock,lock_nointr,unlock}
 
 HANDLES SOME WARNINGS.
 

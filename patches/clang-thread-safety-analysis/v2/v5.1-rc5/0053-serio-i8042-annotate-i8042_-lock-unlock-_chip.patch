@@ -1,7 +1,7 @@
 From 3f7a14ce591adf6230ae57c46ebeeab195982424 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 19:11:34 +0200
-Subject: [PATCH 53/75] serio/i8042: annotate i8042_{lock,unlock}_chip
+Subject: [PATCH 53/79] serio/i8042: annotate i8042_{lock,unlock}_chip
 
 HANDLES:
 

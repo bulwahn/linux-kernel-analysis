@@ -1,7 +1,7 @@
 From 0f821244729e05a78df0147728962653d3b8f5c5 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 19:22:13 +0200
-Subject: [PATCH 64/75] kernel/audit_tree: annotate create_chunk and
+Subject: [PATCH 64/79] kernel/audit_tree: annotate create_chunk and
  audit_add_tree_rule
 
 HANDLES:

@@ -1,7 +1,7 @@
 From 2b8e69e152b5c9e573e584b0b64481888e419a20 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 21 Apr 2019 08:16:51 +0200
-Subject: [PATCH 38/75] mutex: annotate mutex_lock_io
+Subject: [PATCH 38/79] mutex: annotate mutex_lock_io
 
 kernel/locking/mutex.c:1327:1: warning: mutex 'lock' is still held at the end of function [-Wthread-safety-analysis]
 }
