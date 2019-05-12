@@ -1,0 +1,46 @@
+From e43200981ce7bbaf8cfd64c086e48933f277876f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:35:44 +0200
+Subject: [PATCH 41/82] char/misc: annotate misc_seq_{start,stop}
+
+HANDLES:
+
+drivers/char/misc.c:71:1: warning: mutex 'misc_mtx' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/char/misc.c:69:2: note: mutex acquired here
+        mutex_lock(&misc_mtx);
+        ^
+drivers/char/misc.c:80:2: warning: releasing mutex 'misc_mtx' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&misc_mtx);
+        ^
+2 warnings generated.
+---
+ drivers/char/misc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/char/misc.c b/drivers/char/misc.c
+index 53cfe574d8d4..ad662a1301ce 100644
+--- a/drivers/char/misc.c
++++ b/drivers/char/misc.c
+@@ -64,7 +64,7 @@ static DEFINE_MUTEX(misc_mtx);
+ static DECLARE_BITMAP(misc_minors, DYNAMIC_MINORS);
+ 
+ #ifdef CONFIG_PROC_FS
+-static void *misc_seq_start(struct seq_file *seq, loff_t *pos)
++static void *misc_seq_start(struct seq_file *seq, loff_t *pos) __acquires_mutex(misc_mtx)
+ {
+ 	mutex_lock(&misc_mtx);
+ 	return seq_list_start(&misc_list, *pos);
+@@ -75,7 +75,7 @@ static void *misc_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+ 	return seq_list_next(v, &misc_list, pos);
+ }
+ 
+-static void misc_seq_stop(struct seq_file *seq, void *v)
++static void misc_seq_stop(struct seq_file *seq, void *v) __releases_mutex(misc_mtx)
+ {
+ 	mutex_unlock(&misc_mtx);
+ }
+-- 
+2.17.1
+

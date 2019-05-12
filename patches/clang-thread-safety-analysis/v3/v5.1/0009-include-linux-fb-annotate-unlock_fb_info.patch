@@ -1,0 +1,33 @@
+From d8f3fee5e6221f91d692ffe7414e1d83b3ab2d58 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 10:27:36 +0200
+Subject: [PATCH 09/82] include/linux/fb: annotate unlock_fb_info
+
+To address this warning:
+
+In file included from arch/x86/kernel/sysfb.c:36:
+In file included from ./include/linux/platform_data/simplefb.h:16:
+./include/linux/fb.h:667:2: warning: releasing mutex 'info->lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&info->lock);
+        ^
+1 warning generated.
+---
+ include/linux/fb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index f52ef0ad6781..16f7440298e1 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -662,7 +662,7 @@ extern struct class *fb_class;
+ 
+ extern int lock_fb_info(struct fb_info *info);
+ 
+-static inline void unlock_fb_info(struct fb_info *info)
++static inline void unlock_fb_info(struct fb_info *info) __releases_mutex(&info->lock)
+ {
+ 	mutex_unlock(&info->lock);
+ }
+-- 
+2.17.1
+

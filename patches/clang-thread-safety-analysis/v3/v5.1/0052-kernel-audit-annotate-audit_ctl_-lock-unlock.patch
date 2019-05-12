@@ -1,0 +1,45 @@
+From 1e5bb0a443ef7965fa05d53e6d917d83c8bdf41f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 19:18:08 +0200
+Subject: [PATCH 52/82] kernel/audit: annotate audit_ctl_{lock,unlock}
+
+HANDLES:
+
+kernel/audit.c:245:1: warning: mutex 'audit_cmd_mutex.lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/audit.c:243:2: note: mutex acquired here
+        mutex_lock(&audit_cmd_mutex.lock);
+        ^
+kernel/audit.c:253:2: warning: releasing mutex 'audit_cmd_mutex.lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&audit_cmd_mutex.lock);
+        ^
+---
+ kernel/audit.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/audit.c b/kernel/audit.c
+index c89ea48c70a6..96c77c9f637c 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -238,7 +238,7 @@ int auditd_test_task(struct task_struct *task)
+ /**
+  * audit_ctl_lock - Take the audit control lock
+  */
+-void audit_ctl_lock(void)
++void audit_ctl_lock(void) __acquires_mutex(audit_cmd_mutex.lock)
+ {
+ 	mutex_lock(&audit_cmd_mutex.lock);
+ 	audit_cmd_mutex.owner = current;
+@@ -247,7 +247,7 @@ void audit_ctl_lock(void)
+ /**
+  * audit_ctl_unlock - Drop the audit control lock
+  */
+-void audit_ctl_unlock(void)
++void audit_ctl_unlock(void) __releases_mutex(audit_cmd_mutex.lock)
+ {
+ 	audit_cmd_mutex.owner = NULL;
+ 	mutex_unlock(&audit_cmd_mutex.lock);
+-- 
+2.17.1
+

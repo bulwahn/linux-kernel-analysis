@@ -1,0 +1,58 @@
+From 3d188e74be01e4c63e83e9dd57d660a01bb2132c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 10:20:57 +0200
+Subject: [PATCH 08/82] autoprobe: annotate probe_irq functions
+
+This handles these warnings:
+
+kernel/irq/autoprobe.c:102:1: warning: mutex 'probing_active' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/irq/autoprobe.c:40:2: note: mutex acquired here
+        mutex_lock(&probing_active);
+        ^
+kernel/irq/autoprobe.c:134:2: warning: releasing mutex 'probing_active' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&probing_active);
+        ^
+kernel/irq/autoprobe.c:176:2: warning: releasing mutex 'probing_active' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&probing_active);
+        ^
+3 warnings generated.
+---
+ kernel/irq/autoprobe.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/irq/autoprobe.c b/kernel/irq/autoprobe.c
+index 16cbf6beb276..b65a109a33e7 100644
+--- a/kernel/irq/autoprobe.c
++++ b/kernel/irq/autoprobe.c
+@@ -27,7 +27,7 @@ static DEFINE_MUTEX(probing_active);
+  *	and a mask of potential interrupt lines is returned.
+  *
+  */
+-unsigned long probe_irq_on(void)
++unsigned long probe_irq_on(void) __acquires_mutex(probing_active)
+ {
+ 	struct irq_desc *desc;
+ 	unsigned long mask = 0;
+@@ -114,7 +114,7 @@ EXPORT_SYMBOL(probe_irq_on);
+  *	only return autodetect irq numbers - just so that we reset
+  *	them all to a known state.
+  */
+-unsigned int probe_irq_mask(unsigned long val)
++unsigned int probe_irq_mask(unsigned long val) __releases_mutex(probing_active)
+ {
+ 	unsigned int mask = 0;
+ 	struct irq_desc *desc;
+@@ -154,7 +154,7 @@ EXPORT_SYMBOL(probe_irq_mask);
+  *	nothing prevents two IRQ probe callers from overlapping. The
+  *	results of this are non-optimal.
+  */
+-int probe_irq_off(unsigned long val)
++int probe_irq_off(unsigned long val) __releases_mutex(probing_active)
+ {
+ 	int i, irq_found = 0, nr_of_irqs = 0;
+ 	struct irq_desc *desc;
+-- 
+2.17.1
+

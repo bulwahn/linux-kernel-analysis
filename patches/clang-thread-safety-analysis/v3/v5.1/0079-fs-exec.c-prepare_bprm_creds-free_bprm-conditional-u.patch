@@ -1,0 +1,27 @@
+From e03c64636de150f0edcba9ded9fad7d1460efae2 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 19:08:20 +0200
+Subject: [PATCH 79/82] fs/exec.c: prepare_bprm_creds, free_bprm: conditional
+ unlock function (fixup)
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/8
+---
+ fs/exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 665f741deb11..8c63d2f15127 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1402,7 +1402,7 @@ EXPORT_SYMBOL(finalize_exec);
+  * Or, if exec fails before, free_bprm() should release ->cred and
+  * and unlock.
+  */
+-static int prepare_bprm_creds(struct linux_binprm *bprm)
++static int prepare_bprm_creds(struct linux_binprm *bprm) __acquires_conditionally(current->signal->cred_guard_mutex)
+ {
+ 	if (mutex_lock_interruptible(&current->signal->cred_guard_mutex))
+ 		return -ERESTARTNOINTR;
+-- 
+2.17.1
+

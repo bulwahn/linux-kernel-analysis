@@ -1,0 +1,27 @@
+From 557b9c1255af11040d8a5fee9c3d029bf175ae89 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 11:44:24 +0200
+Subject: [PATCH 76/82] mm/percpu.c: pcpu_alloc: mutex 'pcpu_alloc_mutex'
+ conditionally locked and unlocked
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/9
+---
+ mm/percpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/percpu.c b/mm/percpu.c
+index 68dd2e7e73b5..1157b8abfd6e 100644
+--- a/mm/percpu.c
++++ b/mm/percpu.c
+@@ -1367,7 +1367,7 @@ static struct pcpu_chunk *pcpu_chunk_addr_search(void *addr)
+  * Percpu pointer to the allocated area on success, NULL on failure.
+  */
+ static void __percpu *pcpu_alloc(size_t size, size_t align, bool reserved,
+-				 gfp_t gfp)
++				 gfp_t gfp) __uses_conditionally(pcpu_alloc_mutex)
+ {
+ 	/* whitelisted flags that can be passed to the backing allocators */
+ 	gfp_t pcpu_gfp = gfp & (GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
+-- 
+2.17.1
+

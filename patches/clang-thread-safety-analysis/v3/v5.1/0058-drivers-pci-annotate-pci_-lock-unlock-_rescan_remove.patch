@@ -1,0 +1,43 @@
+From 84ba98934dae87890a58e2a0b644ec0893feca54 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 25 Apr 2019 21:48:29 +0200
+Subject: [PATCH 58/82] drivers/pci: annotate pci_{lock,unlock}_rescan_remove
+
+HANDLES:
+
+drivers/pci/probe.c:3280:1: warning: mutex 'pci_rescan_remove_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/pci/probe.c:3279:2: note: mutex acquired here
+        mutex_lock(&pci_rescan_remove_lock);
+        ^
+drivers/pci/probe.c:3285:2: warning: releasing mutex 'pci_rescan_remove_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&pci_rescan_remove_lock);
+        ^
+---
+ drivers/pci/probe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 7e12d0163863..4dd8d709e399 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -3274,13 +3274,13 @@ EXPORT_SYMBOL_GPL(pci_rescan_bus);
+  */
+ static DEFINE_MUTEX(pci_rescan_remove_lock);
+ 
+-void pci_lock_rescan_remove(void)
++void pci_lock_rescan_remove(void) __acquires_mutex(pci_rescan_remove_lock)
+ {
+ 	mutex_lock(&pci_rescan_remove_lock);
+ }
+ EXPORT_SYMBOL_GPL(pci_lock_rescan_remove);
+ 
+-void pci_unlock_rescan_remove(void)
++void pci_unlock_rescan_remove(void) __releases_mutex(pci_rescan_remove_lock)
+ {
+ 	mutex_unlock(&pci_rescan_remove_lock);
+ }
+-- 
+2.17.1
+

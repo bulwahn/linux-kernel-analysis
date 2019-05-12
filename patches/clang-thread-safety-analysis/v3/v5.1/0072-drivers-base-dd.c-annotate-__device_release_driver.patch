@@ -1,0 +1,42 @@
+From be7c85c4ebe417ef5c07b8acbdcf7fa97fda38a0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 10:48:33 +0200
+Subject: [PATCH 72/82] drivers/base/dd.c: annotate __device_release_driver()
+
+HANDLES:
+
+drivers/base/dd.c:1052:10: warning: expecting mutex 'dev->mutex' to be held at start of each loop [-Wthread-safety-analysis]
+                while (device_links_busy(dev)) {
+                       ^
+drivers/base/dd.c:1057:4: note: mutex acquired here
+                        __device_driver_lock(dev, parent);
+                        ^
+drivers/base/dd.c:1053:4: warning: releasing mutex 'dev->mutex' that was not held [-Wthread-safety-analysis]
+                        __device_driver_unlock(dev, parent);
+                        ^
+drivers/base/dd.c:1104:1: warning: mutex 'dev->mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/base/dd.c:1057:4: note: mutex acquired here
+                        __device_driver_lock(dev, parent);
+                        ^
+---
+ drivers/base/dd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index b551ac8206b0..21abc4fcce20 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1043,7 +1043,7 @@ EXPORT_SYMBOL_GPL(driver_attach);
+  * __device_release_driver() must be called with @dev lock held.
+  * When called for a USB interface, @dev->parent lock must be held as well.
+  */
+-static void __device_release_driver(struct device *dev, struct device *parent)
++static void __device_release_driver(struct device *dev, struct device *parent) __requires_mutex(dev->mutex)
+ {
+ 	struct device_driver *drv;
+ 
+-- 
+2.17.1
+

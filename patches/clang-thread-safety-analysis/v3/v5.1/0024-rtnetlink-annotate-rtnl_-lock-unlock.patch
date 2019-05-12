@@ -1,0 +1,50 @@
+From f5533e74661863ed1a507c7ae0eb4316aad13517 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 13:01:43 +0200
+Subject: [PATCH 24/82] rtnetlink: annotate rtnl_{lock,unlock}
+
+This handles:
+
+net/core/rtnetlink.c:77:1: warning: mutex 'rtnl_mutex' is still held at the end of function [-Wthre
+ad-safety-analysis]
+}
+^
+net/core/rtnetlink.c:76:2: note: mutex acquired here
+        mutex_lock(&rtnl_mutex);
+        ^
+net/core/rtnetlink.c:102:2: warning: releasing mutex 'rtnl_mutex' that was not held [-Wthread-safet
+y-analysis]
+        mutex_unlock(&rtnl_mutex);
+        ^
+2 warnings generated.
+
+This caused a number of new warnings in this file. To be continued.
+---
+ net/core/rtnetlink.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
+index 220c56e93659..2e043eb61774 100644
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -71,7 +71,7 @@ struct rtnl_link {
+ 
+ static DEFINE_MUTEX(rtnl_mutex);
+ 
+-void rtnl_lock(void)
++void rtnl_lock(void) __acquires_mutex(rtnl_mutex)
+ {
+ 	mutex_lock(&rtnl_mutex);
+ }
+@@ -93,7 +93,7 @@ void rtnl_kfree_skbs(struct sk_buff *head, struct sk_buff *tail)
+ }
+ EXPORT_SYMBOL(rtnl_kfree_skbs);
+ 
+-void __rtnl_unlock(void)
++void __rtnl_unlock(void) __releases_mutex(rtnl_mutex)
+ {
+ 	struct sk_buff *head = defer_kfree_skb_list;
+ 
+-- 
+2.17.1
+

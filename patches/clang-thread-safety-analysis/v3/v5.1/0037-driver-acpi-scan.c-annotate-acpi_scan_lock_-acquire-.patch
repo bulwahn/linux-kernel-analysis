@@ -1,0 +1,66 @@
+From 318a5719f308cd27051249678a7513524e8752f9 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:26:25 +0200
+Subject: [PATCH 37/82] driver/acpi/scan.c: annotate
+ acpi_scan_lock_{acquire,release} and acpi_{lock,unlock}_hp_context
+
+HANDLES:
+
+drivers/acpi/scan.c:61:1: warning: mutex 'acpi_scan_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/acpi/scan.c:60:2: note: mutex acquired here
+        mutex_lock(&acpi_scan_lock);
+        ^
+drivers/acpi/scan.c:66:2: warning: releasing mutex 'acpi_scan_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&acpi_scan_lock);
+        ^
+drivers/acpi/scan.c:73:1: warning: mutex 'acpi_hp_context_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/acpi/scan.c:72:2: note: mutex acquired here
+        mutex_lock(&acpi_hp_context_lock);
+        ^
+drivers/acpi/scan.c:77:2: warning: releasing mutex 'acpi_hp_context_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&acpi_hp_context_lock);
+        ^
+---
+ drivers/acpi/scan.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+index 446c959a8f08..4ef025d0d665 100644
+--- a/drivers/acpi/scan.c
++++ b/drivers/acpi/scan.c
+@@ -55,24 +55,24 @@ struct acpi_dep_data {
+ 	acpi_handle slave;
+ };
+ 
+-void acpi_scan_lock_acquire(void)
++void acpi_scan_lock_acquire(void) __acquires_mutex(acpi_scan_lock)
+ {
+ 	mutex_lock(&acpi_scan_lock);
+ }
+ EXPORT_SYMBOL_GPL(acpi_scan_lock_acquire);
+ 
+-void acpi_scan_lock_release(void)
++void acpi_scan_lock_release(void) __releases_mutex(acpi_scan_lock)
+ {
+ 	mutex_unlock(&acpi_scan_lock);
+ }
+ EXPORT_SYMBOL_GPL(acpi_scan_lock_release);
+ 
+-void acpi_lock_hp_context(void)
++void acpi_lock_hp_context(void) __acquires_mutex(acpi_hp_context_lock)
+ {
+ 	mutex_lock(&acpi_hp_context_lock);
+ }
+ 
+-void acpi_unlock_hp_context(void)
++void acpi_unlock_hp_context(void) __releases_mutex(acpi_hp_context_lock)
+ {
+ 	mutex_unlock(&acpi_hp_context_lock);
+ }
+-- 
+2.17.1
+

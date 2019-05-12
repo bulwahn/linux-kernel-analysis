@@ -1,0 +1,43 @@
+From 44d83ce4fc73e71fe13ecb57f1192e16caf0eb93 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 08:20:17 +0200
+Subject: [PATCH 31/82] kernel/cpu: annotate cpu_map_update_{begin,done}
+
+HANDLES:
+
+kernel/cpu.c:269:1: warning: mutex 'cpu_add_remove_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/cpu.c:268:2: note: mutex acquired here
+        mutex_lock(&cpu_add_remove_lock);
+        ^
+kernel/cpu.c:273:2: warning: releasing mutex 'cpu_add_remove_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&cpu_add_remove_lock);
+        ^
+2 warnings generated.
+---
+ kernel/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index 6754f3ecfd94..343873693be5 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -263,12 +263,12 @@ EXPORT_SYMBOL_GPL(cpuhp_tasks_frozen);
+  * The following two APIs (cpu_maps_update_begin/done) must be used when
+  * attempting to serialize the updates to cpu_online_mask & cpu_present_mask.
+  */
+-void cpu_maps_update_begin(void)
++void cpu_maps_update_begin(void) __acquires_mutex(cpu_add_remove_lock)
+ {
+ 	mutex_lock(&cpu_add_remove_lock);
+ }
+ 
+-void cpu_maps_update_done(void)
++void cpu_maps_update_done(void) __releases_mutex(cpu_add_remove_lock)
+ {
+ 	mutex_unlock(&cpu_add_remove_lock);
+ }
+-- 
+2.17.1
+

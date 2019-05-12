@@ -1,0 +1,36 @@
+From 5936673142e64f18388a658f99126a862222fce8 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 09:38:56 +0200
+Subject: [PATCH 70/82] fs/file.c: __fdget_pos, __f_unlock_pos: locks
+ file->f_pos_lock only under special condition
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/4
+---
+ fs/file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/file.c b/fs/file.c
+index 3da91a112bab..4b1ca8a50c72 100644
+--- a/fs/file.c
++++ b/fs/file.c
+@@ -790,7 +790,7 @@ unsigned long __fdget_raw(unsigned int fd)
+ 	return __fget_light(fd, 0);
+ }
+ 
+-unsigned long __fdget_pos(unsigned int fd)
++unsigned long __fdget_pos(unsigned int fd) __acquires_conditionally()
+ {
+ 	unsigned long v = __fdget(fd);
+ 	struct file *file = (struct file *)(v & ~3);
+@@ -804,7 +804,7 @@ unsigned long __fdget_pos(unsigned int fd)
+ 	return v;
+ }
+ 
+-void __f_unlock_pos(struct file *f)
++void __f_unlock_pos(struct file *f) __releases_conditionally(f->f_pos_lock)
+ {
+ 	mutex_unlock(&f->f_pos_lock);
+ }
+-- 
+2.17.1
+

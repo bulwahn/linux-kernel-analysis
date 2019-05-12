@@ -1,0 +1,33 @@
+From 57431999d0a020167d7e062ca1becccb26ba0e6e Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 11:59:29 +0200
+Subject: [PATCH 77/82] compiler_attributes: add explicit annotation for basic
+ functions
+
+---
+ include/linux/compiler_attributes.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index a7f921604ff9..8260af4f1007 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -269,6 +269,7 @@
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __releases_conditionally(x)    __attribute__((no_thread_safety_analysis))
++# define __no_thread_safety_analysis    __attribute__((no_thread_safety_analysis))
+ #else
+ # define __acquires_mutex(x)
+ # define __releases_mutex(x)
+@@ -277,6 +278,7 @@
+ # define __uses_conditionally(x)
+ # define __acquires_conditionally(x)
+ # define __releases_conditionally(x)
++# define __no_thread_safety_analysis
+ #endif
+ 
+ #endif /* __LINUX_COMPILER_ATTRIBUTES_H */
+-- 
+2.17.1
+

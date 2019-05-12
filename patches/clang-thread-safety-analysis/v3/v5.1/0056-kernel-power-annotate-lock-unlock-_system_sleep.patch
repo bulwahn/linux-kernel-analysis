@@ -1,0 +1,44 @@
+From c2794e4f0038b80f7385335f5706e3ab1deb2231 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 25 Apr 2019 21:40:51 +0200
+Subject: [PATCH 56/82] kernel/power: annotate {lock,unlock}_system_sleep
+
+HANDLES:
+
+kernel/power/main.c:28:1: warning: mutex 'system_transition_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/power/main.c:27:2: note: mutex acquired here
+        mutex_lock(&system_transition_mutex);
+        ^
+kernel/power/main.c:50:2: warning: releasing mutex 'system_transition_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&system_transition_mutex);
+        ^
+---
+ kernel/power/main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/power/main.c b/kernel/power/main.c
+index 98e76cad128b..f1c973a2bb47 100644
+--- a/kernel/power/main.c
++++ b/kernel/power/main.c
+@@ -21,14 +21,14 @@
+ 
+ #ifdef CONFIG_PM_SLEEP
+ 
+-void lock_system_sleep(void)
++void lock_system_sleep(void) __acquires_mutex(system_transition_mutex)
+ {
+ 	current->flags |= PF_FREEZER_SKIP;
+ 	mutex_lock(&system_transition_mutex);
+ }
+ EXPORT_SYMBOL_GPL(lock_system_sleep);
+ 
+-void unlock_system_sleep(void)
++void unlock_system_sleep(void) __releases_mutex(system_transition_mutex)
+ {
+ 	/*
+ 	 * Don't use freezer_count() because we don't want the call to
+-- 
+2.17.1
+

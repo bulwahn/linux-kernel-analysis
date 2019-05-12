@@ -1,0 +1,27 @@
+From 4c61aca45e7a4fea3c058713f067871a89097fbf Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 09:36:28 +0200
+Subject: [PATCH 68/82] drivers/base/bus.c: bus_rescan_devices_helper: mutex
+ 'dev->parent->mutex' conditionally locked and unlocked
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/2
+---
+ drivers/base/bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 0a58e969f8b7..4351241be1c5 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -707,7 +707,7 @@ void bus_remove_driver(struct device_driver *drv)
+ 
+ /* Helper for bus_rescan_devices's iter */
+ static int __must_check bus_rescan_devices_helper(struct device *dev,
+-						  void *data)
++						  void *data) __uses_conditionally(dev->parent->mutex)
+ {
+ 	int ret = 0;
+ 
+-- 
+2.17.1
+

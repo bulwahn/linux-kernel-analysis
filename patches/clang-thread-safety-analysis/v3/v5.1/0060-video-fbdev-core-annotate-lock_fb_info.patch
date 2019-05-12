@@ -1,0 +1,36 @@
+From 85ed44ef6863184d50c530170db2d7356634f669 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 25 Apr 2019 21:57:38 +0200
+Subject: [PATCH 60/82] video/fbdev/core: annotate lock_fb_info
+
+HANDLES:
+
+drivers/video/fbdev/core/fbmem.c:91:1: warning: mutex 'info->lock' is not held on every path through here [-Wthread-safety-analysi
+s]
+}
+^
+drivers/video/fbdev/core/fbmem.c:85:2: note: mutex acquired here
+        mutex_lock(&info->lock);
+        ^
+
+AND consequently resolves many further warnings.
+---
+ drivers/video/fbdev/core/fbmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index 4721491e6c8c..ecff23dbdda1 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -80,7 +80,7 @@ static void put_fb_info(struct fb_info *fb_info)
+ 		fb_info->fbops->fb_destroy(fb_info);
+ }
+ 
+-int lock_fb_info(struct fb_info *info)
++int lock_fb_info(struct fb_info *info) __try_acquires_mutex(1, info->lock)
+ {
+ 	mutex_lock(&info->lock);
+ 	if (!info->fbops) {
+-- 
+2.17.1
+

@@ -1,0 +1,44 @@
+From eb532de351c2ca431eff5dcd9591987cba6a1171 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 04:06:22 +0200
+Subject: [PATCH 20/82] mac80211: annotate sdata_{lock,unlock}
+
+net/mac80211/ieee80211_i.h:1005:1: warning: mutex 'sdata->wdev.mtx' is still held at the end of function [-Wthread-sa
+fety-analysis]
+}
+^
+net/mac80211/ieee80211_i.h:1003:2: note: mutex acquired here
+        mutex_lock(&sdata->wdev.mtx);
+        ^
+net/mac80211/ieee80211_i.h:1010:2: warning: releasing mutex 'sdata->wdev.mtx' that was not held [-Wthread-safety-anal
+ysis]
+        mutex_unlock(&sdata->wdev.mtx);
+        ^
+---
+ net/mac80211/ieee80211_i.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/mac80211/ieee80211_i.h b/net/mac80211/ieee80211_i.h
+index e170f986d226..1d0d7df8060f 100644
+--- a/net/mac80211/ieee80211_i.h
++++ b/net/mac80211/ieee80211_i.h
+@@ -998,14 +998,14 @@ struct ieee80211_sub_if_data *vif_to_sdata(struct ieee80211_vif *p)
+ }
+ 
+ static inline void sdata_lock(struct ieee80211_sub_if_data *sdata)
+-	__acquires(&sdata->wdev.mtx)
++	__acquires(&sdata->wdev.mtx) __acquires_mutex(&sdata->wdev.mtx)
+ {
+ 	mutex_lock(&sdata->wdev.mtx);
+ 	__acquire(&sdata->wdev.mtx);
+ }
+ 
+ static inline void sdata_unlock(struct ieee80211_sub_if_data *sdata)
+-	__releases(&sdata->wdev.mtx)
++	__releases(&sdata->wdev.mtx) __releases_mutex(&sdata->wdev.mtx)
+ {
+ 	mutex_unlock(&sdata->wdev.mtx);
+ 	__release(&sdata->wdev.mtx);
+-- 
+2.17.1
+

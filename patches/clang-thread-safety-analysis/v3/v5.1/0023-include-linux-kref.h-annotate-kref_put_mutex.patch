@@ -1,0 +1,37 @@
+From 7d08d0ea4ebcbfcd939a0e684e503d99bbf379c0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 12:56:23 +0200
+Subject: [PATCH 23/82] include/linux/kref.h: annotate kref_put_mutex
+
+To handle this warning:
+
+In file included from ./include/linux/kobject.h:23:
+./include/linux/kref.h:82:1: warning: mutex 'lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+./include/linux/kref.h:77:6: note: mutex acquired here
+        if (refcount_dec_and_mutex_lock(&kref->refcount, lock)) {
+            ^
+
+This was caused by the annotation of refcount_dec_and_mutex_lock in
+the header file.
+---
+ include/linux/kref.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/kref.h b/include/linux/kref.h
+index cb00a0268061..9d065101853d 100644
+--- a/include/linux/kref.h
++++ b/include/linux/kref.h
+@@ -72,7 +72,7 @@ static inline int kref_put(struct kref *kref, void (*release)(struct kref *kref)
+ 
+ static inline int kref_put_mutex(struct kref *kref,
+ 				 void (*release)(struct kref *kref),
+-				 struct mutex *lock)
++				 struct mutex *lock)  __try_acquires_mutex(1, lock)
+ {
+ 	if (refcount_dec_and_mutex_lock(&kref->refcount, lock)) {
+ 		release(kref);
+-- 
+2.17.1
+

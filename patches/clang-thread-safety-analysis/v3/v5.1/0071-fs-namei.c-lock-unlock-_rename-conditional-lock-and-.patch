@@ -1,0 +1,36 @@
+From 0cfd92ab73c12fd2ce7e1e85d572113282cb978a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 09:40:29 +0200
+Subject: [PATCH 71/82] fs/namei.c: {lock,unlock}_rename: conditional lock and
+ unlock functions
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/6
+---
+ fs/namei.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/namei.c b/fs/namei.c
+index dede0147b3f6..0fce0b4e1272 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -2852,7 +2852,7 @@ static inline int may_create(struct inode *dir, struct dentry *child)
+ /*
+  * p1 and p2 should be directories on the same fs.
+  */
+-struct dentry *lock_rename(struct dentry *p1, struct dentry *p2)
++struct dentry *lock_rename(struct dentry *p1, struct dentry *p2) __acquires_conditionally(p1->d_sb->s_vfs_rename_mutex)
+ {
+ 	struct dentry *p;
+ 
+@@ -2883,7 +2883,7 @@ struct dentry *lock_rename(struct dentry *p1, struct dentry *p2)
+ }
+ EXPORT_SYMBOL(lock_rename);
+ 
+-void unlock_rename(struct dentry *p1, struct dentry *p2)
++void unlock_rename(struct dentry *p1, struct dentry *p2) __releases_conditionally(p1->d_sb->s_vfs_rename_mutex)
+ {
+ 	inode_unlock(p1->d_inode);
+ 	if (p1 != p2) {
+-- 
+2.17.1
+

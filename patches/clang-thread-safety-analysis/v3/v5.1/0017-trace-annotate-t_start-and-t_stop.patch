@@ -1,0 +1,43 @@
+From 47a879cf6049778ed0acfd67059f18c331f9a49c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 04:01:41 +0200
+Subject: [PATCH 17/82] trace: annotate t_start and t_stop
+
+kernel/trace/trace.c:4291:1: warning: mutex 'trace_types_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace.c:4284:2: note: mutex acquired here
+        mutex_lock(&trace_types_lock);
+        ^
+kernel/trace/trace.c:4295:2: warning: releasing mutex 'trace_types_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&trace_types_lock);
+        ^
+---
+ kernel/trace/trace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index ca1ee656d6d8..0dd9332beab1 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -4278,7 +4278,7 @@ t_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return t;
+ }
+ 
+-static void *t_start(struct seq_file *m, loff_t *pos)
++static void *t_start(struct seq_file *m, loff_t *pos) __acquires_mutex(trace_types_lock)
+ {
+ 	struct trace_array *tr = m->private;
+ 	struct tracer *t;
+@@ -4293,7 +4293,7 @@ static void *t_start(struct seq_file *m, loff_t *pos)
+ 	return t;
+ }
+ 
+-static void t_stop(struct seq_file *m, void *p)
++static void t_stop(struct seq_file *m, void *p) __releases_mutex(trace_types_lock)
+ {
+ 	mutex_unlock(&trace_types_lock);
+ }
+-- 
+2.17.1
+

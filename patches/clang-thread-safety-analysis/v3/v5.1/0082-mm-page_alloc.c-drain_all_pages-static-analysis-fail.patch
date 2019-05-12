@@ -1,0 +1,27 @@
+From a880233549baf84d0cc2fc6bdbde67e3bbb4687f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 19:18:10 +0200
+Subject: [PATCH 82/82] mm/page_alloc.c: drain_all_pages: static analysis fails
+ to detect it is locked for all paths
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/10
+---
+ mm/page_alloc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index c02cff1ed56e..a580003ed4c8 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -2767,7 +2767,7 @@ static void drain_local_pages_wq(struct work_struct *work)
+  *
+  * Note that this can be extremely slow as the draining happens in a workqueue.
+  */
+-void drain_all_pages(struct zone *zone)
++void drain_all_pages(struct zone *zone) __uses_retry_acquires(pcpu_drain_mutex)
+ {
+ 	int cpu;
+ 
+-- 
+2.17.1
+

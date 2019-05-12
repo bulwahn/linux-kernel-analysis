@@ -1,0 +1,45 @@
+From b99257b6f3151463e010d068d091428cf395b144 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:29:56 +0200
+Subject: [PATCH 38/82] trace_events_trigger: annotate trigger_{start,stop}
+
+HANDLES:
+
+kernel/trace/trace_events_trigger.c:138:1: warning: mutex 'event_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_events_trigger.c:129:2: note: mutex acquired here
+        mutex_lock(&event_mutex);
+        ^
+kernel/trace/trace_events_trigger.c:142:2: warning: releasing mutex 'event_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&event_mutex);
+        ^
+---
+ kernel/trace/trace_events_trigger.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_events_trigger.c b/kernel/trace/trace_events_trigger.c
+index cd12ecb66eb9..4222e421d583 100644
+--- a/kernel/trace/trace_events_trigger.c
++++ b/kernel/trace/trace_events_trigger.c
+@@ -121,7 +121,7 @@ static void *trigger_next(struct seq_file *m, void *t, loff_t *pos)
+ 	return seq_list_next(t, &event_file->triggers, pos);
+ }
+ 
+-static void *trigger_start(struct seq_file *m, loff_t *pos)
++static void *trigger_start(struct seq_file *m, loff_t *pos) __acquires_mutex(event_mutex)
+ {
+ 	struct trace_event_file *event_file;
+ 
+@@ -137,7 +137,7 @@ static void *trigger_start(struct seq_file *m, loff_t *pos)
+ 	return seq_list_start(&event_file->triggers, *pos);
+ }
+ 
+-static void trigger_stop(struct seq_file *m, void *t)
++static void trigger_stop(struct seq_file *m, void *t) __releases_mutex(event_mutex)
+ {
+ 	mutex_unlock(&event_mutex);
+ }
+-- 
+2.17.1
+

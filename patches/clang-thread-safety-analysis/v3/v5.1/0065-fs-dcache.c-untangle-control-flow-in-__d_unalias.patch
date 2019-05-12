@@ -1,0 +1,95 @@
+From 493beaf0c4cfbbd23dce2012a83c2e49264c78e4 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 27 Apr 2019 12:40:27 +0200
+Subject: [PATCH 65/82] fs/dcache.c: untangle control flow in __d_unalias()
+
+__d_unalias() has four control flows:
+
+  1. the shortcut: if alias->d_parent == dentry->d_parent, __d_move()
+     requires no lock and unlock.
+  2. first failure case: locking s_vfs_rename_mutex fails.
+  3. second failure case: locking s_vfs_rename_mutex succeeds, but
+     locking d_inode fails.
+  4. normal operation: locking both succeeds, call __d_move(), then
+     unlock both.
+
+Commit 9eaef27b36a6 ("[PATCH] VFS: Make d_materialise_unique() enforce
+directory uniqueness") provided the implementation of __d_unalias() with
+some minor changes later on. It implements these four control flows very
+indirectly, with three local variables, three conditional branches with
+goto, two local variable assignments and two further branches depending
+on the local variables.
+
+This previous implementation allows to make each function call
+(__d_move(), mutex_unlock()) appear exactly once in the code, but at the
+cost of using multiple variables and more branches than actual control
+flows.
+
+Make the four control flows more explicit and hence, make the
+implementation is easier to read, understand and analyse by tools. It
+duplicates the calls to __d_move() and mutex_unlock() in the code due
+to the more explicit control flow. The behaviour remains as-is.
+
+This change was motivated by a code review, when Clang Thread Safety
+Analyser failed to determine the balanced use of mutex lock and unlock
+in __d_unalias(). With this more explicit control flow, Clang Thread
+Safety Analyser can analyse the possible control flows and recognizes
+the balance of lock and unlock.
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/5
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ fs/dcache.c | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
+
+diff --git a/fs/dcache.c b/fs/dcache.c
+index aac41adf4743..59ffeaa69122 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -2877,30 +2877,22 @@ struct dentry *d_ancestor(struct dentry *p1, struct dentry *p2)
+ static int __d_unalias(struct inode *inode,
+ 		struct dentry *dentry, struct dentry *alias)
+ {
+-	struct mutex *m1 = NULL;
+-	struct rw_semaphore *m2 = NULL;
+-	int ret = -ESTALE;
+-
+ 	/* If alias and dentry share a parent, then no extra locks required */
+-	if (alias->d_parent == dentry->d_parent)
+-		goto out_unalias;
+-
++	if (alias->d_parent == dentry->d_parent) {
++		__d_move(alias, dentry, false);
++		return 0;
++	}
+ 	/* See lock_rename() */
+ 	if (!mutex_trylock(&dentry->d_sb->s_vfs_rename_mutex))
+-		goto out_err;
+-	m1 = &dentry->d_sb->s_vfs_rename_mutex;
+-	if (!inode_trylock_shared(alias->d_parent->d_inode))
+-		goto out_err;
+-	m2 = &alias->d_parent->d_inode->i_rwsem;
+-out_unalias:
++		return -ESTALE;
++	if (!inode_trylock_shared(alias->d_parent->d_inode)) {
++		mutex_unlock(&dentry->d_sb->s_vfs_rename_mutex);
++		return -ESTALE;
++	}
+ 	__d_move(alias, dentry, false);
+-	ret = 0;
+-out_err:
+-	if (m2)
+-		up_read(m2);
+-	if (m1)
+-		mutex_unlock(m1);
+-	return ret;
++	up_read(&alias->d_parent->d_inode->i_rwsem);
++	mutex_unlock(&dentry->d_sb->s_vfs_rename_mutex);
++	return 0;
+ }
+ 
+ /**
+-- 
+2.17.1
+

@@ -1,0 +1,62 @@
+From a85cadd82cb14c65ced3d7531e1dad571f1c2aa2 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 21 Apr 2019 08:05:23 +0200
+Subject: [PATCH 27/82] intel/iosf_mbi: annotate
+ ios_mbi_punit_{acquire,release}, iosf_mbi_block_punit_i2c_access
+
+arch/x86/platform/intel/iosf_mbi.c:224:1: warning: mutex 'iosf_mbi_punit_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+arch/x86/platform/intel/iosf_mbi.c:223:2: note: mutex acquired here
+        mutex_lock(&iosf_mbi_punit_mutex);
+        ^
+arch/x86/platform/intel/iosf_mbi.c:229:2: warning: releasing mutex 'iosf_mbi_punit_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&iosf_mbi_punit_mutex);
+        ^
+arch/x86/platform/intel/iosf_mbi.c:361:15: warning: mutex 'iosf_mbi_punit_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (!WARN_ON(ret))
+                     ^
+arch/x86/platform/intel/iosf_mbi.c:314:2: note: mutex acquired here
+        mutex_lock(&iosf_mbi_punit_mutex);
+        ^
+arch/x86/platform/intel/iosf_mbi.c:377:3: warning: releasing mutex 'iosf_mbi_punit_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&iosf_mbi_punit_mutex);
+                ^
+
+One warning still open.
+---
+ arch/x86/platform/intel/iosf_mbi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/x86/platform/intel/iosf_mbi.c b/arch/x86/platform/intel/iosf_mbi.c
+index a9f2e888e135..d0b6e98f0b60 100644
+--- a/arch/x86/platform/intel/iosf_mbi.c
++++ b/arch/x86/platform/intel/iosf_mbi.c
+@@ -218,13 +218,13 @@ static u32 iosf_mbi_sem_address;
+ static unsigned long iosf_mbi_sem_acquired;
+ static struct pm_qos_request iosf_mbi_pm_qos;
+ 
+-void iosf_mbi_punit_acquire(void)
++void iosf_mbi_punit_acquire(void) __acquires_mutex(iosf_mbi_punit_mutex)
+ {
+ 	mutex_lock(&iosf_mbi_punit_mutex);
+ }
+ EXPORT_SYMBOL(iosf_mbi_punit_acquire);
+ 
+-void iosf_mbi_punit_release(void)
++void iosf_mbi_punit_release(void) __releases_mutex(iosf_mbi_punit_mutex)
+ {
+ 	mutex_unlock(&iosf_mbi_punit_mutex);
+ }
+@@ -297,7 +297,7 @@ static void iosf_mbi_reset_semaphore(void)
+  *    As the fourth and final step we request this semaphore and wait for our
+  *    request to be acknowledged.
+  */
+-int iosf_mbi_block_punit_i2c_access(void)
++int iosf_mbi_block_punit_i2c_access(void) __try_acquires_mutex(0, iosf_mbi_punit_mutex)
+ {
+ 	unsigned long start, end;
+ 	int ret = 0;
+-- 
+2.17.1
+

@@ -1,0 +1,44 @@
+From 743b84d88052e033d6aa8128c0e020e89eb05d1b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 11:22:06 +0200
+Subject: [PATCH 73/82] fs/pipe.c: annotate __pipe_{lock,unlock}()
+
+HANDLES:
+
+fs/pipe.c:84:1: warning: mutex 'pipe->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+fs/pipe.c:83:2: note: mutex acquired here
+        mutex_lock_nested(&pipe->mutex, I_MUTEX_PARENT);
+        ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+                                           ^
+fs/pipe.c:88:2: warning: releasing mutex 'pipe->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&pipe->mutex);
+        ^
+---
+ fs/pipe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 41065901106b..555817567f07 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -78,12 +78,12 @@ void pipe_unlock(struct pipe_inode_info *pipe)
+ }
+ EXPORT_SYMBOL(pipe_unlock);
+ 
+-static inline void __pipe_lock(struct pipe_inode_info *pipe)
++static inline void __pipe_lock(struct pipe_inode_info *pipe) __acquires_mutex(pipe->mutex)
+ {
+ 	mutex_lock_nested(&pipe->mutex, I_MUTEX_PARENT);
+ }
+ 
+-static inline void __pipe_unlock(struct pipe_inode_info *pipe)
++static inline void __pipe_unlock(struct pipe_inode_info *pipe) __releases_mutex(pipe->mutex)
+ {
+ 	mutex_unlock(&pipe->mutex);
+ }
+-- 
+2.17.1
+

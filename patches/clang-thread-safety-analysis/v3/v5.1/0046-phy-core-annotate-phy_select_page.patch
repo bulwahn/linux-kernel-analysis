@@ -1,0 +1,43 @@
+From c01ba5f66ed23e838b282d783e0d9b6015af4d8c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 06:35:01 +0200
+Subject: [PATCH 46/82] phy-core: annotate phy_select_page
+
+HANDLES:
+
+drivers/net/phy/phy-core.c:834:1: warning: mutex 'phydev->mdio.bus->mdio_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/net/phy/phy-core.c:823:18: note: mutex acquired here
+        oldpage = ret = phy_save_page(phydev);
+                        ^
+
+drivers/net/phy/phy-core.c:892:9: warning: releasing mutex 'phydev->mdio.bus->mdio_lock' that was not held [-Wthread-safety-analysis]
+        return phy_restore_page(phydev, oldpage, ret);
+               ^
+drivers/net/phy/phy-core.c:913:9: warning: releasing mutex 'phydev->mdio.bus->mdio_lock' that was not held [-Wthread-safety-analysis]
+        return phy_restore_page(phydev, oldpage, ret);
+               ^
+drivers/net/phy/phy-core.c:936:9: warning: releasing mutex 'phydev->mdio.bus->mdio_lock' that was not held [-Wthread-safety-analysis]
+        return phy_restore_page(phydev, oldpage, ret);
+               ^
+---
+ drivers/net/phy/phy-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/phy/phy-core.c b/drivers/net/phy/phy-core.c
+index f3e5d4e7e521..7b65134e8c25 100644
+--- a/drivers/net/phy/phy-core.c
++++ b/drivers/net/phy/phy-core.c
+@@ -816,7 +816,7 @@ EXPORT_SYMBOL_GPL(phy_save_page);
+  * phy_restore_page() must always be called after this, irrespective
+  * of success or failure of this call.
+  */
+-int phy_select_page(struct phy_device *phydev, int page)
++int phy_select_page(struct phy_device *phydev, int page) __acquires_mutex(phydev->mdio.bus->mdio_lock)
+ {
+ 	int ret, oldpage;
+ 
+-- 
+2.17.1
+

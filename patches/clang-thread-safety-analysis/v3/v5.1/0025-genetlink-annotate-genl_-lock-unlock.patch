@@ -1,0 +1,47 @@
+From d376561df414ca782f66ecd136d33613d24702a3 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 20 Apr 2019 13:04:05 +0200
+Subject: [PATCH 25/82] genetlink: annotate genl_{lock,unlock}
+
+This handles:
+
+net/netlink/genetlink.c:34:1: warning: mutex 'genl_mutex' is still held at the end of function [-Wt
+hread-safety-analysis]
+}
+^
+net/netlink/genetlink.c:33:2: note: mutex acquired here
+        mutex_lock(&genl_mutex);
+        ^
+net/netlink/genetlink.c:39:2: warning: releasing mutex 'genl_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&genl_mutex);
+        ^
+2 warnings generated.
+
+This causes a number of new warnings.
+---
+ net/netlink/genetlink.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/netlink/genetlink.c b/net/netlink/genetlink.c
+index cb69d35c8e6a..45b3458a7508 100644
+--- a/net/netlink/genetlink.c
++++ b/net/netlink/genetlink.c
+@@ -28,13 +28,13 @@ static DECLARE_RWSEM(cb_lock);
+ atomic_t genl_sk_destructing_cnt = ATOMIC_INIT(0);
+ DECLARE_WAIT_QUEUE_HEAD(genl_sk_destructing_waitq);
+ 
+-void genl_lock(void)
++void genl_lock(void) __acquires_mutex(genl_mutex)
+ {
+ 	mutex_lock(&genl_mutex);
+ }
+ EXPORT_SYMBOL(genl_lock);
+ 
+-void genl_unlock(void)
++void genl_unlock(void) __releases_mutex(genl_mutex)
+ {
+ 	mutex_unlock(&genl_mutex);
+ }
+-- 
+2.17.1
+

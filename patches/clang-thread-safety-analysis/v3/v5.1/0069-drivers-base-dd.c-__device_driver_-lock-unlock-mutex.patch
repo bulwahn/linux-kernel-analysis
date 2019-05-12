@@ -1,0 +1,36 @@
+From 826d4aaf869b5367dbf48c28ddf7c1bed958eca1 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 09:37:33 +0200
+Subject: [PATCH 69/82] drivers/base/dd.c: __device_driver_{lock,unlock}: mutex
+ 'parent->mutex' conditional lock and unlock functions
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/3
+---
+ drivers/base/dd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index a823f469e53f..b551ac8206b0 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -900,7 +900,7 @@ void device_initial_probe(struct device *dev)
+  * Normally this will just be the @dev lock, but when called for a USB
+  * interface, @parent lock will be held as well.
+  */
+-static void __device_driver_lock(struct device *dev, struct device *parent)
++static void __device_driver_lock(struct device *dev, struct device *parent) __acquires_mutex(dev->mutex) __acquires_conditionally(parent->mutex)
+ {
+ 	if (parent && dev->bus->need_parent_lock)
+ 		device_lock(parent);
+@@ -916,7 +916,7 @@ static void __device_driver_lock(struct device *dev, struct device *parent)
+  * Normally this will just be the the @dev lock, but when called for a
+  * USB interface, @parent lock will be released as well.
+  */
+-static void __device_driver_unlock(struct device *dev, struct device *parent)
++static void __device_driver_unlock(struct device *dev, struct device *parent) __releases_mutex(dev->mutex) __releases_conditionally(parent->mutex)
+ {
+ 	device_unlock(dev);
+ 	if (parent && dev->bus->need_parent_lock)
+-- 
+2.17.1
+

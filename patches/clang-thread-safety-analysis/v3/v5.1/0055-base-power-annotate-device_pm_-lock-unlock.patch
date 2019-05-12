@@ -1,0 +1,45 @@
+From 543c1b892867a8f6bf97d86b5fa4f495401e6ad0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 19:23:51 +0200
+Subject: [PATCH 55/82] base/power: annotate device_pm_{lock,unlock}
+
+HANDLES:
+
+drivers/base/power/main.c:113:1: warning: mutex 'dpm_list_mtx' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/base/power/main.c:112:2: note: mutex acquired here
+        mutex_lock(&dpm_list_mtx);
+        ^
+drivers/base/power/main.c:120:2: warning: releasing mutex 'dpm_list_mtx' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dpm_list_mtx);
+        ^
+---
+ drivers/base/power/main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+index f80d298de3fa..d2a9fa8c612a 100644
+--- a/drivers/base/power/main.c
++++ b/drivers/base/power/main.c
+@@ -107,7 +107,7 @@ void device_pm_sleep_init(struct device *dev)
+ /**
+  * device_pm_lock - Lock the list of active devices used by the PM core.
+  */
+-void device_pm_lock(void)
++void device_pm_lock(void) __acquires_mutex(dpm_list_mtx)
+ {
+ 	mutex_lock(&dpm_list_mtx);
+ }
+@@ -115,7 +115,7 @@ void device_pm_lock(void)
+ /**
+  * device_pm_unlock - Unlock the list of active devices used by the PM core.
+  */
+-void device_pm_unlock(void)
++void device_pm_unlock(void) __releases_mutex(dpm_list_mtx)
+ {
+ 	mutex_unlock(&dpm_list_mtx);
+ }
+-- 
+2.17.1
+

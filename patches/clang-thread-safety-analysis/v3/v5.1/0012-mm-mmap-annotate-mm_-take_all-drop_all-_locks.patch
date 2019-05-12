@@ -1,0 +1,47 @@
+From 8dbdeabc7277f0dfc3a252d1b24b5746ccce3bd3 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 17:46:11 +0200
+Subject: [PATCH 12/82] mm/mmap: annotate mm_{take_all,drop_all}_locks
+
+Address these warnings:
+
+mm/mmap.c:3572:1: warning: mutex 'mm_all_locks_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+mm/mmap.c:3541:2: note: mutex acquired here
+        mutex_lock(&mm_all_locks_mutex);
+        ^
+
+mm/mmap.c:3630:2: warning: releasing mutex 'mm_all_locks_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&mm_all_locks_mutex);
+        ^
+2 warnings generated.
+---
+ mm/mmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/mmap.c b/mm/mmap.c
+index bd7b9f293b39..c8de40ac3099 100644
+--- a/mm/mmap.c
++++ b/mm/mmap.c
+@@ -3536,7 +3536,7 @@ static void vm_lock_mapping(struct mm_struct *mm, struct address_space *mapping)
+  *
+  * mm_take_all_locks() can fail if it's interrupted by signals.
+  */
+-int mm_take_all_locks(struct mm_struct *mm)
++int mm_take_all_locks(struct mm_struct *mm) __try_acquires_mutex(0, mm_all_locks_mutex)
+ {
+ 	struct vm_area_struct *vma;
+ 	struct anon_vma_chain *avc;
+@@ -3616,7 +3616,7 @@ static void vm_unlock_mapping(struct address_space *mapping)
+  * The mmap_sem cannot be released by the caller until
+  * mm_drop_all_locks() returns.
+  */
+-void mm_drop_all_locks(struct mm_struct *mm)
++void mm_drop_all_locks(struct mm_struct *mm) __releases_mutex(mm_all_locks_mutex)
+ {
+ 	struct vm_area_struct *vma;
+ 	struct anon_vma_chain *avc;
+-- 
+2.17.1
+

@@ -1,0 +1,68 @@
+From cdfd41ebb76da5fb45cc641835f8236db40afbff Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 19:22:13 +0200
+Subject: [PATCH 54/82] kernel/audit_tree: annotate create_chunk and
+ audit_add_tree_rule
+
+HANDLES:
+
+kernel/audit_tree.c:405:3: warning: releasing mutex 'audit_tree_group->mark_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&audit_tree_group->mark_mutex);
+                ^
+kernel/audit_tree.c:411:3: warning: releasing mutex 'audit_tree_group->mark_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&audit_tree_group->mark_mutex);
+                ^
+kernel/audit_tree.c:417:3: warning: releasing mutex 'audit_tree_group->mark_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&audit_tree_group->mark_mutex);
+                ^
+kernel/audit_tree.c:427:3: warning: releasing mutex 'audit_tree_group->mark_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&audit_tree_group->mark_mutex);
+                ^
+kernel/audit_tree.c:449:2: warning: releasing mutex 'audit_tree_group->mark_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&audit_tree_group->mark_mutex);
+        ^
+kernel/audit_tree.c:525:1: warning: mutex 'audit_tree_group->mark_mutex' is not held on every path through here [-Wthread-safety-a
+nalysis]
+}
+^
+kernel/audit_tree.c:467:2: note: mutex acquired here
+        mutex_lock(&audit_tree_group->mark_mutex);
+        ^
+kernel/audit_tree.c:822:2: warning: releasing mutex 'audit_filter_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&audit_filter_mutex);
+        ^
+kernel/audit_tree.c:870:1: warning: mutex 'audit_filter_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/audit_tree.c:865:2: note: mutex acquired here
+        mutex_lock(&audit_filter_mutex);
+        ^
+---
+ kernel/audit_tree.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/audit_tree.c b/kernel/audit_tree.c
+index abfb112f26aa..d100c68c6758 100644
+--- a/kernel/audit_tree.c
++++ b/kernel/audit_tree.c
+@@ -396,7 +396,7 @@ static void untag_chunk(struct audit_chunk *chunk, struct fsnotify_mark *mark)
+ }
+ 
+ /* Call with group->mark_mutex held, releases it */
+-static int create_chunk(struct inode *inode, struct audit_tree *tree)
++static int create_chunk(struct inode *inode, struct audit_tree *tree) __releases_mutex(audit_tree_group->mark_mutex)
+ {
+ 	struct fsnotify_mark *mark;
+ 	struct audit_chunk *chunk = alloc_chunk(1);
+@@ -799,7 +799,7 @@ static int audit_launch_prune(void)
+ }
+ 
+ /* called with audit_filter_mutex */
+-int audit_add_tree_rule(struct audit_krule *rule)
++int audit_add_tree_rule(struct audit_krule *rule) __requires_mutex(audit_filter_mutex)
+ {
+ 	struct audit_tree *seed = rule->tree, *tree;
+ 	struct path path;
+-- 
+2.17.1
+

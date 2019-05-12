@@ -1,0 +1,45 @@
+From 88ba2d2f5e24d42f64c122a1600a9faed09fe174 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 21 Apr 2019 09:14:10 +0200
+Subject: [PATCH 30/82] slab: annotate slap_{start,stop}
+
+HANDLES:
+
+mm/slab_common.c:1329:1: warning: mutex 'slab_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+mm/slab_common.c:1327:2: note: mutex acquired here
+        mutex_lock(&slab_mutex);
+        ^
+mm/slab_common.c:1338:2: warning: releasing mutex 'slab_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&slab_mutex);
+        ^
+---
+ mm/slab_common.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 58251ba63e4a..1e9887a8289b 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1322,7 +1322,7 @@ static void print_slabinfo_header(struct seq_file *m)
+ 	seq_putc(m, '\n');
+ }
+ 
+-void *slab_start(struct seq_file *m, loff_t *pos)
++void *slab_start(struct seq_file *m, loff_t *pos) __acquires_mutex(slab_mutex)
+ {
+ 	mutex_lock(&slab_mutex);
+ 	return seq_list_start(&slab_root_caches, *pos);
+@@ -1333,7 +1333,7 @@ void *slab_next(struct seq_file *m, void *p, loff_t *pos)
+ 	return seq_list_next(p, &slab_root_caches, pos);
+ }
+ 
+-void slab_stop(struct seq_file *m, void *p)
++void slab_stop(struct seq_file *m, void *p) __releases_mutex(slab_mutex)
+ {
+ 	mutex_unlock(&slab_mutex);
+ }
+-- 
+2.17.1
+

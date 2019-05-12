@@ -1,0 +1,52 @@
+From de78549caaf15ef2eb2eb0d630d2497bdec9cacd Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 07:15:12 +0200
+Subject: [PATCH 04/82] mutex: annotate basic locking and unlocking functions
+
+---
+ include/linux/mutex.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 3093dd162424..9b43640fe169 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -63,7 +63,7 @@ struct mutex {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ #endif
+-};
++} __attribute__((capability("mutex")));
+ 
+ /*
+  * Internal helper function; C doesn't allow us to hide it :/
+@@ -175,9 +175,9 @@ do {									\
+ } while (0)
+ 
+ #else
+-extern void mutex_lock(struct mutex *lock);
+-extern int __must_check mutex_lock_interruptible(struct mutex *lock);
+-extern int __must_check mutex_lock_killable(struct mutex *lock);
++extern void mutex_lock(struct mutex *lock) __acquires_mutex(lock);
++extern int __must_check mutex_lock_interruptible(struct mutex *lock) __try_acquires_mutex(0, lock);
++extern int __must_check mutex_lock_killable(struct mutex *lock) __try_acquires_mutex(0, lock);
+ extern void mutex_lock_io(struct mutex *lock);
+ 
+ # define mutex_lock_nested(lock, subclass) mutex_lock(lock)
+@@ -193,10 +193,10 @@ extern void mutex_lock_io(struct mutex *lock);
+  *
+  * Returns 1 if the mutex has been acquired successfully, and 0 on contention.
+  */
+-extern int mutex_trylock(struct mutex *lock);
+-extern void mutex_unlock(struct mutex *lock);
++extern int mutex_trylock(struct mutex *lock) __try_acquires_mutex(1, lock);
++extern void mutex_unlock(struct mutex *lock) __releases_mutex(lock);
+ 
+-extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
++extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock) __try_acquires_mutex(1, lock);
+ 
+ /*
+  * These values are chosen such that FAIL and SUCCESS match the
+-- 
+2.17.1
+

@@ -1,0 +1,26 @@
+From 2c730b820163b9d8954b820164133a31eaa3aa37 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 11:42:20 +0200
+Subject: [PATCH 75/82] fs/exec.c: free_bprm: conditional unlock function
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/8
+---
+ fs/exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/exec.c b/fs/exec.c
+index 2e0033348d8e..665f741deb11 100644
+--- a/fs/exec.c
++++ b/fs/exec.c
+@@ -1415,7 +1415,7 @@ static int prepare_bprm_creds(struct linux_binprm *bprm)
+ 	return -ENOMEM;
+ }
+ 
+-static void free_bprm(struct linux_binprm *bprm)
++static void free_bprm(struct linux_binprm *bprm) __releases_conditionally(current->signal->cred_guard_mutex)
+ {
+ 	free_arg_pages(bprm);
+ 	if (bprm->cred) {
+-- 
+2.17.1
+

@@ -1,0 +1,72 @@
+From 22956c011bf61b13f5dda0491b0760bc182dc905 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 19 Apr 2019 12:43:38 +0200
+Subject: [PATCH 11/82] drivers/base/core: annotate some functions
+
+To address these warnings:
+
+drivers/base/core.c:55:1: warning: mutex 'device_links_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/base/core.c:54:2: note: mutex acquired here
+        mutex_lock(&device_links_lock);
+        ^
+drivers/base/core.c:59:2: warning: releasing mutex 'device_links_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&device_links_lock);
+        ^
+
+drivers/base/core.c:848:1: warning: mutex 'device_hotplug_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/base/core.c:847:2: note: mutex acquired here
+        mutex_lock(&device_hotplug_lock);
+        ^
+drivers/base/core.c:852:2: warning: releasing mutex 'device_hotplug_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&device_hotplug_lock);
+        ^
+drivers/base/core.c:863:1: warning: mutex 'device_hotplug_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+
+Not all warnings in drivers/base/core yet addressed.
+---
+ drivers/base/core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4aeaa0c92bda..dd39f0bcab53 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -49,12 +49,12 @@ early_param("sysfs.deprecated", sysfs_deprecated_setup);
+ static DEFINE_MUTEX(device_links_lock);
+ DEFINE_STATIC_SRCU(device_links_srcu);
+ 
+-static inline void device_links_write_lock(void)
++static inline void device_links_write_lock(void) __acquires_mutex(device_links_lock)
+ {
+ 	mutex_lock(&device_links_lock);
+ }
+ 
+-static inline void device_links_write_unlock(void)
++static inline void device_links_write_unlock(void) __releases_mutex(device_links_lock)
+ {
+ 	mutex_unlock(&device_links_lock);
+ }
+@@ -842,12 +842,12 @@ struct kobject *sysfs_dev_block_kobj;
+ 
+ static DEFINE_MUTEX(device_hotplug_lock);
+ 
+-void lock_device_hotplug(void)
++void lock_device_hotplug(void) __acquires_mutex(device_hotplug_lock)
+ {
+ 	mutex_lock(&device_hotplug_lock);
+ }
+ 
+-void unlock_device_hotplug(void)
++void unlock_device_hotplug(void) __releases_mutex(device_hotplug_lock)
+ {
+ 	mutex_unlock(&device_hotplug_lock);
+ }
+-- 
+2.17.1
+

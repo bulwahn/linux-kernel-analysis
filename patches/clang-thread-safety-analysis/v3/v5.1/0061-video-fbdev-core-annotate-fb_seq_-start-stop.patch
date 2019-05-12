@@ -1,0 +1,45 @@
+From fd1a1b67b62543dca5aa719431f650c6f0ee7629 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 05:40:20 +0200
+Subject: [PATCH 61/82] video/fbdev/core: annotate fb_seq_{start,stop}
+
+HANDLES:
+
+drivers/video/fbdev/core/fbmem.c:719:1: warning: mutex 'registration_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/video/fbdev/core/fbmem.c:717:2: note: mutex acquired here
+        mutex_lock(&registration_lock);
+        ^
+drivers/video/fbdev/core/fbmem.c:729:2: warning: releasing mutex 'registration_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&registration_lock);
+        ^
+---
+ drivers/video/fbdev/core/fbmem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+index ecff23dbdda1..e38b213a449f 100644
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -712,7 +712,7 @@ int fb_show_logo(struct fb_info *info, int rotate) { return 0; }
+ EXPORT_SYMBOL(fb_prepare_logo);
+ EXPORT_SYMBOL(fb_show_logo);
+ 
+-static void *fb_seq_start(struct seq_file *m, loff_t *pos)
++static void *fb_seq_start(struct seq_file *m, loff_t *pos) __acquires_mutex(registration_lock)
+ {
+ 	mutex_lock(&registration_lock);
+ 	return (*pos < FB_MAX) ? pos : NULL;
+@@ -724,7 +724,7 @@ static void *fb_seq_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return (*pos < FB_MAX) ? pos : NULL;
+ }
+ 
+-static void fb_seq_stop(struct seq_file *m, void *v)
++static void fb_seq_stop(struct seq_file *m, void *v)  __releases_mutex(registration_lock)
+ {
+ 	mutex_unlock(&registration_lock);
+ }
+-- 
+2.17.1
+

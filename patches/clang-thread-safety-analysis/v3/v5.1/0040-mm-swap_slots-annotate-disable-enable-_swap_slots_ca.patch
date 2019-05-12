@@ -1,0 +1,46 @@
+From 92f8e4be68ed7b218e4760ad9fa628c6b475e624 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:33:44 +0200
+Subject: [PATCH 40/82] mm/swap_slots: annotate
+ {disable,enable}_swap_slots_cache_{lock,unlock}
+
+HANDLES:
+
+mm/swap_slots.c:80:1: warning: mutex 'swap_slots_cache_enable_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+mm/swap_slots.c:72:2: note: mutex acquired here
+        mutex_lock(&swap_slots_cache_enable_mutex);
+        ^
+mm/swap_slots.c:90:2: warning: releasing mutex 'swap_slots_cache_enable_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&swap_slots_cache_enable_mutex);
+        ^
+---
+ mm/swap_slots.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/swap_slots.c b/mm/swap_slots.c
+index 63a7b4563a57..042fbd662fd3 100644
+--- a/mm/swap_slots.c
++++ b/mm/swap_slots.c
+@@ -67,7 +67,7 @@ static void reactivate_swap_slots_cache(void)
+ }
+ 
+ /* Must not be called with cpu hot plug lock */
+-void disable_swap_slots_cache_lock(void)
++void disable_swap_slots_cache_lock(void) __acquires_mutex(swap_slots_cache_enable_mutex)
+ {
+ 	mutex_lock(&swap_slots_cache_enable_mutex);
+ 	swap_slot_cache_enabled = false;
+@@ -84,7 +84,7 @@ static void __reenable_swap_slots_cache(void)
+ 	swap_slot_cache_enabled = has_usable_swap();
+ }
+ 
+-void reenable_swap_slots_cache_unlock(void)
++void reenable_swap_slots_cache_unlock(void) __releases_mutex(swap_slots_cache_enable_mutex)
+ {
+ 	__reenable_swap_slots_cache();
+ 	mutex_unlock(&swap_slots_cache_enable_mutex);
+-- 
+2.17.1
+

@@ -1,0 +1,36 @@
+From 339dd8d942c8999e788f78c8979c4d67be34aea6 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 23 Apr 2019 19:20:07 +0200
+Subject: [PATCH 53/82] kernel/audit_watch: annotate audit_add_watch
+
+HANDLES:
+
+kernel/audit_watch.c:428:2: warning: releasing mutex 'audit_filter_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&audit_filter_mutex);
+        ^
+kernel/audit_watch.c:459:1: warning: mutex 'audit_filter_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/audit_watch.c:434:2: note: mutex acquired here
+        mutex_lock(&audit_filter_mutex);
+        ^
+---
+ kernel/audit_watch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/audit_watch.c b/kernel/audit_watch.c
+index e8d1adeb2223..09481733fbd4 100644
+--- a/kernel/audit_watch.c
++++ b/kernel/audit_watch.c
+@@ -411,7 +411,7 @@ static void audit_add_to_parent(struct audit_krule *krule,
+ 
+ /* Find a matching watch entry, or add this one.
+  * Caller must hold audit_filter_mutex. */
+-int audit_add_watch(struct audit_krule *krule, struct list_head **list)
++int audit_add_watch(struct audit_krule *krule, struct list_head **list) __requires_mutex(audit_filter_mutex)
+ {
+ 	struct audit_watch *watch = krule->watch;
+ 	struct audit_parent *parent;
+-- 
+2.17.1
+

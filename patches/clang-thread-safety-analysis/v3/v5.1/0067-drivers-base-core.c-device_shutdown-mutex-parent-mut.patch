@@ -1,0 +1,27 @@
+From e33349574fe3863ad93b3d40c53416917328535a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 09:34:47 +0200
+Subject: [PATCH 67/82] drivers/base/core.c: device_shutdown: mutex
+ 'parent->mutex' conditionally locked and unlocked
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/1
+---
+ drivers/base/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 4bd00ffa2c80..1fe4ef4071c4 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3045,7 +3045,7 @@ EXPORT_SYMBOL_GPL(device_move);
+ /**
+  * device_shutdown - call ->shutdown() on each device to shutdown.
+  */
+-void device_shutdown(void)
++void device_shutdown(void) __uses_conditionally()
+ {
+ 	struct device *dev, *parent;
+ 
+-- 
+2.17.1
+

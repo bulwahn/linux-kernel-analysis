@@ -1,0 +1,45 @@
+From d5f9e82f0637f80dc3f03aa23597a8b9cf7d5422 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Apr 2019 18:20:40 +0200
+Subject: [PATCH 35/82] trace_printk: annotate t_{start,stop}
+
+HANDLES:
+
+kernel/trace/trace_printk.c:291:1: warning: mutex 'btrace_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_printk.c:289:2: note: mutex acquired here
+        format_mod_start();
+        ^
+kernel/trace/trace_printk.c:338:2: warning: releasing mutex 'btrace_mutex' that was not held [-Wthread-safety-analysis]
+        format_mod_stop();
+        ^
+---
+ kernel/trace/trace_printk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_printk.c b/kernel/trace/trace_printk.c
+index 62a0916f954c..a2a36d1e538c 100644
+--- a/kernel/trace/trace_printk.c
++++ b/kernel/trace/trace_printk.c
+@@ -284,7 +284,7 @@ static const char **find_next(void *v, loff_t *pos)
+ }
+ 
+ static void *
+-t_start(struct seq_file *m, loff_t *pos)
++t_start(struct seq_file *m, loff_t *pos) __acquires_mutex(btrace_mutex)
+ {
+ 	format_mod_start();
+ 	return find_next(NULL, pos);
+@@ -333,7 +333,7 @@ static int t_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
+-static void t_stop(struct seq_file *m, void *p)
++static void t_stop(struct seq_file *m, void *p) __releases_mutex(btrace_mutex)
+ {
+ 	format_mod_stop();
+ }
+-- 
+2.17.1
+

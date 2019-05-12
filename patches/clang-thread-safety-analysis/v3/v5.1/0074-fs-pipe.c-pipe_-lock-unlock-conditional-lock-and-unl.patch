@@ -1,0 +1,36 @@
+From ad5f9224e6109b1cfcb77cd801a381d92d2e5cf9 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 11:30:03 +0200
+Subject: [PATCH 74/82] fs/pipe.c: pipe_{lock,unlock}: conditional lock and
+ unlock functions
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/7
+---
+ fs/pipe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/pipe.c b/fs/pipe.c
+index 555817567f07..68d22d4e7c39 100644
+--- a/fs/pipe.c
++++ b/fs/pipe.c
+@@ -56,7 +56,7 @@ unsigned long pipe_user_pages_soft = PIPE_DEF_BUFFERS * INR_OPEN_CUR;
+  * -- Manfred Spraul <manfred@colorfullife.com> 2002-05-09
+  */
+ 
+-static void pipe_lock_nested(struct pipe_inode_info *pipe, int subclass)
++static void pipe_lock_nested(struct pipe_inode_info *pipe, int subclass) __acquires_conditionally(pipe->mutex)
+ {
+ 	if (pipe->files)
+ 		mutex_lock_nested(&pipe->mutex, subclass);
+@@ -71,7 +71,7 @@ void pipe_lock(struct pipe_inode_info *pipe)
+ }
+ EXPORT_SYMBOL(pipe_lock);
+ 
+-void pipe_unlock(struct pipe_inode_info *pipe)
++void pipe_unlock(struct pipe_inode_info *pipe) __releases_conditionally(pipe->mutex)
+ {
+ 	if (pipe->files)
+ 		mutex_unlock(&pipe->mutex);
+-- 
+2.17.1
+

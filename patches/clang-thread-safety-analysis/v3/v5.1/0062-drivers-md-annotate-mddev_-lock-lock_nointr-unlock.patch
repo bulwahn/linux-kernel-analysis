@@ -1,0 +1,95 @@
+From 626c63c7f379a3b7e6658449e8d3e47b5c742b93 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Apr 2019 05:53:22 +0200
+Subject: [PATCH 62/82] drivers/md: annotate mddev_{lock,lock_nointr,unlock}
+
+HANDLES SOME WARNINGS.
+
+STILL OPEN AFTER THIS COMMIT:
+
+drivers/md/md.c:3393:3: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+                mddev_unlock(mddev);
+                ^
+drivers/md/md.c:5938:2: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+        mddev_unlock(mddev);
+        ^
+drivers/md/md.c:5975:1: warning: mutex 'mddev->reconfig_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/md/md.c:5943:2: note: mutex acquired here
+        mddev_lock_nointr(mddev);
+        ^
+drivers/md/md.c:6000:2: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+        mddev_unlock(mddev);
+        ^
+drivers/md/md.c:6068:1: warning: mutex 'mddev->reconfig_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/md/md.c:6004:2: note: mutex acquired here
+        mddev_lock_nointr(mddev);
+        ^
+drivers/md/md.c:7454:3: warning: releasing mutex 'mddev->open_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&mddev->open_mutex);
+                ^
+drivers/md/md.c:7461:2: warning: releasing mutex 'mddev->open_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&mddev->open_mutex);
+        ^
+drivers/md/md.c:8963:3: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+                mddev_unlock(mddev);
+                ^
+drivers/md/md.c:9112:4: warning: releasing mutex 'mddev->reconfig_mutex' that was not held [-Wthread-safety-analysis]
+                        mddev_unlock(mddev);
+                        ^
+9 warnings generated.
+drivers/md/md-bitmap.c:2362:1: warning: mutex 'mddev->reconfig_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/md/md-bitmap.c:2269:7: note: mutex acquired here
+        rv = mddev_lock(mddev);
+             ^
+1 warning generated.
+
+All look feasible. Some details to figure out.
+---
+ drivers/md/md.c | 2 +-
+ drivers/md/md.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 05ffffb8b769..82cefda2dd69 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -647,7 +647,7 @@ static struct mddev *mddev_find(dev_t unit)
+ 
+ static struct attribute_group md_redundancy_group;
+ 
+-void mddev_unlock(struct mddev *mddev)
++void mddev_unlock(struct mddev *mddev) __releases_mutex(mddev->reconfig_mutex)
+ {
+ 	if (mddev->to_remove) {
+ 		/* These cannot be removed under reconfig_mutex as
+diff --git a/drivers/md/md.h b/drivers/md/md.h
+index c52afb52c776..b7d42b7a5f0d 100644
+--- a/drivers/md/md.h
++++ b/drivers/md/md.h
+@@ -499,7 +499,7 @@ enum recovery_flags {
+ 	MD_RESYNCING_REMOTE,	/* remote node is running resync thread */
+ };
+ 
+-static inline int __must_check mddev_lock(struct mddev *mddev)
++static inline int __must_check mddev_lock(struct mddev *mddev) __try_acquires_mutex(0, mddev->reconfig_mutex)
+ {
+ 	return mutex_lock_interruptible(&mddev->reconfig_mutex);
+ }
+@@ -507,7 +507,7 @@ static inline int __must_check mddev_lock(struct mddev *mddev)
+ /* Sometimes we need to take the lock in a situation where
+  * failure due to interrupts is not acceptable.
+  */
+-static inline void mddev_lock_nointr(struct mddev *mddev)
++static inline void mddev_lock_nointr(struct mddev *mddev) __acquires_mutex(mddev->reconfig_mutex)
+ {
+ 	mutex_lock(&mddev->reconfig_mutex);
+ }
+-- 
+2.17.1
+

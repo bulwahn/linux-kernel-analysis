@@ -1,0 +1,33 @@
+From 35e519510108ba029171e3c0be782735f5edee5c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 12 May 2019 19:11:54 +0200
+Subject: [PATCH 81/82] add another attribute for the retry acquiring code
+ pattern
+
+---
+ include/linux/compiler_attributes.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 8260af4f1007..de05f91eca7c 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -269,6 +269,7 @@
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __releases_conditionally(x)    __attribute__((no_thread_safety_analysis))
++# define __uses_retry_acquires(x)       __attribute__((no_thread_safety_analysis))
+ # define __no_thread_safety_analysis    __attribute__((no_thread_safety_analysis))
+ #else
+ # define __acquires_mutex(x)
+@@ -278,6 +279,7 @@
+ # define __uses_conditionally(x)
+ # define __acquires_conditionally(x)
+ # define __releases_conditionally(x)
++# define __uses_retry_acquires(x)
+ # define __no_thread_safety_analysis
+ #endif
+ 
+-- 
+2.17.1
+
