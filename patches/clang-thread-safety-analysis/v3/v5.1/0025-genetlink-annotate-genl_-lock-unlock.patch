@@ -1,7 +1,7 @@
 From d376561df414ca782f66ecd136d33613d24702a3 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 13:04:05 +0200
-Subject: [PATCH 25/82] genetlink: annotate genl_{lock,unlock}
+Subject: [PATCH 25/90] genetlink: annotate genl_{lock,unlock}
 
 This handles:
 

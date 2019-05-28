@@ -1,7 +1,7 @@
 From e43200981ce7bbaf8cfd64c086e48933f277876f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:35:44 +0200
-Subject: [PATCH 41/82] char/misc: annotate misc_seq_{start,stop}
+Subject: [PATCH 41/90] char/misc: annotate misc_seq_{start,stop}
 
 HANDLES:
 

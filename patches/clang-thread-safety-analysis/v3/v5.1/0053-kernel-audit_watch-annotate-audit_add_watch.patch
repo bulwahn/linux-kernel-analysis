@@ -1,7 +1,7 @@
 From 339dd8d942c8999e788f78c8979c4d67be34aea6 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 19:20:07 +0200
-Subject: [PATCH 53/82] kernel/audit_watch: annotate audit_add_watch
+Subject: [PATCH 53/90] kernel/audit_watch: annotate audit_add_watch
 
 HANDLES:
 

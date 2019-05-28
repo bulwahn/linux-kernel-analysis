@@ -1,7 +1,7 @@
 From 318a5719f308cd27051249678a7513524e8752f9 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:26:25 +0200
-Subject: [PATCH 37/82] driver/acpi/scan.c: annotate
+Subject: [PATCH 37/90] driver/acpi/scan.c: annotate
  acpi_scan_lock_{acquire,release} and acpi_{lock,unlock}_hp_context
 
 HANDLES:

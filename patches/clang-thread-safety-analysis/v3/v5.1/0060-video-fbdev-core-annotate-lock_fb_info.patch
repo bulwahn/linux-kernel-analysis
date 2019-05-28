@@ -1,7 +1,7 @@
 From 85ed44ef6863184d50c530170db2d7356634f669 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Thu, 25 Apr 2019 21:57:38 +0200
-Subject: [PATCH 60/82] video/fbdev/core: annotate lock_fb_info
+Subject: [PATCH 60/90] video/fbdev/core: annotate lock_fb_info
 
 HANDLES:
 

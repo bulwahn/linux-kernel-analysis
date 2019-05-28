@@ -1,7 +1,7 @@
 From 5936673142e64f18388a658f99126a862222fce8 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:38:56 +0200
-Subject: [PATCH 70/82] fs/file.c: __fdget_pos, __f_unlock_pos: locks
+Subject: [PATCH 70/90] fs/file.c: __fdget_pos, __f_unlock_pos: locks
  file->f_pos_lock only under special condition
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/4

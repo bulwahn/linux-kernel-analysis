@@ -1,0 +1,36 @@
+From 19920ad642f16bf2407c5bf235805a638251659f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 16:01:09 +0200
+Subject: [PATCH 87/90] kernel/events/core.c: cannot annotate
+ __perf_event_ctx_lock_double()
+
+SILENCES:
+
+kernel/events/core.c:10719:1: warning: mutex 'gctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:10709:2: note: mutex acquired here
+        mutex_lock_double(&gctx->mutex, &ctx->mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/25
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 012c438d9cc8..41d9fa9b90b6 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -10693,7 +10693,7 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
+  */
+ static struct perf_event_context *
+ __perf_event_ctx_lock_double(struct perf_event *group_leader,
+-			     struct perf_event_context *ctx) __acquires_mutex(ctx->mutex)
++			     struct perf_event_context *ctx) __acquires_mutex(ctx->mutex) __no_thread_safety_analysis
+ {
+ 	struct perf_event_context *gctx;
+ 
+-- 
+2.17.1
+

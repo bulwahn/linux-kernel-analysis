@@ -1,7 +1,7 @@
 From e03c64636de150f0edcba9ded9fad7d1460efae2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 19:08:20 +0200
-Subject: [PATCH 79/82] fs/exec.c: prepare_bprm_creds, free_bprm: conditional
+Subject: [PATCH 79/90] fs/exec.c: prepare_bprm_creds, free_bprm: conditional
  unlock function (fixup)
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/8

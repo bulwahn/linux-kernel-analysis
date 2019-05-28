@@ -1,7 +1,7 @@
 From a880233549baf84d0cc2fc6bdbde67e3bbb4687f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 19:18:10 +0200
-Subject: [PATCH 82/82] mm/page_alloc.c: drain_all_pages: static analysis fails
+Subject: [PATCH 82/90] mm/page_alloc.c: drain_all_pages: static analysis fails
  to detect it is locked for all paths
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/10

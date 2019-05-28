@@ -1,7 +1,7 @@
 From 743b84d88052e033d6aa8128c0e020e89eb05d1b Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 11:22:06 +0200
-Subject: [PATCH 73/82] fs/pipe.c: annotate __pipe_{lock,unlock}()
+Subject: [PATCH 73/90] fs/pipe.c: annotate __pipe_{lock,unlock}()
 
 HANDLES:
 

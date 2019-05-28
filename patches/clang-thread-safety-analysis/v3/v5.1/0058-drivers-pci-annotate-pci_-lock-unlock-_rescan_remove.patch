@@ -1,7 +1,7 @@
 From 84ba98934dae87890a58e2a0b644ec0893feca54 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Thu, 25 Apr 2019 21:48:29 +0200
-Subject: [PATCH 58/82] drivers/pci: annotate pci_{lock,unlock}_rescan_remove
+Subject: [PATCH 58/90] drivers/pci: annotate pci_{lock,unlock}_rescan_remove
 
 HANDLES:
 

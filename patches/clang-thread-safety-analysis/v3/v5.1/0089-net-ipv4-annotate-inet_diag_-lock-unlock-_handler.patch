@@ -1,0 +1,45 @@
+From 58ba1707d9897244d1a4a566191b02123bf0e248 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 18:08:22 +0200
+Subject: [PATCH 89/90] net: ipv4: annotate inet_diag_{lock,unlock}_handler()
+
+HANDLES:
+
+net/ipv4/inet_diag.c:63:1: warning: mutex 'inet_diag_table_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+net/ipv4/inet_diag.c:58:2: note: mutex acquired here
+        mutex_lock(&inet_diag_table_mutex);
+        ^
+net/ipv4/inet_diag.c:67:2: warning: releasing mutex 'inet_diag_table_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&inet_diag_table_mutex);
+        ^
+---
+ net/ipv4/inet_diag.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/ipv4/inet_diag.c b/net/ipv4/inet_diag.c
+index 5731670c560b..d50db78abd31 100644
+--- a/net/ipv4/inet_diag.c
++++ b/net/ipv4/inet_diag.c
+@@ -50,7 +50,7 @@ struct inet_diag_entry {
+ 
+ static DEFINE_MUTEX(inet_diag_table_mutex);
+ 
+-static const struct inet_diag_handler *inet_diag_lock_handler(int proto)
++static const struct inet_diag_handler *inet_diag_lock_handler(int proto) __acquires_mutex(inet_diag_table_mutex)
+ {
+ 	if (!inet_diag_table[proto])
+ 		sock_load_diag_module(AF_INET, proto);
+@@ -62,7 +62,7 @@ static const struct inet_diag_handler *inet_diag_lock_handler(int proto)
+ 	return inet_diag_table[proto];
+ }
+ 
+-static void inet_diag_unlock_handler(const struct inet_diag_handler *handler)
++static void inet_diag_unlock_handler(const struct inet_diag_handler *handler) __releases_mutex(inet_diag_table_mutex)
+ {
+ 	mutex_unlock(&inet_diag_table_mutex);
+ }
+-- 
+2.17.1
+

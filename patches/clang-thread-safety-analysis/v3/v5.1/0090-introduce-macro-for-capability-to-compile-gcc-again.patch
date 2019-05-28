@@ -1,0 +1,46 @@
+From d9f4e1c07fa3102d0be7eb6ee0a87905c5d5e827 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 20:09:31 +0200
+Subject: [PATCH 90/90] introduce macro for capability to compile gcc again
+
+---
+ include/linux/compiler_attributes.h | 2 ++
+ include/linux/mutex.h               | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index de05f91eca7c..d9d92aa3a934 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -262,6 +262,7 @@
+  * information.
+  */
+ #if __has_attribute(capability)
++# define __capability(x)                __attribute__((capability(x)))
+ # define __acquires_mutex(x)            __attribute__((acquire_capability(x)))
+ # define __releases_mutex(x)            __attribute__((release_capability(x)))
+ # define __try_acquires_mutex(r, x)     __attribute__((try_acquire_capability(r, x)))
+@@ -272,6 +273,7 @@
+ # define __uses_retry_acquires(x)       __attribute__((no_thread_safety_analysis))
+ # define __no_thread_safety_analysis    __attribute__((no_thread_safety_analysis))
+ #else
++# define __capability(x)
+ # define __acquires_mutex(x)
+ # define __releases_mutex(x)
+ # define __try_acquires_mutex(r, x)
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index 532f530cb314..1293c4d0c236 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -63,7 +63,7 @@ struct mutex {
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ 	struct lockdep_map	dep_map;
+ #endif
+-} __attribute__((capability("mutex")));
++} __capability("mutex");
+ 
+ /*
+  * Internal helper function; C doesn't allow us to hide it :/
+-- 
+2.17.1
+

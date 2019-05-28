@@ -1,7 +1,7 @@
 From 57431999d0a020167d7e062ca1becccb26ba0e6e Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 11:59:29 +0200
-Subject: [PATCH 77/82] compiler_attributes: add explicit annotation for basic
+Subject: [PATCH 77/90] compiler_attributes: add explicit annotation for basic
  functions
 
 ---

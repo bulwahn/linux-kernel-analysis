@@ -1,7 +1,7 @@
 From a85cadd82cb14c65ced3d7531e1dad571f1c2aa2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 21 Apr 2019 08:05:23 +0200
-Subject: [PATCH 27/82] intel/iosf_mbi: annotate
+Subject: [PATCH 27/90] intel/iosf_mbi: annotate
  ios_mbi_punit_{acquire,release}, iosf_mbi_block_punit_i2c_access
 
 arch/x86/platform/intel/iosf_mbi.c:224:1: warning: mutex 'iosf_mbi_punit_mutex' is still held at the end of function [-Wthread-safety-analysis]

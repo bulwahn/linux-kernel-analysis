@@ -1,7 +1,7 @@
 From e33349574fe3863ad93b3d40c53416917328535a Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:34:47 +0200
-Subject: [PATCH 67/82] drivers/base/core.c: device_shutdown: mutex
+Subject: [PATCH 67/90] drivers/base/core.c: device_shutdown: mutex
  'parent->mutex' conditionally locked and unlocked
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/1

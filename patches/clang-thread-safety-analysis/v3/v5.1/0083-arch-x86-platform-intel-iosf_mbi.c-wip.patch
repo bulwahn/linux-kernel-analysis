@@ -1,0 +1,25 @@
+From b64547ea509a421be9ce63397aac9748cfcea9cb Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 20 May 2019 19:25:38 +0200
+Subject: [PATCH 83/90] arch/x86/platform/intel/iosf_mbi.c: wip
+
+---
+ arch/x86/platform/intel/iosf_mbi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/x86/platform/intel/iosf_mbi.c b/arch/x86/platform/intel/iosf_mbi.c
+index d0b6e98f0b60..2f552422b3d7 100644
+--- a/arch/x86/platform/intel/iosf_mbi.c
++++ b/arch/x86/platform/intel/iosf_mbi.c
+@@ -367,7 +367,7 @@ int iosf_mbi_block_punit_i2c_access(void) __try_acquires_mutex(0, iosf_mbi_punit
+ }
+ EXPORT_SYMBOL(iosf_mbi_block_punit_i2c_access);
+ 
+-void iosf_mbi_unblock_punit_i2c_access(void)
++void iosf_mbi_unblock_punit_i2c_access(void) __releases_conditionally(iosf_mbi_punit_mutex)
+ {
+ 	mutex_lock(&iosf_mbi_block_punit_i2c_access_count_mutex);
+ 
+-- 
+2.17.1
+

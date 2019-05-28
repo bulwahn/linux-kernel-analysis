@@ -1,7 +1,7 @@
 From 2c5c7d7d7b245ae4b03a114c564d8ed1d49c123f Mon Sep 17 00:00:00 2001
 From: Nathan Chancellor <natechancellor@gmail.com>
 Date: Sat, 5 Jan 2019 11:51:39 -0700
-Subject: [PATCH 01/82] DO-NOT-UPSTREAM: x86: Revert two commits that break the
+Subject: [PATCH 01/90] DO-NOT-UPSTREAM: x86: Revert two commits that break the
  build with Clang
 
 * 4a789213c9a5 ("x86 uaccess: Introduce __put_user_goto")

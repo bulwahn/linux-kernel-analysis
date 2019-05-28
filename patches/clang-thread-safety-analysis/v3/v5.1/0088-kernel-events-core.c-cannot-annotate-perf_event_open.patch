@@ -1,0 +1,47 @@
+From 3830e150870c489c130d920b757069725763e0c8 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 16:59:42 +0200
+Subject: [PATCH 88/90] kernel/events/core.c: cannot annotate perf_event_open()
+
+SILENCES:
+
+kernel/events/core.c:10837:6: warning: mutex 'task->signal->cred_guard_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (flags & PERF_FLAG_PID_CGROUP)
+            ^
+kernel/events/core.c:10820:9: note: mutex acquired here
+                err = mutex_lock_interruptible(&task->signal->cred_guard_mutex);
+                      ^
+kernel/events/core.c:11108:3: warning: releasing mutex 'task->signal->cred_guard_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&task->signal->cred_guard_mutex);
+                ^
+kernel/events/core.c:11143:6: warning: mutex 'task->signal->cred_guard_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (task)
+            ^
+kernel/events/core.c:10820:9: note: mutex acquired here
+                err = mutex_lock_interruptible(&task->signal->cred_guard_mutex);
+                      ^
+kernel/events/core.c:11144:3: warning: releasing mutex 'task->signal->cred_guard_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&task->signal->cred_guard_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/26
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 41d9fa9b90b6..96b8351debcd 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -10728,7 +10728,7 @@ __perf_event_ctx_lock_double(struct perf_event *group_leader,
+  */
+ SYSCALL_DEFINE5(perf_event_open,
+ 		struct perf_event_attr __user *, attr_uptr,
+-		pid_t, pid, int, cpu, int, group_fd, unsigned long, flags)
++		pid_t, pid, int, cpu, int, group_fd, unsigned long, flags) __uses_conditionally(task->signal->cred_guard_mutex)
+ {
+ 	struct perf_event *group_leader = NULL, *output_event = NULL;
+ 	struct perf_event *event, *sibling;
+-- 
+2.17.1
+

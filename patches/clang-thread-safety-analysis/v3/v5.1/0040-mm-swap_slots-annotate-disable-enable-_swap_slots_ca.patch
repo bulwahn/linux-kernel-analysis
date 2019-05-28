@@ -1,7 +1,7 @@
 From 92f8e4be68ed7b218e4760ad9fa628c6b475e624 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:33:44 +0200
-Subject: [PATCH 40/82] mm/swap_slots: annotate
+Subject: [PATCH 40/90] mm/swap_slots: annotate
  {disable,enable}_swap_slots_cache_{lock,unlock}
 
 HANDLES:

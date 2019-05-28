@@ -1,7 +1,7 @@
 From 493beaf0c4cfbbd23dce2012a83c2e49264c78e4 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 27 Apr 2019 12:40:27 +0200
-Subject: [PATCH 65/82] fs/dcache.c: untangle control flow in __d_unalias()
+Subject: [PATCH 65/90] fs/dcache.c: untangle control flow in __d_unalias()
 
 __d_unalias() has four control flows:
 

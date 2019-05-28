@@ -1,7 +1,7 @@
 From 731534e483960c34fcc20d867ac08f6ce350c756 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 21 Apr 2019 08:19:31 +0200
-Subject: [PATCH 29/82] trace: annotate format_mod_{start,stop}
+Subject: [PATCH 29/90] trace: annotate format_mod_{start,stop}
 
 HANDLED:
 

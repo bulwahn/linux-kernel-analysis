@@ -1,7 +1,7 @@
 From 6589a58e4e04abed32eaeefcfa1282a9e8128f33 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 6 May 2019 07:57:40 +0200
-Subject: [PATCH 03/82] add macros for clang annotations
+Subject: [PATCH 03/90] add macros for clang annotations
 
 ---
  include/linux/compiler_attributes.h | 18 ++++++++++++++++++

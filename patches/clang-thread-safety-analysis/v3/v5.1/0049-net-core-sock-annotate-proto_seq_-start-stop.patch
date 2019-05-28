@@ -1,7 +1,7 @@
 From c0907a44425f89582429484698705c9a5abb7de7 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:47:59 +0200
-Subject: [PATCH 49/82] net/core/sock: annotate proto_seq_{start,stop}
+Subject: [PATCH 49/90] net/core/sock: annotate proto_seq_{start,stop}
 
 HANDLES:
 

@@ -1,7 +1,7 @@
 From 04dfdc1ef89070ab0ccd905a6545b83af583d143 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:41:19 +0200
-Subject: [PATCH 48/82] sound/pci/hda: annotate azx_remove
+Subject: [PATCH 48/90] sound/pci/hda: annotate azx_remove
 
 HANDLES:
 

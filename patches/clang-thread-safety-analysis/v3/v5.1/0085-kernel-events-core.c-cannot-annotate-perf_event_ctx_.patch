@@ -1,0 +1,50 @@
+From b11cfd4a10c7aa73bb29604f44c953cfbde2af35 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 15:28:10 +0200
+Subject: [PATCH 85/90] kernel/events/core.c: cannot annotate
+ perf_event_ctx_{lock_nested,lock,unlock}
+
+SILENCES:
+
+kernel/events/core.c:1286:1: warning: mutex 'ctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:1278:2: note: mutex acquired here
+        mutex_lock_nested(&ctx->mutex, nesting);
+        ^
+./include/linux/mutex.h:183:44: note: expanded from macro 'mutex_lock_nested'
+                                           ^
+kernel/events/core.c:1297:2: warning: releasing mutex 'ctx->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ctx->mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/24
+---
+ kernel/events/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index cc09b095172c..0c6e4404ae69 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -1262,7 +1262,7 @@ static void put_ctx(struct perf_event_context *ctx)
+  *	  cpuctx->mutex / perf_event_context::mutex
+  */
+ static struct perf_event_context *
+-perf_event_ctx_lock_nested(struct perf_event *event, int nesting)
++perf_event_ctx_lock_nested(struct perf_event *event, int nesting) __no_thread_safety_analysis
+ {
+ 	struct perf_event_context *ctx;
+ 
+@@ -1292,7 +1292,7 @@ perf_event_ctx_lock(struct perf_event *event)
+ }
+ 
+ static void perf_event_ctx_unlock(struct perf_event *event,
+-				  struct perf_event_context *ctx)
++				  struct perf_event_context *ctx) __no_thread_safety_analysis
+ {
+ 	mutex_unlock(&ctx->mutex);
+ 	put_ctx(ctx);
+-- 
+2.17.1
+

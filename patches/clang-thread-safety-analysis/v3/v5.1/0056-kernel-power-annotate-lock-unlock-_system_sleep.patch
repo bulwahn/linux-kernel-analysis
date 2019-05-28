@@ -1,7 +1,7 @@
 From c2794e4f0038b80f7385335f5706e3ab1deb2231 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Thu, 25 Apr 2019 21:40:51 +0200
-Subject: [PATCH 56/82] kernel/power: annotate {lock,unlock}_system_sleep
+Subject: [PATCH 56/90] kernel/power: annotate {lock,unlock}_system_sleep
 
 HANDLES:
 

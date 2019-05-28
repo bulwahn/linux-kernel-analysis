@@ -1,7 +1,7 @@
 From 571645df8bd700fb49a2e66216d861ed1e344fc2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 11:41:42 +0200
-Subject: [PATCH 10/82] workqueue: annotate apply_wqattrs_{lock,unlock}
+Subject: [PATCH 10/90] workqueue: annotate apply_wqattrs_{lock,unlock}
 
 Handle this warning:
 

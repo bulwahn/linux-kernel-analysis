@@ -1,7 +1,7 @@
 From 0cfd92ab73c12fd2ce7e1e85d572113282cb978a Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:40:29 +0200
-Subject: [PATCH 71/82] fs/namei.c: {lock,unlock}_rename: conditional lock and
+Subject: [PATCH 71/90] fs/namei.c: {lock,unlock}_rename: conditional lock and
  unlock functions
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/6

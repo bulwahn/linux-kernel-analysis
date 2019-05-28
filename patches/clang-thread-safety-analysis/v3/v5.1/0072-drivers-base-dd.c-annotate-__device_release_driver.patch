@@ -1,7 +1,7 @@
 From be7c85c4ebe417ef5c07b8acbdcf7fa97fda38a0 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 10:48:33 +0200
-Subject: [PATCH 72/82] drivers/base/dd.c: annotate __device_release_driver()
+Subject: [PATCH 72/90] drivers/base/dd.c: annotate __device_release_driver()
 
 HANDLES:
 

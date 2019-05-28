@@ -1,7 +1,7 @@
 From de78549caaf15ef2eb2eb0d630d2497bdec9cacd Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 07:15:12 +0200
-Subject: [PATCH 04/82] mutex: annotate basic locking and unlocking functions
+Subject: [PATCH 04/90] mutex: annotate basic locking and unlocking functions
 
 ---
  include/linux/mutex.h | 14 +++++++-------

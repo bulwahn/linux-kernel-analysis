@@ -1,0 +1,49 @@
+From 2f049c3ef7bb9a52e2e86991594083de4b22425f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 26 May 2019 15:38:41 +0200
+Subject: [PATCH 86/90] kernel/events/core.c: annotate
+ __perf_event_ctx_lock_double()
+
+HANDLES:
+
+kernel/events/core.c:10719:1: warning: mutex 'ctx->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/events/core.c:10709:2: note: mutex acquired here
+        mutex_lock_double(&gctx->mutex, &ctx->mutex);
+        ^
+
+kernel/events/core.c:10998:6: warning: mutex 'ctx->mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (ctx->task == TASK_TOMBSTONE) {
+            ^
+kernel/events/core.c:10995:3: note: mutex acquired here
+                mutex_lock(&ctx->mutex);
+                ^
+
+kernel/events/core.c:11105:2: warning: releasing mutex 'ctx->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ctx->mutex);
+        ^
+
+kernel/events/core.c:11129:2: warning: releasing mutex 'ctx->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ctx->mutex);
+        ^
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 0c6e4404ae69..012c438d9cc8 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -10693,7 +10693,7 @@ static int perf_event_set_clock(struct perf_event *event, clockid_t clk_id)
+  */
+ static struct perf_event_context *
+ __perf_event_ctx_lock_double(struct perf_event *group_leader,
+-			     struct perf_event_context *ctx)
++			     struct perf_event_context *ctx) __acquires_mutex(ctx->mutex)
+ {
+ 	struct perf_event_context *gctx;
+ 
+-- 
+2.17.1
+
