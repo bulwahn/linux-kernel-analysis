@@ -1,0 +1,11 @@
+drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `msm_csid_subdev_init':
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x32): undefined reference to `__compiletime_assert_804'
+drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `msm_csid_register_entity':
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x79d): undefined reference to `__compiletime_assert_1021'
+drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `csid_set_power':
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0xebe): undefined reference to `__compiletime_assert_320'
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0xf43): undefined reference to `__compiletime_assert_230'
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x14a7): undefined reference to `__compiletime_assert_302'
+drivers/media/platform/qcom/camss-8x16/camss-csid.o: In function `csid_set_stream':
+drivers/media/platform/qcom/camss-8x16/camss-csid.c:(.text+0x1994): undefined reference to `__compiletime_assert_386'
+

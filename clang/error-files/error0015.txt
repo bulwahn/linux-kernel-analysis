@@ -1,0 +1,38 @@
+security/keys/dh.o: In function `kdf_ctr':
+security/keys/dh.c:(.text+0x10ea): undefined reference to `__asan_alloca_poison'
+security/keys/dh.c:(.text+0x118a): undefined reference to `__asan_allocas_unpoison'
+security/keys/dh.c:(.text+0x1290): undefined reference to `__asan_allocas_unpoison'
+security/keys/dh.c:(.text+0x1328): undefined reference to `__asan_alloca_poison'
+security/keys/dh.c:(.text+0x135b): undefined reference to `__asan_allocas_unpoison'
+security/keys/dh.c:(.text+0x1399): undefined reference to `__asan_allocas_unpoison'
+security/keys/dh.c:(.text+0x13e7): undefined reference to `__asan_allocas_unpoison'
+security/keys/big_key.o: In function `big_key_crypt':
+security/keys/big_key.c:(.text+0x9c8): undefined reference to `__asan_alloca_poison'
+security/keys/big_key.c:(.text+0xbb7): undefined reference to `__asan_allocas_unpoison'
+security/keys/big_key.c:(.text+0xbc7): undefined reference to `__asan_allocas_unpoison'
+security/keys/encrypted-keys/encrypted.o: In function `calc_hash':
+security/keys/encrypted-keys/encrypted.c:(.text+0x3145): undefined reference to `__asan_alloca_poison'
+security/keys/encrypted-keys/encrypted.c:(.text+0x31ad): undefined reference to `__asan_allocas_unpoison'
+security/apparmor/crypto.o: In function `aa_calc_hash':
+security/apparmor/crypto.c:(.text+0xa5): undefined reference to `__asan_alloca_poison'
+security/apparmor/crypto.c:(.text+0x198): undefined reference to `__asan_allocas_unpoison'
+security/apparmor/crypto.o: In function `aa_calc_profile_hash':
+security/apparmor/crypto.c:(.text+0x28f): undefined reference to `__asan_alloca_poison'
+security/apparmor/crypto.c:(.text+0x454): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_crypto.o: In function `ima_calc_field_array_hash_tfm':
+security/integrity/ima/ima_crypto.c:(.text+0x1388): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_crypto.c:(.text+0x1626): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_crypto.o: In function `ima_calc_file_hash_tfm':
+security/integrity/ima/ima_crypto.c:(.text+0x1f21): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_crypto.c:(.text+0x21a0): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_crypto.o: In function `calc_buffer_shash_tfm':
+security/integrity/ima/ima_crypto.c:(.text+0x2245): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_crypto.c:(.text+0x2375): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_crypto.o: In function `ima_calc_boot_aggregate_tfm':
+security/integrity/ima/ima_crypto.c:(.init.text+0x2e1): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_crypto.c:(.init.text+0x752): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_crypto.c:(.init.text+0x760): undefined reference to `__asan_allocas_unpoison'
+security/integrity/ima/ima_api.o: In function `ima_audit_measurement':
+security/integrity/ima/ima_api.c:(.text+0x1158): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_api.c:(.text+0x11cf): undefined reference to `__asan_alloca_poison'
+security/integrity/ima/ima_api.c:(.text+0x13db): undefined reference to `__asan_allocas_unpoison'

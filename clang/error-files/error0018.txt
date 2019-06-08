@@ -1,0 +1,384 @@
+drivers/gpio/gpiolib.o: In function `gpiod_get_array_value_complex':
+(.text+0x5cff): undefined reference to `__asan_alloca_poison'
+(.text+0x5d69): undefined reference to `__asan_alloca_poison'
+(.text+0x61e1): undefined reference to `__asan_allocas_unpoison'
+(.text+0x6211): undefined reference to `__asan_allocas_unpoison'
+(.text+0x6232): undefined reference to `__asan_allocas_unpoison'
+drivers/gpio/gpiolib.o: In function `gpiod_set_array_value_complex':
+(.text+0x6be6): undefined reference to `__asan_alloca_poison'
+(.text+0x6c4c): undefined reference to `__asan_alloca_poison'
+(.text+0x707d): undefined reference to `__asan_allocas_unpoison'
+(.text+0x70bf): undefined reference to `__asan_allocas_unpoison'
+drivers/gpio/gpio-max3191x.o: In function `gpiod_set_array_single_value_cansleep':
+drivers/gpio/gpio-max3191x.c:(.text+0xb4f): undefined reference to `__asan_alloca_poison'
+drivers/gpio/gpio-max3191x.c:(.text+0xd43): undefined reference to `__asan_allocas_unpoison'
+drivers/gpio/gpio-stmpe.o: In function `stmpe_gpio_irq':
+drivers/gpio/gpio-stmpe.c:(.text+0xb09): undefined reference to `__asan_alloca_poison'
+drivers/gpio/gpio-stmpe.c:(.text+0xe20): undefined reference to `__asan_allocas_unpoison'
+drivers/video/fbdev/aty/aty128fb.o: In function `aty128fb_set_par':
+drivers/video/fbdev/aty/aty128fb.c:(.text+0x43a8): undefined reference to `__asan_set_shadow_00'
+drivers/dma/dmatest.o: In function `dmatest_func':
+drivers/dma/dmatest.c:(.text+0x1d7e): undefined reference to `__asan_allocas_unpoison'
+drivers/dma/dmatest.c:(.text+0x1e55): undefined reference to `__asan_alloca_poison'
+drivers/dma/dmatest.c:(.text+0x335f): undefined reference to `__asan_alloca_poison'
+drivers/dma/dmatest.c:(.text+0x3419): undefined reference to `__asan_allocas_unpoison'
+drivers/dma/dmatest.c:(.text+0x3987): undefined reference to `__asan_allocas_unpoison'
+drivers/dma/dmatest.c:(.text+0x3fe1): undefined reference to `__asan_allocas_unpoison'
+drivers/dma/dmatest.c:(.text+0x438d): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/amd/amdkfd/kfd_interrupt.o: In function `interrupt_wq':
+drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c:(.text+0x228): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/amd/amdkfd/kfd_interrupt.c:(.text+0x32c): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/amd/display/dc/bios/command_table.o: In function `dal_bios_parser_init_cmd_tbl':
+drivers/gpu/drm/amd/amdgpu/../display/dc/bios/command_table.c:(.text+0xf74): undefined reference to `__asan_set_shadow_00'
+drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramnv50.o: In function `nv50_ram_new':
+drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramnv50.c:(.text+0x1fb1): undefined reference to `__asan_set_shadow_00'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.o: In function `acr_r352_ls_write_wpr':
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c:(.text+0x76e): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c:(.text+0x880): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c:(.text+0x8ff): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.o: In function `acr_r352_load':
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c:(.text+0x244b): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r352.c:(.text+0x26a0): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.o: In function `acr_r367_ls_write_wpr':
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.c:(.text+0x79e): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.c:(.text+0x8b0): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/nouveau/nvkm/subdev/secboot/acr_r367.c:(.text+0x92f): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/gma500/psb_intel_sdvo.o: In function `psb_intel_sdvo_write_cmd':
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:(.text+0x145e): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:(.text+0x14a7): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/gma500/psb_intel_sdvo.c:(.text+0x1ae3): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/i2c/ch7006_mode.o: In function `ch7006_state_save':
+drivers/gpu/drm/i2c/ch7006_mode.c:(.text+0x30c7): undefined reference to `__asan_set_shadow_00'
+drivers/gpu/drm/i2c/tda998x_drv.o: In function `reg_write_range':
+drivers/gpu/drm/i2c/tda998x_drv.c:(.text+0x7197): undefined reference to `__asan_alloca_poison'
+drivers/gpu/drm/i2c/tda998x_drv.c:(.text+0x730a): undefined reference to `__asan_allocas_unpoison'
+drivers/gpu/drm/i2c/tda998x_drv.o: In function `tda998x_encoder_mode_set':
+drivers/gpu/drm/i2c/tda998x_drv.c:(.text+0xc76a): undefined reference to `__asan_set_shadow_00'
+drivers/block/cryptoloop.o: In function `cryptoloop_transfer':
+drivers/block/cryptoloop.c:(.text+0x126): undefined reference to `__asan_alloca_poison'
+drivers/block/cryptoloop.c:(.text+0x530): undefined reference to `__asan_allocas_unpoison'
+drivers/block/drbd/drbd_worker.o: In function `drbd_csum_ee':
+drivers/block/drbd/drbd_worker.c:(.text+0x1e29): undefined reference to `__asan_alloca_poison'
+drivers/block/drbd/drbd_worker.c:(.text+0x217f): undefined reference to `__asan_allocas_unpoison'
+drivers/block/drbd/drbd_worker.o: In function `drbd_csum_bio':
+drivers/block/drbd/drbd_worker.c:(.text+0x234d): undefined reference to `__asan_alloca_poison'
+drivers/block/drbd/drbd_worker.c:(.text+0x27fc): undefined reference to `__asan_allocas_unpoison'
+drivers/block/drbd/drbd_worker.o: In function `w_resync_timer':
+drivers/block/drbd/drbd_worker.c:(.text+0x31ba): undefined reference to `__asan_set_shadow_00'
+drivers/block/drbd/drbd_receiver.o: In function `drbd_do_auth':
+drivers/block/drbd/drbd_receiver.c:(.text+0xaa71): undefined reference to `__asan_alloca_poison'
+drivers/block/drbd/drbd_receiver.c:(.text+0xad7f): undefined reference to `__asan_allocas_unpoison'
+drivers/block/drbd/drbd_receiver.c:(.text+0xad8f): undefined reference to `__asan_allocas_unpoison'
+drivers/block/drbd/drbd_receiver.o: In function `receive_SyncParam':
+drivers/block/drbd/drbd_receiver.c:(.text+0x13f4c): undefined reference to `__asan_set_shadow_00'
+drivers/block/drbd/drbd_receiver.c:(.text+0x1427f): undefined reference to `__asan_set_shadow_00'
+drivers/block/drbd/drbd_receiver.o: In function `receive_sizes':
+drivers/block/drbd/drbd_receiver.c:(.text+0x19fa9): undefined reference to `__asan_set_shadow_00'
+drivers/block/drbd/drbd_state.o: In function `w_after_state_ch':
+drivers/block/drbd/drbd_state.c:(.text+0xb798): undefined reference to `__asan_set_shadow_00'
+drivers/misc/tifm_7xx1.o: In function `tifm_7xx1_resume':
+drivers/misc/tifm_7xx1.c:(.text+0x7f8): undefined reference to `__asan_alloca_poison'
+drivers/misc/tifm_7xx1.c:(.text+0xc52): undefined reference to `__asan_allocas_unpoison'
+drivers/nfc/s3fwrn5/firmware.o: In function `s3fwrn5_fw_download':
+drivers/nfc/s3fwrn5/firmware.c:(.text+0xa76): undefined reference to `__asan_alloca_poison'
+drivers/nfc/s3fwrn5/firmware.c:(.text+0xafc): undefined reference to `__asan_allocas_unpoison'
+drivers/nfc/s3fwrn5/firmware.c:(.text+0x1138): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/device_handler/scsi_dh_rdac.o: In function `send_mode_select':
+drivers/scsi/device_handler/scsi_dh_rdac.c:(.text+0x17f2): undefined reference to `__asan_alloca_poison'
+drivers/scsi/device_handler/scsi_dh_rdac.c:(.text+0x21a4): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/device_handler/scsi_dh_rdac.c:(.text+0x21b4): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/device_handler/scsi_dh_emc.o: In function `send_trespass_cmd':
+drivers/scsi/device_handler/scsi_dh_emc.c:(.text+0xf58): undefined reference to `__asan_alloca_poison'
+drivers/scsi/device_handler/scsi_dh_emc.c:(.text+0x11f9): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/device_handler/scsi_dh_alua.o: In function `submit_rtpg':
+drivers/scsi/device_handler/scsi_dh_alua.c:(.text+0x4489): undefined reference to `__asan_alloca_poison'
+drivers/scsi/device_handler/scsi_dh_alua.c:(.text+0x4519): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/device_handler/scsi_dh_alua.o: In function `submit_stpg':
+drivers/scsi/device_handler/scsi_dh_alua.c:(.text+0x45f1): undefined reference to `__asan_alloca_poison'
+drivers/scsi/device_handler/scsi_dh_alua.c:(.text+0x46a3): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/dpt_i2o.o: In function `adpt_i2o_passthru':
+drivers/scsi/dpt_i2o.c:(.text+0x70d4): undefined reference to `__asan_alloca_poison'
+drivers/scsi/dpt_i2o.c:(.text+0x71ad): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/dpt_i2o.c:(.text+0x71bd): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/eata.o: In function `reorder':
+drivers/scsi/eata.c:(.text+0x62a2): undefined reference to `__asan_alloca_poison'
+drivers/scsi/eata.c:(.text+0x62c7): undefined reference to `__asan_alloca_poison'
+drivers/scsi/eata.c:(.text+0x62ef): undefined reference to `__asan_alloca_poison'
+drivers/scsi/eata.c:(.text+0x7205): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/ufs/ufshcd.o: In function `ufs_get_device_desc':
+drivers/scsi/ufs/ufshcd.c:(.text+0x18d40): undefined reference to `__asan_alloca_poison'
+drivers/scsi/ufs/ufshcd.c:(.text+0x19069): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/ufs/ufshcd.c:(.text+0x19079): undefined reference to `__asan_allocas_unpoison'
+drivers/scsi/ufs/ufshcd.o: In function `ufshcd_init_icc_levels':
+drivers/scsi/ufs/ufshcd.c:(.text+0x19202): undefined reference to `__asan_alloca_poison'
+drivers/scsi/ufs/ufshcd.c:(.text+0x197b3): undefined reference to `__asan_allocas_unpoison'
+drivers/mtd/nftlmount.o: In function `check_free_sectors':
+drivers/mtd/nftlmount.c:(.text+0x50e): undefined reference to `__asan_alloca_poison'
+drivers/mtd/nftlmount.c:(.text+0x7c5): undefined reference to `__asan_allocas_unpoison'
+drivers/mtd/inftlmount.o: In function `check_free_sectors':
+drivers/mtd/inftlmount.c:(.text+0x4ba): undefined reference to `__asan_alloca_poison'
+drivers/mtd/inftlmount.c:(.text+0x76e): undefined reference to `__asan_allocas_unpoison'
+drivers/net/phy/mdio-mux-gpio.o: In function `mdio_mux_gpio_switch_fn':
+drivers/net/phy/mdio-mux-gpio.c:(.text+0x1ee): undefined reference to `__asan_alloca_poison'
+drivers/net/phy/mdio-mux-gpio.c:(.text+0x2ad): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ethernet/broadcom/tg3.o: In function `tg3_init_one':
+drivers/net/ethernet/broadcom/tg3.c:(.text+0x1fe0): undefined reference to `__asan_set_shadow_00'
+drivers/net/ethernet/broadcom/tg3.o: In function `tg3_get_invariants':
+drivers/net/ethernet/broadcom/tg3.c:(.text+0xf6e4): undefined reference to `__asan_set_shadow_00'
+drivers/net/ethernet/broadcom/tg3.o: In function `tg3_reset_hw':
+drivers/net/ethernet/broadcom/tg3.c:(.text+0x15ad3): undefined reference to `__asan_set_shadow_00'
+drivers/net/ethernet/broadcom/tg3.o: In function `tg3_phy_reset':
+drivers/net/ethernet/broadcom/tg3.c:(.text+0x1d981): undefined reference to `__asan_set_shadow_00'
+drivers/net/ethernet/broadcom/tg3.o: In function `tg3_chip_reset':
+drivers/net/ethernet/broadcom/tg3.c:(.text+0x2179e): undefined reference to `__asan_set_shadow_00'
+drivers/net/ethernet/broadcom/tg3.o:drivers/net/ethernet/broadcom/tg3.c:(.text+0x29da6): more undefined references to `__asan_set_shadow_00' follow
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.o: In function `vpdstrtouint':
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.c:(.text+0xd7a6): undefined reference to `__asan_alloca_poison'
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.c:(.text+0xd7f1): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.o: In function `vpdstrtou16':
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.c:(.text+0xd886): undefined reference to `__asan_alloca_poison'
+drivers/net/ethernet/chelsio/cxgb3/t3_hw.c:(.text+0xd8d1): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ethernet/rocker/rocker_ofdpa.o: In function `ofdpa_cmd_flow_tbl_add':
+drivers/net/ethernet/rocker/rocker_ofdpa.c:(.text+0x4bdd): undefined reference to `__asan_set_shadow_00'
+drivers/net/ppp/ppp_mppe.o: In function `mppe_compress':
+drivers/net/ppp/ppp_mppe.c:(.text+0x435): undefined reference to `__asan_alloca_poison'
+drivers/net/ppp/ppp_mppe.c:(.text+0x84e): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ppp/ppp_mppe.o: In function `mppe_decompress':
+drivers/net/ppp/ppp_mppe.c:(.text+0xa85): undefined reference to `__asan_alloca_poison'
+drivers/net/ppp/ppp_mppe.c:(.text+0xd36): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ppp/ppp_mppe.o: In function `mppe_rekey':
+drivers/net/ppp/ppp_mppe.c:(.text+0x1850): undefined reference to `__asan_alloca_poison'
+drivers/net/ppp/ppp_mppe.c:(.text+0x1af6): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ppp/ppp_mppe.c:(.text+0x1b06): undefined reference to `__asan_allocas_unpoison'
+drivers/net/ppp/ppp_mppe.o: In function `get_new_key_from_sha':
+drivers/net/ppp/ppp_mppe.c:(.text+0x1c54): undefined reference to `__asan_alloca_poison'
+drivers/net/ppp/ppp_mppe.c:(.text+0x1da8): undefined reference to `__asan_allocas_unpoison'
+drivers/net/wireless/ath/ar5523/ar5523.o: In function `ar5523_probe':
+drivers/net/wireless/ath/ar5523/ar5523.c:(.text+0x198e): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/intersil/orinoco/mic.o: In function `orinoco_mic':
+drivers/net/wireless/intersil/orinoco/mic.c:(.text+0x21d): undefined reference to `__asan_alloca_poison'
+drivers/net/wireless/intersil/orinoco/mic.c:(.text+0x3ea): undefined reference to `__asan_allocas_unpoison'
+drivers/net/wireless/intersil/p54/p54usb.o: In function `p54u_upload_firmware_net2280':
+drivers/net/wireless/intersil/p54/p54usb.c:(.text+0x364d): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/ralink/rt2x00/rt2800lib.o: In function `rt2800_config_channel':
+drivers/net/wireless/ralink/rt2x00/rt2800lib.c:(.text+0x1b2e9): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/ralink/rt2x00/rt2800lib.o: In function `rt2800_init_bbp':
+drivers/net/wireless/ralink/rt2x00/rt2800lib.c:(.text+0x3a6aa): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/ralink/rt2x00/rt2800lib.o: In function `rt2800_init_rfcsr':
+drivers/net/wireless/ralink/rt2x00/rt2800lib.c:(.text+0x5f407): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/ralink/rt2x00/rt2800lib.o: In function `rt2800_config_channel_rf55xx':
+drivers/net/wireless/ralink/rt2x00/rt2800lib.c:(.text+0x74ef9): undefined reference to `__asan_set_shadow_00'
+drivers/net/wireless/ralink/rt2x00/rt2800lib.o:drivers/net/wireless/ralink/rt2x00/rt2800lib.c:(.text+0x7e322): more undefined references to `__asan_set_shadow_00' follow
+drivers/net/wireless/rsi/rsi_91x_sdio.o: In function `rsi_sdio_load_data_master_write':
+drivers/net/wireless/rsi/rsi_91x_sdio.c:(.text+0x2a38): undefined reference to `__asan_alloca_poison'
+drivers/net/wireless/rsi/rsi_91x_sdio.c:(.text+0x2cce): undefined reference to `__asan_allocas_unpoison'
+drivers/net/usb/r8152.o: In function `rtl8152_up':
+drivers/net/usb/r8152.c:(.text+0x8ae4): undefined reference to `__asan_set_shadow_00'
+drivers/net/usb/r8152.o: In function `r8153_init':
+drivers/net/usb/r8152.c:(.text+0xc46d): undefined reference to `__asan_set_shadow_00'
+drivers/net/usb/r8152.o: In function `r8153_hw_phy_cfg':
+drivers/net/usb/r8152.c:(.text+0x1062e): undefined reference to `__asan_set_shadow_00'
+drivers/net/usb/r8152.o: In function `r8153b_hw_phy_cfg':
+drivers/net/usb/r8152.c:(.text+0x16c62): undefined reference to `__asan_set_shadow_00'
+drivers/net/usb/r8152.o: In function `r8153_first_init':
+drivers/net/usb/r8152.c:(.text+0x1c095): undefined reference to `__asan_set_shadow_00'
+drivers/net/usb/r8152.o:drivers/net/usb/r8152.c:(.text+0x1f83c): more undefined references to `__asan_set_shadow_00' follow
+drivers/usb/wusbcore/crypto.o: In function `wusb_ccm_mac':
+drivers/usb/wusbcore/crypto.c:(.text+0x4f8): undefined reference to `__asan_alloca_poison'
+drivers/usb/wusbcore/crypto.c:(.text+0x551): undefined reference to `__asan_alloca_poison'
+drivers/usb/wusbcore/crypto.c:(.text+0xd34): undefined reference to `__asan_allocas_unpoison'
+drivers/usb/misc/usbtest.o: In function `test_queue':
+drivers/usb/misc/usbtest.c:(.text+0x77e8): undefined reference to `__asan_alloca_poison'
+drivers/usb/misc/usbtest.c:(.text+0x85c6): undefined reference to `__asan_allocas_unpoison'
+drivers/usb/misc/usbtest.c:(.text+0x85d6): undefined reference to `__asan_allocas_unpoison'
+drivers/input/keyboard/stmpe-keypad.o: In function `stmpe_keypad_irq':
+drivers/input/keyboard/stmpe-keypad.c:(.text+0xb61): undefined reference to `__asan_alloca_poison'
+drivers/input/keyboard/stmpe-keypad.c:(.text+0xda7): undefined reference to `__asan_allocas_unpoison'
+drivers/input/mouse/cyapa_gen5.o: In function `cyapa_gen5_show_baseline':
+drivers/input/mouse/cyapa_gen5.c:(.text+0x492f): undefined reference to `__asan_set_shadow_00'
+drivers/rtc/rtc-mcp795.o: In function `mcp795_rtcc_write':
+drivers/rtc/rtc-mcp795.c:(.text+0x808): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-mcp795.c:(.text+0x992): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_read_time':
+drivers/rtc/rtc-s5m.c:(.text+0xc07): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0xfec): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_set_time':
+drivers/rtc/rtc-s5m.c:(.text+0x10ed): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0x1733): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_read_alarm':
+drivers/rtc/rtc-s5m.c:(.text+0x1858): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0x1e03): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_set_alarm':
+drivers/rtc/rtc-s5m.c:(.text+0x1ef4): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0x23b3): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_stop_alarm':
+drivers/rtc/rtc-s5m.c:(.text+0x2695): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0x29d6): undefined reference to `__asan_allocas_unpoison'
+drivers/rtc/rtc-s5m.o: In function `s5m_rtc_start_alarm':
+drivers/rtc/rtc-s5m.c:(.text+0x2a95): undefined reference to `__asan_alloca_poison'
+drivers/rtc/rtc-s5m.c:(.text+0x2ea6): undefined reference to `__asan_allocas_unpoison'
+drivers/media/i2c/adv7604.o: In function `adv76xx_log_status':
+drivers/media/i2c/adv7604.c:(.text+0x59e7): undefined reference to `__asan_set_shadow_00'
+drivers/media/i2c/adv7604.o: In function `adv76xx_query_dv_timings':
+drivers/media/i2c/adv7604.c:(.text+0xb587): undefined reference to `__asan_set_shadow_00'
+drivers/media/i2c/s5k4ecgx.o: In function `__s5k4ecgx_s_params':
+drivers/media/i2c/s5k4ecgx.c:(.text+0x249d): undefined reference to `__asan_set_shadow_00'
+drivers/media/tuners/r820t.o: In function `generic_set_freq':
+drivers/media/tuners/r820t.c:(.text+0x86b4): undefined reference to `__asan_set_shadow_00'
+drivers/media/dvb-frontends/cxd2841er.o: In function `cxd2841er_set_frontend_tc':
+drivers/media/dvb-frontends/cxd2841er.c:(.text+0x50e5): undefined reference to `__asan_set_shadow_00'
+drivers/media/dvb-frontends/cxd2841er.o:drivers/media/dvb-frontends/cxd2841er.c:(.text+0x50f9): more undefined references to `__asan_set_shadow_00' follow
+drivers/media/pci/solo6x10/solo6x10-disp.o: In function `solo_disp_init':
+drivers/media/pci/solo6x10/solo6x10-disp.c:(.text+0x138b): undefined reference to `__asan_set_shadow_00'
+drivers/media/pci/solo6x10/solo6x10-enc.o: In function `solo_enc_init':
+drivers/media/pci/solo6x10/solo6x10-enc.c:(.text+0x17be): undefined reference to `__asan_set_shadow_00'
+drivers/md/dm-stripe.o: In function `stripe_status':
+drivers/md/dm-stripe.c:(.text+0x12d7): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-stripe.c:(.text+0x164d): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-crypt.o: In function `crypt_iv_essiv_init':
+drivers/md/dm-crypt.c:(.text+0x52de): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-crypt.c:(.text+0x547d): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-crypt.o: In function `crypt_iv_lmk_one':
+drivers/md/dm-crypt.c:(.text+0x60ba): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-crypt.c:(.text+0x6134): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-crypt.o: In function `crypt_iv_tcw_whitening':
+drivers/md/dm-crypt.c:(.text+0x6d41): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-crypt.c:(.text+0x70e8): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-crypt.c:(.text+0x70f6): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-raid1.o: In function `mirror_status':
+drivers/md/dm-raid1.c:(.text+0x20c3): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-raid1.c:(.text+0x276f): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-raid1.o: In function `mirror_flush':
+drivers/md/dm-raid1.c:(.text+0x4622): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-raid1.c:(.text+0x47cd): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-raid1.c:(.text+0x47db): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-raid1.o: In function `do_write':
+drivers/md/dm-raid1.c:(.text+0x5580): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-raid1.c:(.text+0x58c0): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-verity-fec.o: In function `fec_read_bufs':
+drivers/md/dm-verity-fec.c:(.text+0x24b2): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-verity-fec.c:(.text+0x2c82): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-verity-fec.c:(.text+0x2c92): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.o: In function `section_mac':
+drivers/md/dm-integrity.c:(.text+0x9cdc): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0x9f6a): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xa0ad): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0xa0fa): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xa22b): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.o: In function `do_journal_write':
+drivers/md/dm-integrity.c:(.text+0xbb85): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0xbd14): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xc67b): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.o: In function `integrity_sector_checksum':
+drivers/md/dm-integrity.c:(.text+0xce20): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0xcf82): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xcf92): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.o: In function `integrity_metadata':
+drivers/md/dm-integrity.c:(.text+0xf467): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0xfd6b): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xfd87): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0xfe5a): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.o: In function `__journal_read_write':
+drivers/md/dm-integrity.c:(.text+0x1151c): undefined reference to `__asan_alloca_poison'
+drivers/md/dm-integrity.c:(.text+0x11581): undefined reference to `__asan_allocas_unpoison'
+drivers/md/dm-integrity.c:(.text+0x11876): undefined reference to `__asan_allocas_unpoison'
+drivers/isdn/mISDN/dsp_hwec.o: In function `dsp_hwec_enable':
+drivers/isdn/mISDN/dsp_hwec.c:(.text+0x12c): undefined reference to `__asan_alloca_poison'
+drivers/isdn/mISDN/dsp_hwec.c:(.text+0x339): undefined reference to `__asan_allocas_unpoison'
+drivers/isdn/mISDN/dsp_hwec.c:(.text+0x40b): undefined reference to `__asan_allocas_unpoison'
+drivers/isdn/mISDN/l1oip_core.o: In function `l1oip_socket_send':
+drivers/isdn/mISDN/l1oip_core.c:(.text+0x414): undefined reference to `__asan_alloca_poison'
+drivers/isdn/mISDN/l1oip_core.c:(.text+0x904): undefined reference to `__asan_allocas_unpoison'
+drivers/edac/sb_edac.o: In function `get_memory_error_data':
+drivers/edac/sb_edac.c:(.text+0x11f3): undefined reference to `__asan_alloca_poison'
+drivers/edac/sb_edac.c:(.text+0x1433): undefined reference to `__asan_allocas_unpoison'
+drivers/mmc/core/pwrseq_simple.o: In function `mmc_pwrseq_simple_set_gpios_value':
+drivers/mmc/core/pwrseq_simple.c:(.text+0x4d6): undefined reference to `__asan_alloca_poison'
+drivers/mmc/core/pwrseq_simple.c:(.text+0x56a): undefined reference to `__asan_allocas_unpoison'
+drivers/mmc/core/pwrseq_simple.c:(.text+0x578): undefined reference to `__asan_allocas_unpoison'
+drivers/infiniband/core/cm.o: In function `cm_work_handler':
+drivers/infiniband/core/cm.c:(.text+0xd379): undefined reference to `__asan_set_shadow_00'
+drivers/infiniband/sw/rxe/rxe_req.o: In function `rxe_crc32':
+drivers/infiniband/sw/rxe/rxe_req.c:(.text+0x30da): undefined reference to `__asan_alloca_poison'
+drivers/infiniband/sw/rxe/rxe_req.c:(.text+0x3158): undefined reference to `__asan_allocas_unpoison'
+drivers/infiniband/sw/rxe/rxe_recv.o: In function `rxe_crc32':
+drivers/infiniband/sw/rxe/rxe_recv.c:(.text+0x125a): undefined reference to `__asan_alloca_poison'
+drivers/infiniband/sw/rxe/rxe_recv.c:(.text+0x12d8): undefined reference to `__asan_allocas_unpoison'
+drivers/infiniband/sw/rxe/rxe_mr.o: In function `rxe_crc32':
+drivers/infiniband/sw/rxe/rxe_mr.c:(.text+0x18fa): undefined reference to `__asan_alloca_poison'
+drivers/infiniband/sw/rxe/rxe_mr.c:(.text+0x1978): undefined reference to `__asan_allocas_unpoison'
+drivers/infiniband/sw/rxe/rxe_icrc.o: In function `rxe_crc32':
+drivers/infiniband/sw/rxe/rxe_icrc.c:(.text+0x30a): undefined reference to `__asan_alloca_poison'
+drivers/infiniband/sw/rxe/rxe_icrc.c:(.text+0x388): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/ccp/ccp-crypto-aes-xts.o: In function `ccp_aes_xts_crypt':
+drivers/crypto/ccp/ccp-crypto-aes-xts.c:(.text+0x786): undefined reference to `__asan_alloca_poison'
+drivers/crypto/ccp/ccp-crypto-aes-xts.c:(.text+0x8d7): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/ccp/ccp-crypto-aes-xts.c:(.text+0xa9e): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/ccp/ccp-crypto-sha.o: In function `ccp_sha_setkey':
+drivers/crypto/ccp/ccp-crypto-sha.c:(.text+0x13cb): undefined reference to `__asan_alloca_poison'
+drivers/crypto/ccp/ccp-crypto-sha.c:(.text+0x171b): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.o: In function `chcr_cipher_fallback':
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x27e1): undefined reference to `__asan_alloca_poison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x28da): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.o: In function `chcr_ahash_setkey':
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x68a8): undefined reference to `__asan_alloca_poison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x6dc9): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.o: In function `chcr_authenc_setkey':
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x8e5d): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x90e5): undefined reference to `__asan_alloca_poison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x9207): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x95d3): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/chelsio/chcr_algo.c:(.text+0x990d): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/mediatek/mtk-sha.o: In function `mtk_sha_finish_hmac':
+drivers/crypto/mediatek/mtk-sha.c:(.text+0x31ae): undefined reference to `__asan_alloca_poison'
+drivers/crypto/mediatek/mtk-sha.c:(.text+0x3287): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/mediatek/mtk-sha.o: In function `mtk_sha_setkey':
+drivers/crypto/mediatek/mtk-sha.c:(.text+0x3f8b): undefined reference to `__asan_alloca_poison'
+drivers/crypto/mediatek/mtk-sha.c:(.text+0x40e9): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/picoxcell_crypto.o: In function `spacc_ablk_do_fallback':
+drivers/crypto/picoxcell_crypto.c:(.text+0x2383): undefined reference to `__asan_alloca_poison'
+drivers/crypto/picoxcell_crypto.c:(.text+0x24c0): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/qat/qat_common/qat_algs.o: In function `qat_alg_do_precomputes':
+drivers/crypto/qat/qat_common/qat_algs.c:(.text+0x53dc): undefined reference to `__asan_alloca_poison'
+drivers/crypto/qat/qat_common/qat_algs.c:(.text+0x5451): undefined reference to `__asan_alloca_poison'
+drivers/crypto/qat/qat_common/qat_algs.c:(.text+0x5472): undefined reference to `__asan_alloca_poison'
+drivers/crypto/qat/qat_common/qat_algs.c:(.text+0x5721): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/qce/ablkcipher.o: In function `qce_ablkcipher_crypt':
+drivers/crypto/qce/ablkcipher.c:(.text+0x1291): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/qce/ablkcipher.c:(.text+0x1316): undefined reference to `__asan_alloca_poison'
+drivers/crypto/qce/ablkcipher.c:(.text+0x1466): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/s5p-sss.o: In function `s5p_hash_shash_digest':
+drivers/crypto/s5p-sss.c:(.text+0x59e8): undefined reference to `__asan_alloca_poison'
+drivers/crypto/s5p-sss.c:(.text+0x5a2f): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/inside-secure/safexcel_cipher.o: In function `safexcel_cipher_exit_inv':
+drivers/crypto/inside-secure/safexcel_cipher.c:(.text+0x1bc4): undefined reference to `__asan_alloca_poison'
+drivers/crypto/inside-secure/safexcel_cipher.c:(.text+0x1d70): undefined reference to `__asan_allocas_unpoison'
+drivers/crypto/inside-secure/safexcel_hash.o: In function `safexcel_ahash_exit_inv':
+drivers/crypto/inside-secure/safexcel_hash.c:(.text+0x3384): undefined reference to `__asan_alloca_poison'
+drivers/crypto/inside-secure/safexcel_hash.c:(.text+0x3527): undefined reference to `__asan_allocas_unpoison'
+drivers/of/unittest.o: In function `of_unittest_printf_one':
+drivers/of/unittest.c:(.init.text+0x8a70): undefined reference to `__asan_alloca_poison'
+drivers/of/unittest.c:(.init.text+0x8cb1): undefined reference to `__asan_allocas_unpoison'
+drivers/staging/rtl8712/rtl871x_mp.o: In function `r8712_SetContinuousTx':
+drivers/staging/rtl8712/rtl871x_mp.c:(.text+0x5a80): undefined reference to `__asan_set_shadow_00'
+drivers/staging/ccree/ssi_cipher.o: In function `ssi_blkcipher_setkey':
+drivers/staging/ccree/ssi_cipher.c:(.text+0xf5f): undefined reference to `__asan_alloca_poison'
+drivers/staging/ccree/ssi_cipher.c:(.text+0xfdf): undefined reference to `__asan_allocas_unpoison'
+drivers/staging/ccree/ssi_cipher.c:(.text+0x1110): undefined reference to `__asan_allocas_unpoison'
+drivers/staging/ccree/ssi_cipher.c:(.text+0x121e): undefined reference to `__asan_allocas_unpoison'
+drivers/staging/pi433/rf69.o: In function `rf69_get_flag':
+drivers/staging/pi433/rf69.c:(.text+0xbc68): undefined reference to `__asan_set_shadow_00'
+drivers/iio/humidity/hts221_i2c.o: In function `hts221_i2c_write':
+drivers/iio/humidity/hts221_i2c.c:(.text+0x38d): undefined reference to `__asan_alloca_poison'
+drivers/iio/humidity/hts221_i2c.c:(.text+0x473): undefined reference to `__asan_allocas_unpoison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.o: In function `st_lsm6dsx_read_fifo':
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.c:(.text+0x638): undefined reference to `__asan_alloca_poison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.c:(.text+0xb5f): undefined reference to `__asan_allocas_unpoison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.c:(.text+0xb6f): undefined reference to `__asan_allocas_unpoison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.o: In function `st_lsm6dsx_i2c_write':
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.c:(.text+0x2eb): undefined reference to `__asan_alloca_poison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.c:(.text+0x38e): undefined reference to `__asan_allocas_unpoison'
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.c:(.text+0x39c): undefined reference to `__asan_allocas_unpoison'
+drivers/iio/potentiometer/ds1803.o: In function `ds1803_read_raw':
+drivers/iio/potentiometer/ds1803.c:(.text+0x1cb): undefined reference to `__asan_alloca_poison'
+drivers/iio/potentiometer/ds1803.c:(.text+0x2b3): undefined reference to `__asan_allocas_unpoison'
