@@ -1,0 +1,36 @@
+From cc671253db09608c620b2777dedda11ab92980c0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 10:00:09 +0200
+Subject: [PATCH 153/171] drm: i915: annotate __psr_wait_for_idle_locked()
+
+HANDLES:
+
+drivers/gpu/drm/i915/intel_psr.c:916:2: warning: releasing mutex 'dev_priv->psr.lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev_priv->psr.lock);
+        ^
+drivers/gpu/drm/i915/intel_psr.c:925:1: warning: mutex 'dev_priv->psr.lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/gpu/drm/i915/intel_psr.c:923:2: note: mutex acquired here
+        mutex_lock(&dev_priv->psr.lock);
+        ^
+---
+ drivers/gpu/drm/i915/intel_psr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/intel_psr.c b/drivers/gpu/drm/i915/intel_psr.c
+index 84a0fb981561..4b75d16d965d 100644
+--- a/drivers/gpu/drm/i915/intel_psr.c
++++ b/drivers/gpu/drm/i915/intel_psr.c
+@@ -896,7 +896,7 @@ int intel_psr_wait_for_idle(const struct intel_crtc_state *new_crtc_state,
+ 					 out_value);
+ }
+ 
+-static bool __psr_wait_for_idle_locked(struct drm_i915_private *dev_priv)
++static bool __psr_wait_for_idle_locked(struct drm_i915_private *dev_priv) __requires_mutex(dev_priv->psr.lock)
+ {
+ 	i915_reg_t reg;
+ 	u32 mask;
+-- 
+2.17.1
+

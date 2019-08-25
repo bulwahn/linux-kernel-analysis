@@ -1,0 +1,35 @@
+From 8bbc497c53dcb60265c458d29b54c9e0d8ffabdc Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 18 Jun 2019 06:02:48 +0200
+Subject: [PATCH 099/171] fs:jbd2: annotate jbd2_journal_{lock,unlock}_updates
+ (wip)
+
+---
+ fs/jbd2/transaction.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+index f940d31c2adc..7809dd1429d3 100644
+--- a/fs/jbd2/transaction.c
++++ b/fs/jbd2/transaction.c
+@@ -738,7 +738,7 @@ EXPORT_SYMBOL(jbd2_journal_restart);
+  *
+  * The journal lock should not be held on entry.
+  */
+-void jbd2_journal_lock_updates(journal_t *journal)
++void jbd2_journal_lock_updates(journal_t *journal) __acquires_mutex(&journal->j_barrier)
+ {
+ 	DEFINE_WAIT(wait);
+ 
+@@ -795,7 +795,7 @@ void jbd2_journal_lock_updates(journal_t *journal)
+  *
+  * Should be called without the journal lock held.
+  */
+-void jbd2_journal_unlock_updates (journal_t *journal)
++void jbd2_journal_unlock_updates(journal_t *journal) __releases_mutex(&journal->j_barrier)
+ {
+ 	J_ASSERT(journal->j_barrier_count != 0);
+ 
+-- 
+2.17.1
+

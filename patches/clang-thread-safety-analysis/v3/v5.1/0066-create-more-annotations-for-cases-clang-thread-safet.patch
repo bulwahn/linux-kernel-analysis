@@ -1,7 +1,7 @@
 From 2962192cac1397acfc45f29fb34851ada42763c5 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:32:26 +0200
-Subject: [PATCH 66/90] create more annotations for cases clang thread safety
+Subject: [PATCH 066/171] create more annotations for cases clang thread safety
  analysis cannot handle
 
 ---

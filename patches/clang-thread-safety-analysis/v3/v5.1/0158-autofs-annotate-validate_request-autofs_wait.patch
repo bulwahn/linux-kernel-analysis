@@ -1,0 +1,71 @@
+From efdf505aad3ae931ac20382400ee6008930fde97 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 13:05:14 +0200
+Subject: [PATCH 158/171] autofs: annotate validate_request, autofs_wait
+
+SILENCES:
+
+fs/autofs/waitq.c:290:8: note: mutex acquired here
+                        if (mutex_lock_interruptible(&sbi->wq_mutex))
+                            ^
+fs/autofs/waitq.c:288:4: warning: releasing mutex 'sbi->wq_mutex' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&sbi->wq_mutex);
+                        ^
+fs/autofs/waitq.c:348:1: warning: mutex 'sbi->wq_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/autofs/waitq.c:290:8: note: mutex acquired here
+                        if (mutex_lock_interruptible(&sbi->wq_mutex))
+                            ^
+fs/autofs/waitq.c:348:1: warning: mutex 'sbi->wq_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/autofs/waitq.c:290:8: note: mutex acquired here
+                        if (mutex_lock_interruptible(&sbi->wq_mutex))
+                            ^
+fs/autofs/waitq.c:416:3: warning: mutex '->wq_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                kfree(qstr.name);
+                ^
+fs/autofs/waitq.c:407:6: note: mutex acquired here
+        if (mutex_lock_interruptible(&sbi->wq_mutex)) {
+            ^
+fs/autofs/waitq.c:482:2: warning: mutex '->wq_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        wait_event_killable(wq->queue, wq->name.name == NULL);
+        ^
+./include/linux/wait.h:873:14: note: expanded from macro 'wait_event_killable'
+        int __ret = 0;                                                          \
+                    ^
+fs/autofs/waitq.c:407:6: note: mutex acquired here
+        if (mutex_lock_interruptible(&sbi->wq_mutex)) {
+            ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/153
+---
+ fs/autofs/waitq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/autofs/waitq.c b/fs/autofs/waitq.c
+index 110304eeca43..b4ffe5243dcf 100644
+--- a/fs/autofs/waitq.c
++++ b/fs/autofs/waitq.c
+@@ -249,7 +249,7 @@ autofs_find_wait(struct autofs_sb_info *sbi, const struct qstr *qstr)
+ static int validate_request(struct autofs_wait_queue **wait,
+ 			    struct autofs_sb_info *sbi,
+ 			    const struct qstr *qstr,
+-			    const struct path *path, enum autofs_notify notify)
++			    const struct path *path, enum autofs_notify notify) __no_thread_safety_analysis
+ {
+ 	struct dentry *dentry = path->dentry;
+ 	struct autofs_wait_queue *wq;
+@@ -348,7 +348,7 @@ static int validate_request(struct autofs_wait_queue **wait,
+ }
+ 
+ int autofs_wait(struct autofs_sb_info *sbi,
+-		 const struct path *path, enum autofs_notify notify)
++		 const struct path *path, enum autofs_notify notify) __no_thread_safety_analysis
+ {
+ 	struct dentry *dentry = path->dentry;
+ 	struct autofs_wait_queue *wq;
+-- 
+2.17.1
+

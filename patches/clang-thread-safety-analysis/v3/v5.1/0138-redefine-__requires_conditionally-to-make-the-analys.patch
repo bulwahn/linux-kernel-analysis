@@ -1,0 +1,26 @@
+From f57496773f1918d6c7c2d9a2489e7d6b4bac9dd0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 29 Jun 2019 07:42:21 +0200
+Subject: [PATCH 138/171] redefine __requires_conditionally to make the
+ analysis run (unverified if it works, wip)
+
+---
+ include/linux/compiler_attributes.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index f611b50fca2f..2a8d4363fd0d 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -279,7 +279,7 @@
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __releases_conditionally(x)    __attribute__((no_thread_safety_analysis))
+-# define __requires_conditionally(x)    __attribute__((no_thread_safety_analysis))
++# define __requires_conditionally(x)    __attribute__((requires_capability(x))) __attribute__((no_thread_safety_analysis))
+ # define __uses_retry_acquires(x)       __attribute__((no_thread_safety_analysis))
+ # define __no_thread_safety_analysis    __attribute__((no_thread_safety_analysis))
+ #else
+-- 
+2.17.1
+

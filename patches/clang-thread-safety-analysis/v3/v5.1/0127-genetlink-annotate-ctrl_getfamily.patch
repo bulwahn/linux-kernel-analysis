@@ -1,0 +1,39 @@
+From 173174e30f07a8b63ad51e44218e142d961be373 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 10:24:29 +0200
+Subject: [PATCH 127/171] genetlink: annotate ctrl_getfamily
+
+HANDLES:
+
+net/netlink/genetlink.c:869:4: warning: releasing mutex 'genl_mutex' that was not held [-Wthread-safety-analysis]
+                        genl_unlock();
+                        ^
+net/netlink/genetlink.c:878:10: warning: mutex 'genl_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                err = -ENOENT;
+                       ^
+./include/uapi/asm-generic/errno-base.h:6:18: note: expanded from macro 'ENOENT'
+\#define ENOENT           2      /* No such file or directory */
+                         ^
+net/netlink/genetlink.c:874:4: note: mutex acquired here
+                        genl_lock();
+                        ^
+---
+ net/netlink/genetlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/netlink/genetlink.c b/net/netlink/genetlink.c
+index 6490b88d65d4..6d59a71ef84c 100644
+--- a/net/netlink/genetlink.c
++++ b/net/netlink/genetlink.c
+@@ -847,7 +847,7 @@ static const struct nla_policy ctrl_policy[CTRL_ATTR_MAX+1] = {
+ 				    .len = GENL_NAMSIZ - 1 },
+ };
+ 
+-static int ctrl_getfamily(struct sk_buff *skb, struct genl_info *info)
++static int ctrl_getfamily(struct sk_buff *skb, struct genl_info *info) __requires_mutex(genl_mutex)
+ {
+ 	struct sk_buff *msg;
+ 	const struct genl_family *res = NULL;
+-- 
+2.17.1
+

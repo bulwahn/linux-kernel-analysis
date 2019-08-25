@@ -1,0 +1,42 @@
+From 1baef240c716a6e2af31b7a403237987ec6bc8e3 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 22 Jun 2019 18:22:38 +0200
+Subject: [PATCH 131/171] drivers/md: annotate dm_{lock,unlock}_md_type
+
+HANDLES:
+
+drivers/md/dm.c:2213:1: warning: mutex 'md->type_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/md/dm.c:2212:2: note: mutex acquired here
+        mutex_lock(&md->type_lock);
+        ^
+drivers/md/dm.c:2217:2: warning: releasing mutex 'md->type_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&md->type_lock);
+        ^
+---
+ drivers/md/dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index 043f0761e4a0..d36498bcdd3c 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -2207,12 +2207,12 @@ int dm_create(int minor, struct mapped_device **result)
+  * Functions to manage md->type.
+  * All are required to hold md->type_lock.
+  */
+-void dm_lock_md_type(struct mapped_device *md)
++void dm_lock_md_type(struct mapped_device *md) __acquires_mutex(md->type_lock)
+ {
+ 	mutex_lock(&md->type_lock);
+ }
+ 
+-void dm_unlock_md_type(struct mapped_device *md)
++void dm_unlock_md_type(struct mapped_device *md) __releases_mutex(md->type_lock)
+ {
+ 	mutex_unlock(&md->type_lock);
+ }
+-- 
+2.17.1
+

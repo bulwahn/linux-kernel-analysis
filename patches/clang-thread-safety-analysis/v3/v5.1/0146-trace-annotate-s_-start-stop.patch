@@ -1,0 +1,45 @@
+From b9861478570063907a857c742009f8c14705255d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 14:59:46 +0200
+Subject: [PATCH 146/171] trace: annotate s_{start,stop}()
+
+HANDLES:
+
+kernel/trace/trace.c:3478:1: warning: mutex 'cpu_access_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace.c:3476:2: note: mutex acquired here
+        trace_access_lock(cpu_file);
+        ^
+kernel/trace/trace.c:3492:2: warning: releasing mutex 'cpu_access_lock' that was not held [-Wthread-safety-analysis]
+        trace_access_unlock(iter->cpu_file);
+        ^
+---
+ kernel/trace/trace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 53fa41bd287b..acbb07654912 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -3416,7 +3416,7 @@ void tracing_iter_reset(struct trace_iterator *iter, int cpu)
+  * The current tracer is copied to avoid a global locking
+  * all around.
+  */
+-static void *s_start(struct seq_file *m, loff_t *pos)
++static void *s_start(struct seq_file *m, loff_t *pos) __acquires_mutex(cpu_access_lock)
+ {
+ 	struct trace_iterator *iter = m->private;
+ 	struct trace_array *tr = iter->tr;
+@@ -3477,7 +3477,7 @@ static void *s_start(struct seq_file *m, loff_t *pos)
+ 	return p;
+ }
+ 
+-static void s_stop(struct seq_file *m, void *p)
++static void s_stop(struct seq_file *m, void *p) __releases_mutex(cpu_access_lock)
+ {
+ 	struct trace_iterator *iter = m->private;
+ 
+-- 
+2.17.1
+

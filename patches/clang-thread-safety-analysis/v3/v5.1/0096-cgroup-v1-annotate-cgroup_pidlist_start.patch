@@ -1,0 +1,35 @@
+From 98b2ec6f1d91de55ec2d788af91a8bb31a823043 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 9 Jun 2019 08:32:43 +0200
+Subject: [PATCH 096/171] cgroup-v1: annotate cgroup_pidlist_start()
+
+SILENCES:
+
+kernel/cgroup/cgroup-v1.c:485:1: warning: mutex 'cgrp->pidlist_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/cgroup/cgroup-v1.c:441:2: note: mutex acquired here
+        mutex_lock(&cgrp->pidlist_mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/53
+---
+ kernel/cgroup/cgroup-v1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/cgroup/cgroup-v1.c b/kernel/cgroup/cgroup-v1.c
+index 47ab64599b2c..0c5a276b7e1f 100644
+--- a/kernel/cgroup/cgroup-v1.c
++++ b/kernel/cgroup/cgroup-v1.c
+@@ -423,7 +423,7 @@ static int pidlist_array_load(struct cgroup *cgrp, enum cgroup_filetype type,
+  * in the cgroup->l->list array.
+  */
+ 
+-static void *cgroup_pidlist_start(struct seq_file *s, loff_t *pos)
++static void *cgroup_pidlist_start(struct seq_file *s, loff_t *pos) __acquires_mutex(seq_css(s)->cgroup->pidlist_mutex) __no_thread_safety_analysis
+ {
+ 	/*
+ 	 * Initially we receive a position value that corresponds to
+-- 
+2.17.1
+

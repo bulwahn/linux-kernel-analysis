@@ -1,0 +1,44 @@
+From b7c5689596e662b132642cbf24578d80480e70ff Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 16:19:49 +0200
+Subject: [PATCH 163/171] seccomp: modify code for analysis to handle pattern
+
+WIP: also add the issue on github
+---
+ kernel/seccomp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index f7798aabb151..f5ad61700583 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -1091,7 +1091,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+ 		return -EINVAL;
+ 
+ 	ret = mutex_lock_interruptible(&filter->notify_lock);
+-	if (!ret)
++	if (ret)
+ 		return ret;
+ 
+ 	list_for_each_entry(cur, &filter->notif->notifications, list) {
+@@ -1133,7 +1133,7 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+ 		return -EFAULT;
+ 
+ 	ret = mutex_lock_interruptible(&filter->notify_lock);
+-	if (!ret)
++	if (ret)
+ 		return ret;
+ 
+ 	ret = -ENOENT;
+@@ -1177,7 +1177,7 @@ static __poll_t seccomp_notify_poll(struct file *file,
+ 
+ 	poll_wait(file, &filter->notif->wqh, poll_tab);
+ 
+-	if (!mutex_lock_interruptible(&filter->notify_lock))
++	if (mutex_lock_interruptible(&filter->notify_lock))
+ 		return EPOLLERR;
+ 
+ 	list_for_each_entry(cur, &filter->notif->notifications, list) {
+-- 
+2.17.1
+

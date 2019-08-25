@@ -1,0 +1,44 @@
+From 85b448fd441aa0a7d4aa9744c049c81436f6acfb Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 29 Jun 2019 07:40:52 +0200
+Subject: [PATCH 137/171] seccomp: modifying code to check clang capabilities
+ (wip)
+
+---
+ kernel/seccomp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 3582eeb59893..f7798aabb151 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -1091,7 +1091,7 @@ static long seccomp_notify_send(struct seccomp_filter *filter,
+ 		return -EINVAL;
+ 
+ 	ret = mutex_lock_interruptible(&filter->notify_lock);
+-	if (ret < 0)
++	if (!ret)
+ 		return ret;
+ 
+ 	list_for_each_entry(cur, &filter->notif->notifications, list) {
+@@ -1133,7 +1133,7 @@ static long seccomp_notify_id_valid(struct seccomp_filter *filter,
+ 		return -EFAULT;
+ 
+ 	ret = mutex_lock_interruptible(&filter->notify_lock);
+-	if (ret < 0)
++	if (!ret)
+ 		return ret;
+ 
+ 	ret = -ENOENT;
+@@ -1177,7 +1177,7 @@ static __poll_t seccomp_notify_poll(struct file *file,
+ 
+ 	poll_wait(file, &filter->notif->wqh, poll_tab);
+ 
+-	if (mutex_lock_interruptible(&filter->notify_lock) < 0)
++	if (!mutex_lock_interruptible(&filter->notify_lock))
+ 		return EPOLLERR;
+ 
+ 	list_for_each_entry(cur, &filter->notif->notifications, list) {
+-- 
+2.17.1
+

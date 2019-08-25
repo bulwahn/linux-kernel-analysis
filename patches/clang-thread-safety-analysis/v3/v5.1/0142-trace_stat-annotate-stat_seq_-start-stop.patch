@@ -1,0 +1,47 @@
+From 64aae350b73c0f9df54b37909debd685eccd7d35 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 10:23:34 +0200
+Subject: [PATCH 142/171] trace_stat: annotate stat_seq_{start,stop}
+
+SILENCES:
+
+kernel/trace/trace_stat.c:195:1: warning: mutex 'session->stat_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_stat.c:181:2: note: mutex acquired here
+        mutex_lock(&session->stat_mutex);
+        ^
+kernel/trace/trace_stat.c:213:2: warning: releasing mutex 'session->stat_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&session->stat_mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/145
+---
+ kernel/trace/trace_stat.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_stat.c b/kernel/trace/trace_stat.c
+index 75bf1bcb4a8a..49c06833040b 100644
+--- a/kernel/trace/trace_stat.c
++++ b/kernel/trace/trace_stat.c
+@@ -170,7 +170,7 @@ static int stat_seq_init(struct stat_session *session)
+ }
+ 
+ 
+-static void *stat_seq_start(struct seq_file *s, loff_t *pos)
++static void *stat_seq_start(struct seq_file *s, loff_t *pos) __no_thread_safety_analysis
+ {
+ 	struct stat_session *session = s->private;
+ 	struct rb_node *node;
+@@ -207,7 +207,7 @@ static void *stat_seq_next(struct seq_file *s, void *p, loff_t *pos)
+ 	return rb_next(node);
+ }
+ 
+-static void stat_seq_stop(struct seq_file *s, void *p)
++static void stat_seq_stop(struct seq_file *s, void *p) __no_thread_safety_analysis
+ {
+ 	struct stat_session *session = s->private;
+ 	mutex_unlock(&session->stat_mutex);
+-- 
+2.17.1
+

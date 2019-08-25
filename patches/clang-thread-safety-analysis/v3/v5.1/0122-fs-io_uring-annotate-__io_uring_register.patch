@@ -1,0 +1,36 @@
+From 21142638a0bfdf3a68e899f9cf2c97b36b306021 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 08:34:27 +0200
+Subject: [PATCH 122/171] fs/io_uring: annotate __io_uring_register
+
+HANDLES:
+
+fs/io_uring.c:3023:2: warning: releasing mutex 'ctx->.uring_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ctx->uring_lock);
+        ^
+fs/io_uring.c:3055:1: warning: mutex 'ctx->.uring_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/io_uring.c:3025:2: note: mutex acquired here
+        mutex_lock(&ctx->uring_lock);
+        ^
+---
+ fs/io_uring.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 63ec22110ca8..128b5d4c0d06 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -2999,7 +2999,7 @@ SYSCALL_DEFINE2(io_uring_setup, u32, entries,
+ static int __io_uring_register(struct io_ring_ctx *ctx, unsigned opcode,
+ 			       void __user *arg, unsigned nr_args)
+ 	__releases(ctx->uring_lock)
+-	__acquires(ctx->uring_lock)
++	__acquires(ctx->uring_lock) __requires_mutex(ctx->uring_lock)
+ {
+ 	int ret;
+ 
+-- 
+2.17.1
+

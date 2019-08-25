@@ -1,0 +1,47 @@
+From 38ddd94791fb16995c96187b6ec37780cd60fa43 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 10:44:18 +0200
+Subject: [PATCH 155/171] sunrpc: annotate rpc_{get,put}_sb_net()
+
+SILENCES:
+
+net/sunrpc/rpc_pipe.c:1233:1: warning: mutex 'sn->pipefs_sb_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+net/sunrpc/rpc_pipe.c:1228:2: note: mutex acquired here
+        mutex_lock(&sn->pipefs_sb_lock);
+        ^
+net/sunrpc/rpc_pipe.c:1241:2: warning: releasing mutex 'sn->pipefs_sb_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&sn->pipefs_sb_lock);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/151
+---
+ net/sunrpc/rpc_pipe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/sunrpc/rpc_pipe.c b/net/sunrpc/rpc_pipe.c
+index 69663681bf9d..b8e345163351 100644
+--- a/net/sunrpc/rpc_pipe.c
++++ b/net/sunrpc/rpc_pipe.c
+@@ -1221,7 +1221,7 @@ void rpc_pipefs_exit_net(struct net *net)
+  * found. This lock have to be released by rpc_put_sb_net() when all operations
+  * will be completed.
+  */
+-struct super_block *rpc_get_sb_net(const struct net *net)
++struct super_block *rpc_get_sb_net(const struct net *net) __no_thread_safety_analysis
+ {
+ 	struct sunrpc_net *sn = net_generic(net, sunrpc_net_id);
+ 
+@@ -1233,7 +1233,7 @@ struct super_block *rpc_get_sb_net(const struct net *net)
+ }
+ EXPORT_SYMBOL_GPL(rpc_get_sb_net);
+ 
+-void rpc_put_sb_net(const struct net *net)
++void rpc_put_sb_net(const struct net *net) __no_thread_safety_analysis
+ {
+ 	struct sunrpc_net *sn = net_generic(net, sunrpc_net_id);
+ 
+-- 
+2.17.1
+

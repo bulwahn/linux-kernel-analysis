@@ -1,0 +1,32 @@
+From c370b5436c52d19c3dc792a612cc843a8505b291 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 22 Aug 2019 16:29:48 +0200
+Subject: [PATCH 149/171] kernel/acct: annotate slow_acct_process()
+
+SILENCES:
+
+kernel/acct.c:580:4: warning: releasing mutex 'acct->lock' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&acct->lock);
+                        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/149
+---
+ kernel/acct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/acct.c b/kernel/acct.c
+index 72d9fbf67c6a..62ad997e470d 100644
+--- a/kernel/acct.c
++++ b/kernel/acct.c
+@@ -571,7 +571,7 @@ void acct_collect(long exitcode, int group_dead)
+ 	spin_unlock_irq(&current->sighand->siglock);
+ }
+ 
+-static void slow_acct_process(struct pid_namespace *ns)
++static void slow_acct_process(struct pid_namespace *ns) __no_thread_safety_analysis
+ {
+ 	for ( ; ns; ns = ns->parent) {
+ 		struct bsd_acct_struct *acct = acct_get(ns);
+-- 
+2.17.1
+

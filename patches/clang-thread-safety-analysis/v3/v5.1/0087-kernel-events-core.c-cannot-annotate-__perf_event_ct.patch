@@ -1,7 +1,7 @@
 From 19920ad642f16bf2407c5bf235805a638251659f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 26 May 2019 16:01:09 +0200
-Subject: [PATCH 87/90] kernel/events/core.c: cannot annotate
+Subject: [PATCH 087/171] kernel/events/core.c: cannot annotate
  __perf_event_ctx_lock_double()
 
 SILENCES:

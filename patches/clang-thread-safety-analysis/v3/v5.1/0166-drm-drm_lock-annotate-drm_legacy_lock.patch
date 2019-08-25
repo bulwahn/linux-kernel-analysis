@@ -1,0 +1,54 @@
+From 5e016501f034cca2ca5b931f5888881c8a46ab00 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 16:59:26 +0200
+Subject: [PATCH 166/171] drm: drm_lock: annotate drm_legacy_lock()
+
+HANDLES:
+
+drivers/gpu/drm/drm_lock.c:189:2: warning: expecting mutex 'drm_global_mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        for (;;) {
+        ^
+drivers/gpu/drm/drm_lock.c:206:3: note: mutex acquired here
+                mutex_lock(&drm_global_mutex);
+                ^
+drivers/gpu/drm/drm_lock.c:195:4: warning: mutex 'drm_global_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                        break;
+                        ^
+drivers/gpu/drm/drm_lock.c:206:3: note: mutex acquired here
+                mutex_lock(&drm_global_mutex);
+                ^
+drivers/gpu/drm/drm_lock.c:200:4: warning: mutex 'drm_global_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                        break;  /* Got lock */
+                        ^
+drivers/gpu/drm/drm_lock.c:206:3: note: mutex acquired here
+                mutex_lock(&drm_global_mutex);
+                ^
+drivers/gpu/drm/drm_lock.c:204:3: warning: releasing mutex 'drm_global_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&drm_global_mutex);
+                ^
+drivers/gpu/drm/drm_lock.c:240:1: warning: mutex 'drm_global_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/gpu/drm/drm_lock.c:206:3: note: mutex acquired here
+                mutex_lock(&drm_global_mutex);
+                ^
+---
+ drivers/gpu/drm/drm_lock.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_lock.c b/drivers/gpu/drm/drm_lock.c
+index 67a1a2ca7174..df7874d5c5f2 100644
+--- a/drivers/gpu/drm/drm_lock.c
++++ b/drivers/gpu/drm/drm_lock.c
+@@ -158,7 +158,7 @@ static int drm_legacy_lock_free(struct drm_lock_data *lock_data,
+  * Add the current task to the lock wait queue, and attempt to take to lock.
+  */
+ int drm_legacy_lock(struct drm_device *dev, void *data,
+-		    struct drm_file *file_priv)
++		    struct drm_file *file_priv) __requires_mutex(drm_global_mutex)
+ {
+ 	DECLARE_WAITQUEUE(entry, current);
+ 	struct drm_lock *lock = data;
+-- 
+2.17.1
+

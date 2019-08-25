@@ -1,0 +1,36 @@
+From 6ad5b5c51926ea8b5c0c017910d12a1e2f445c3d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 22 Jun 2019 18:14:02 +0200
+Subject: [PATCH 130/171] net/unix: annotate unix_dgram_recvmsg
+
+SILENCES:
+
+net/unix/af_unix.c:2059:4: warning: mutex 'u->iolock' is not held on every path through here [-Wthread-safety-analysis]
+                        break;
+                        ^
+net/unix/af_unix.c:2053:3: note: mutex acquired here
+                mutex_lock(&u->iolock);
+                ^
+net/unix/af_unix.c:2133:2: warning: releasing mutex 'u->iolock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&u->iolock);
+        ^
+---
+ net/unix/af_unix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/unix/af_unix.c b/net/unix/af_unix.c
+index ddb838a1b74c..89ae17535732 100644
+--- a/net/unix/af_unix.c
++++ b/net/unix/af_unix.c
+@@ -2033,7 +2033,7 @@ static void unix_copy_addr(struct msghdr *msg, struct sock *sk)
+ }
+ 
+ static int unix_dgram_recvmsg(struct socket *sock, struct msghdr *msg,
+-			      size_t size, int flags)
++			      size_t size, int flags) __no_thread_safety_analysis
+ {
+ 	struct scm_cookie scm;
+ 	struct sock *sk = sock->sk;
+-- 
+2.17.1
+

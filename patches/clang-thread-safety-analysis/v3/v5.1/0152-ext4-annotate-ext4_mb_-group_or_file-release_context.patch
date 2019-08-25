@@ -1,0 +1,48 @@
+From 6e7f9e8f554fabecf9a1576cdd711cc79e2eabbf Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 09:56:57 +0200
+Subject: [PATCH 152/171] ext4: annotate ext4_mb_{group_or_file,
+ release_context}
+
+SILENCES:
+
+fs/ext4/mballoc.c:4210:1: warning: mutex 'ac->ac_lg->lg_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/ext4/mballoc.c:4209:2: note: mutex acquired here
+        mutex_lock(&ac->ac_lg->lg_mutex);
+        ^
+fs/ext4/mballoc.c:4435:3: warning: releasing mutex 'ac->ac_lg->lg_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&ac->ac_lg->lg_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/150
+---
+ fs/ext4/mballoc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/ext4/mballoc.c b/fs/ext4/mballoc.c
+index 6fb76d408093..2a39566ce64c 100644
+--- a/fs/ext4/mballoc.c
++++ b/fs/ext4/mballoc.c
+@@ -4160,7 +4160,7 @@ static inline void ext4_mb_show_ac(struct ext4_allocation_context *ac)
+  *
+  * One can tune this size via /sys/fs/ext4/<partition>/mb_stream_req
+  */
+-static void ext4_mb_group_or_file(struct ext4_allocation_context *ac)
++static void ext4_mb_group_or_file(struct ext4_allocation_context *ac) __no_thread_safety_analysis
+ {
+ 	struct ext4_sb_info *sbi = EXT4_SB(ac->ac_sb);
+ 	int bsbits = ac->ac_sb->s_blocksize_bits;
+@@ -4397,7 +4397,7 @@ static void ext4_mb_add_n_trim(struct ext4_allocation_context *ac)
+ /*
+  * release all resource we used in allocation
+  */
+-static int ext4_mb_release_context(struct ext4_allocation_context *ac)
++static int ext4_mb_release_context(struct ext4_allocation_context *ac) __no_thread_safety_analysis
+ {
+ 	struct ext4_sb_info *sbi = EXT4_SB(ac->ac_sb);
+ 	struct ext4_prealloc_space *pa = ac->ac_pa;
+-- 
+2.17.1
+

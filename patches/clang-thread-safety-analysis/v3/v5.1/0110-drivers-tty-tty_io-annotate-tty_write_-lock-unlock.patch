@@ -1,0 +1,61 @@
+From c4708a1f9868b007ad4b312fff50b7034f14f884 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 21:55:09 +0200
+Subject: [PATCH 110/171] drivers/tty/tty_io: annotate tty_write_{lock,unlock}
+
+HANDLES:
+
+drivers/tty/tty_io.c:881:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&tty->atomic_write_lock);
+        ^
+drivers/tty/tty_io.c:894:1: warning: mutex 'tty->atomic_write_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/tty/tty_io.c:890:7: note: mutex acquired here
+                if (mutex_lock_interruptible(&tty->atomic_write_lock))
+                    ^
+drivers/tty/tty_io.c:1005:2: warning: mutex 'tty->atomic_write_lock' is not held on every path through here [-Wthread-safety-analysis]
+        return;
+        ^
+drivers/tty/tty_io.c:998:3: note: mutex acquired here
+                mutex_lock(&tty->atomic_write_lock);
+                ^
+
+Then, the three new warnings appear:
+
+drivers/tty/tty_io.c:979:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:1098:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:2394:3: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+                tty_write_unlock(tty);
+                ^
+---
+ drivers/tty/tty_io.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index 5fa250157025..b113d64e89e5 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -876,13 +876,13 @@ static ssize_t tty_read(struct file *file, char __user *buf, size_t count,
+ 	return i;
+ }
+ 
+-static void tty_write_unlock(struct tty_struct *tty)
++static void tty_write_unlock(struct tty_struct *tty) __releases_mutex(tty->atomic_write_lock)
+ {
+ 	mutex_unlock(&tty->atomic_write_lock);
+ 	wake_up_interruptible_poll(&tty->write_wait, EPOLLOUT);
+ }
+ 
+-static int tty_write_lock(struct tty_struct *tty, int ndelay)
++static int tty_write_lock(struct tty_struct *tty, int ndelay) __try_acquires_mutex(0, tty->atomic_write_lock)
+ {
+ 	if (!mutex_trylock(&tty->atomic_write_lock)) {
+ 		if (ndelay)
+-- 
+2.17.1
+

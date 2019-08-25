@@ -1,7 +1,7 @@
 From 020ae20fcef39c12c1510c381b26b240c50a4659 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:31:29 +0200
-Subject: [PATCH 39/90] dyn_event_seq_{start,stop}
+Subject: [PATCH 039/171] dyn_event_seq_{start,stop}
 
 ---
  kernel/trace/trace_dynevent.c | 4 ++--

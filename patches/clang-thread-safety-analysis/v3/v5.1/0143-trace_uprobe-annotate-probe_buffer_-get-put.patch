@@ -1,0 +1,47 @@
+From 35ed8a20ccd60d2745bd1d4937640fdfe1760f2b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 14:51:39 +0200
+Subject: [PATCH 143/171] trace_uprobe: annotate probe_buffer_{get,put}
+
+SILENCES:
+
+kernel/trace/trace_uprobe.c:772:1: warning: mutex 'ucb->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_uprobe.c:769:2: note: mutex acquired here
+        mutex_lock(&ucb->mutex);
+        ^
+kernel/trace/trace_uprobe.c:776:2: warning: releasing mutex 'ucb->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&ucb->mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/147
+---
+ kernel/trace/trace_uprobe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/trace/trace_uprobe.c b/kernel/trace/trace_uprobe.c
+index be78d99ee6bc..79702f3d20bc 100644
+--- a/kernel/trace/trace_uprobe.c
++++ b/kernel/trace/trace_uprobe.c
+@@ -754,7 +754,7 @@ static void uprobe_buffer_disable(void)
+ 	}
+ }
+ 
+-static struct uprobe_cpu_buffer *uprobe_buffer_get(void)
++static struct uprobe_cpu_buffer *uprobe_buffer_get(void) __no_thread_safety_analysis
+ {
+ 	struct uprobe_cpu_buffer *ucb;
+ 	int cpu;
+@@ -771,7 +771,7 @@ static struct uprobe_cpu_buffer *uprobe_buffer_get(void)
+ 	return ucb;
+ }
+ 
+-static void uprobe_buffer_put(struct uprobe_cpu_buffer *ucb)
++static void uprobe_buffer_put(struct uprobe_cpu_buffer *ucb) __no_thread_safety_analysis
+ {
+ 	mutex_unlock(&ucb->mutex);
+ }
+-- 
+2.17.1
+

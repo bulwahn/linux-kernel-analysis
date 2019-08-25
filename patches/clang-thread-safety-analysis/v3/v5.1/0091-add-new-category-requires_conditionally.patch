@@ -1,0 +1,24 @@
+From f5b96c7ed1cda92998c4e249d2ae74aa7a5c609d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 5 Jun 2019 08:35:37 +0200
+Subject: [PATCH 091/171] add new category requires_conditionally
+
+---
+ include/linux/compiler_attributes.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index d9d92aa3a934..15f857f767ef 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -270,6 +270,7 @@
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __releases_conditionally(x)    __attribute__((no_thread_safety_analysis))
++# define __requires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __uses_retry_acquires(x)       __attribute__((no_thread_safety_analysis))
+ # define __no_thread_safety_analysis    __attribute__((no_thread_safety_analysis))
+ #else
+-- 
+2.17.1
+

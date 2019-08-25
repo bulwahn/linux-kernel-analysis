@@ -1,0 +1,39 @@
+From 5a56fee3a12d971f7cb51cc8beada4807ffd002c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 22 Aug 2019 16:13:38 +0200
+Subject: [PATCH 147/171] pcmcia: rsrc_nonstatic: annotate readable()
+
+HANDLES:
+
+drivers/pcmcia/rsrc_nonstatic.c:279:3: warning: releasing mutex 's->ops_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&s->ops_mutex);
+                ^
+drivers/pcmcia/rsrc_nonstatic.c:288:19: warning: mutex 's->ops_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        s->cis_mem.res = NULL;
+                         ^
+./include/linux/stddef.h:8:23: note: expanded from macro 'NULL'
+\#define NULL ((void *)0)
+                      ^
+drivers/pcmcia/rsrc_nonstatic.c:284:3: note: mutex acquired here
+                mutex_lock(&s->ops_mutex);
+                ^
+---
+ drivers/pcmcia/rsrc_nonstatic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pcmcia/rsrc_nonstatic.c b/drivers/pcmcia/rsrc_nonstatic.c
+index 49377d502b74..3bbc90671204 100644
+--- a/drivers/pcmcia/rsrc_nonstatic.c
++++ b/drivers/pcmcia/rsrc_nonstatic.c
+@@ -264,7 +264,7 @@ static void do_io_probe(struct pcmcia_socket *s, unsigned int base,
+  * readable() - iomem validation function for cards with a valid CIS
+  */
+ static int readable(struct pcmcia_socket *s, struct resource *res,
+-		    unsigned int *count)
++		    unsigned int *count) __requires_mutex(s->ops_mutex)
+ {
+ 	int ret = -EINVAL;
+ 
+-- 
+2.17.1
+

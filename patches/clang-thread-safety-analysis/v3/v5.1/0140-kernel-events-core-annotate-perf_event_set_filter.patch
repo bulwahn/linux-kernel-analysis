@@ -1,0 +1,38 @@
+From f767dad81ae59fbbab6ab1cbb655f12c1f635e04 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 09:07:19 +0200
+Subject: [PATCH 140/171] kernel/events/core: annotate perf_event_set_filter
+
+SILENCES:
+
+kernel/events/core.c:9392:3: warning: releasing mutex 'ctx->mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&ctx->mutex);
+                ^
+kernel/events/core.c:9400:2: warning: mutex 'ctx->mutex' is not held on every path through here [-Wthread-safety-analysis]
+        kfree(filter_str);
+        ^
+kernel/events/core.c:9394:3: note: mutex acquired here
+                mutex_lock(&ctx->mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/142
+---
+ kernel/events/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 96b8351debcd..3c5d7f86a2de 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -9365,7 +9365,7 @@ perf_event_set_addr_filter(struct perf_event *event, char *filter_str)
+ 	return ret;
+ }
+ 
+-static int perf_event_set_filter(struct perf_event *event, void __user *arg)
++static int perf_event_set_filter(struct perf_event *event, void __user *arg) __no_thread_safety_analysis
+ {
+ 	int ret = -EINVAL;
+ 	char *filter_str;
+-- 
+2.17.1
+

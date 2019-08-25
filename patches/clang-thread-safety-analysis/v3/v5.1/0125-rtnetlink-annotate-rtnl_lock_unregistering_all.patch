@@ -1,0 +1,40 @@
+From 869f9e6ec02ca1144ad697def7dce540b326f9e1 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 10:02:02 +0200
+Subject: [PATCH 125/171] rtnetlink: annotate rtnl_lock_unregistering_all
+
+HANDLES:
+
+net/core/rtnetlink.c:476:1: warning: mutex 'rtnl_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+net/core/rtnetlink.c:459:3: note: mutex acquired here
+                rtnl_lock();
+                ^
+net/core/rtnetlink.c:488:2: warning: releasing mutex 'rtnl_mutex' that was not held [-Wthread-safety-analysis]
+        rtnl_unlock();
+        ^
+
+I am suprised that clang understand this code, though.
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/111
+---
+ net/core/rtnetlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
+index d48d9978e6a4..064813e41e93 100644
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -447,7 +447,7 @@ EXPORT_SYMBOL_GPL(__rtnl_link_unregister);
+ /* Return with the rtnl_lock held when there are no network
+  * devices unregistering in any network namespace.
+  */
+-static void rtnl_lock_unregistering_all(void)
++static void rtnl_lock_unregistering_all(void) __acquires_mutex(rtnl_mutex)
+ {
+ 	struct net *net;
+ 	bool unregistering;
+-- 
+2.17.1
+

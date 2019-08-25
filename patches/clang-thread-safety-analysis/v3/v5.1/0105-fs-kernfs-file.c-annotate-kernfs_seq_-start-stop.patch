@@ -1,0 +1,48 @@
+From c28d9e30c8b36db2ab3d663589b57098b2428cab Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 12:05:27 +0200
+Subject: [PATCH 105/171] fs/kernfs/file.c: annotate kernfs_seq_{start,stop}
+
+SILENCES:
+
+fs/kernfs/file.c:130:1: warning: mutex 'of->mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+fs/kernfs/file.c:112:2: note: mutex acquired here
+        mutex_lock(&of->mutex);
+        ^
+
+fs/kernfs/file.c:159:2: warning: releasing mutex 'of->mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&of->mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/92
+---
+ fs/kernfs/file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index ae948aaa4c53..458770311512 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -100,7 +100,7 @@ static void kernfs_seq_stop_active(struct seq_file *sf, void *v)
+ 	kernfs_put_active(of->kn);
+ }
+ 
+-static void *kernfs_seq_start(struct seq_file *sf, loff_t *ppos)
++static void *kernfs_seq_start(struct seq_file *sf, loff_t *ppos) __no_thread_safety_analysis
+ {
+ 	struct kernfs_open_file *of = sf->private;
+ 	const struct kernfs_ops *ops;
+@@ -150,7 +150,7 @@ static void *kernfs_seq_next(struct seq_file *sf, void *v, loff_t *ppos)
+ 	}
+ }
+ 
+-static void kernfs_seq_stop(struct seq_file *sf, void *v)
++static void kernfs_seq_stop(struct seq_file *sf, void *v) __no_thread_safety_analysis
+ {
+ 	struct kernfs_open_file *of = sf->private;
+ 
+-- 
+2.17.1
+

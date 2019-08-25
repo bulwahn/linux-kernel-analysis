@@ -1,7 +1,7 @@
 From ff794c196a49bd52195d21505450d1be9f7748b2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 09:50:15 +0200
-Subject: [PATCH 06/90] events/core: annotate mutex_lock_double
+Subject: [PATCH 006/171] events/core: annotate mutex_lock_double
 
 To handle this warning:
 

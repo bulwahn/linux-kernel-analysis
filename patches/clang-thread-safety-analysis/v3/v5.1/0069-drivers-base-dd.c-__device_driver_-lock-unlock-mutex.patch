@@ -1,8 +1,8 @@
 From 826d4aaf869b5367dbf48c28ddf7c1bed958eca1 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:37:33 +0200
-Subject: [PATCH 69/90] drivers/base/dd.c: __device_driver_{lock,unlock}: mutex
- 'parent->mutex' conditional lock and unlock functions
+Subject: [PATCH 069/171] drivers/base/dd.c: __device_driver_{lock,unlock}:
+ mutex 'parent->mutex' conditional lock and unlock functions
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/3
 ---

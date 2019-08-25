@@ -1,7 +1,7 @@
 From 626c63c7f379a3b7e6658449e8d3e47b5c742b93 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 26 Apr 2019 05:53:22 +0200
-Subject: [PATCH 62/90] drivers/md: annotate mddev_{lock,lock_nointr,unlock}
+Subject: [PATCH 062/171] drivers/md: annotate mddev_{lock,lock_nointr,unlock}
 
 HANDLES SOME WARNINGS.
 

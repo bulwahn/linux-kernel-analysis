@@ -1,8 +1,8 @@
 From 90c31cc23ecb84154fd5d5b36c4c5187622c225d Mon Sep 17 00:00:00 2001
 From: Nathan Chancellor <natechancellor@gmail.com>
 Date: Tue, 25 Sep 2018 13:32:33 -0700
-Subject: [PATCH 02/90] DO-NOT-UPSTREAM: x86: Avoid warnings/errors due to lack
- of asm goto
+Subject: [PATCH 002/171] DO-NOT-UPSTREAM: x86: Avoid warnings/errors due to
+ lack of asm goto
 
 We don't want to see an inordinate amount of warning spam from
 the BPF samples and after reverting commits 4a789213c9a5 ("x86

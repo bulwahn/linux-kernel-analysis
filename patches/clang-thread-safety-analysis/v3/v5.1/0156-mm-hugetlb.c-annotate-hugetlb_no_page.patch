@@ -1,0 +1,38 @@
+From 67164e34f1c4ea691315dc454525a321662bb962 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 11:54:58 +0200
+Subject: [PATCH 156/171] mm/hugetlb.c: annotate hugetlb_no_page()
+
+SILENCES:
+
+mm/hugetlb.c:3782:4: warning: releasing mutex 'hugetlb_fault_mutex_table[hash]' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+                        ^
+mm/hugetlb.c:3877:9: warning: mutex 'hugetlb_fault_mutex_table[hash]' is not held on every path through here [-Wthread-safety-analysis]
+        return ret;
+               ^
+mm/hugetlb.c:3784:4: note: mutex acquired here
+                        mutex_lock(&hugetlb_fault_mutex_table[hash]);
+                        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/152
+---
+ mm/hugetlb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 6cdc7b2d9100..222903ce522c 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -3720,7 +3720,7 @@ int huge_add_to_page_cache(struct page *page, struct address_space *mapping,
+ static vm_fault_t hugetlb_no_page(struct mm_struct *mm,
+ 			struct vm_area_struct *vma,
+ 			struct address_space *mapping, pgoff_t idx,
+-			unsigned long address, pte_t *ptep, unsigned int flags)
++			unsigned long address, pte_t *ptep, unsigned int flags) __no_thread_safety_analysis
+ {
+ 	struct hstate *h = hstate_vma(vma);
+ 	vm_fault_t ret = VM_FAULT_SIGBUS;
+-- 
+2.17.1
+

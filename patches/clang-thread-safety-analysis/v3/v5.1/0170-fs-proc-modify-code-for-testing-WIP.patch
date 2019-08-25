@@ -1,0 +1,25 @@
+From b5720e2736e439ac8f7414530bcc2367e0eb46f2 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 18:25:00 +0200
+Subject: [PATCH 170/171] fs: proc: modify code for testing (WIP)
+
+---
+ fs/proc/base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 0db0c4f83a75..6127b0595fa9 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -2557,7 +2557,7 @@ static ssize_t proc_pid_attr_write(struct file * file, const char __user * buf,
+ 
+ 	/* Guard against adverse ptrace interaction */
+ 	rv = mutex_lock_interruptible(&current->signal->cred_guard_mutex);
+-	if (rv < 0)
++	if (rv)
+ 		goto out_free;
+ 
+ 	rv = security_setprocattr(PROC_I(inode)->op.lsm,
+-- 
+2.17.1
+

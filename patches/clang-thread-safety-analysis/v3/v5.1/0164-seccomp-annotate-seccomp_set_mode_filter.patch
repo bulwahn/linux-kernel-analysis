@@ -1,0 +1,38 @@
+From 55e13ffa86004e1f595cf4d230097532015f0878 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 16:25:14 +0200
+Subject: [PATCH 164/171] seccomp: annotate seccomp_set_mode_filter()
+
+SILENCES:
+
+kernel/seccomp.c:1302:2: warning: mutex 'get_current().signal->cred_guard_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        spin_lock_irq(&current->sighand->siglock);
+        ^
+kernel/seccomp.c:1299:6: note: mutex acquired here
+            mutex_lock_killable(&current->signal->cred_guard_mutex))
+            ^
+kernel/seccomp.c:1317:3: warning: releasing mutex 'get_current().signal->cred_guard_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&current->signal->cred_guard_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/158
+---
+ kernel/seccomp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index f5ad61700583..8e455c43b9e0 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -1249,7 +1249,7 @@ static struct file *init_listener(struct seccomp_filter *filter)
+  * Returns 0 on success or -EINVAL on failure.
+  */
+ static long seccomp_set_mode_filter(unsigned int flags,
+-				    const char __user *filter)
++				    const char __user *filter) __uses_conditionally(current->signal->cred_guard_mutex)
+ {
+ 	const unsigned long seccomp_mode = SECCOMP_MODE_FILTER;
+ 	struct seccomp_filter *prepared = NULL;
+-- 
+2.17.1
+

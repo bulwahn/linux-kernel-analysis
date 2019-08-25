@@ -1,7 +1,7 @@
 From 7d08d0ea4ebcbfcd939a0e684e503d99bbf379c0 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 12:56:23 +0200
-Subject: [PATCH 23/90] include/linux/kref.h: annotate kref_put_mutex
+Subject: [PATCH 023/171] include/linux/kref.h: annotate kref_put_mutex
 
 To handle this warning:
 

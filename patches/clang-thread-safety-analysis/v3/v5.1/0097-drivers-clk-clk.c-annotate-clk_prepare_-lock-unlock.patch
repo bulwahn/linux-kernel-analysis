@@ -1,0 +1,47 @@
+From cd49137a3ebacc82d6d9b344ac0dee75cabcc60c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 9 Jun 2019 09:02:39 +0200
+Subject: [PATCH 097/171] drivers/clk/clk.c: annotate clk_prepare_{lock,unlock}
+
+SILENCES:
+
+drivers/clk/clk.c:128:1: warning: mutex 'prepare_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/clk/clk.c:122:3: note: mutex acquired here
+                mutex_lock(&prepare_lock);
+                ^
+drivers/clk/clk.c:138:2: warning: releasing mutex 'prepare_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&prepare_lock);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/54
+---
+ drivers/clk/clk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 96053a96fe2f..3eedb91aa82a 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -112,7 +112,7 @@ static void clk_pm_runtime_put(struct clk_core *core)
+ }
+ 
+ /***           locking             ***/
+-static void clk_prepare_lock(void)
++static void clk_prepare_lock(void) __acquires_mutex(prepare_lock) __no_thread_safety_analysis
+ {
+ 	if (!mutex_trylock(&prepare_lock)) {
+ 		if (prepare_owner == current) {
+@@ -127,7 +127,7 @@ static void clk_prepare_lock(void)
+ 	prepare_refcnt = 1;
+ }
+ 
+-static void clk_prepare_unlock(void)
++static void clk_prepare_unlock(void) __releases_mutex(prepare_lock) __no_thread_safety_analysis
+ {
+ 	WARN_ON_ONCE(prepare_owner != current);
+ 	WARN_ON_ONCE(prepare_refcnt == 0);
+-- 
+2.17.1
+

@@ -1,0 +1,41 @@
+From 13c9e594535d8a5843c5dfdb4ef5634976d6ffeb Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 9 Jun 2019 08:23:36 +0200
+Subject: [PATCH 094/171] drivers/acpi/battery.c: silence
+ __battery_hook_unregister()
+
+SILENCES:
+
+```
+drivers/acpi/battery.c:695:32: warning: mutex 'hook_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        list_for_each_entry(battery, &acpi_battery_list, list) {
+                                      ^
+drivers/acpi/battery.c:694:3: note: mutex acquired here
+                mutex_lock(&hook_mutex);
+                ^
+drivers/acpi/battery.c:700:3: warning: releasing mutex 'hook_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&hook_mutex);
+                ^
+```
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/52
+---
+ drivers/acpi/battery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/acpi/battery.c b/drivers/acpi/battery.c
+index cb97b6105f52..d94ebb9b5d18 100644
+--- a/drivers/acpi/battery.c
++++ b/drivers/acpi/battery.c
+@@ -683,7 +683,7 @@ static LIST_HEAD(acpi_battery_list);
+ static LIST_HEAD(battery_hook_list);
+ static DEFINE_MUTEX(hook_mutex);
+ 
+-static void __battery_hook_unregister(struct acpi_battery_hook *hook, int lock)
++static void __battery_hook_unregister(struct acpi_battery_hook *hook, int lock) __uses_conditionally(hook_mutex)
+ {
+ 	struct acpi_battery *battery;
+ 	/*
+-- 
+2.17.1
+

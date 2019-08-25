@@ -1,0 +1,74 @@
+From b9ad7160ec245c064be1058c0c4929eec3c9c474 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 22:41:41 +0200
+Subject: [PATCH 111/171] tty_io: failed experiment to make clang handle some
+ cases
+
+JUST CAUSED MORE WARNINGS WITHIN THE FUNCTIONS:
+
+drivers/tty/tty_io.c:979:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:981:1: warning: mutex 'tty->atomic_write_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/tty/tty_io.c:910:8: note: mutex acquired here
+        ret = tty_write_lock(tty, file->f_flags & O_NDELAY);
+              ^
+drivers/tty/tty_io.c:1098:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:1100:1: warning: mutex 'tty->atomic_write_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/tty/tty_io.c:1088:7: note: mutex acquired here
+        if (!tty_write_lock(tty, 0))
+             ^
+drivers/tty/tty_io.c:2394:3: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+                tty_write_unlock(tty);
+                ^
+drivers/tty/tty_io.c:2399:1: warning: mutex 'tty->atomic_write_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/tty/tty_io.c:2385:8: note: mutex acquired here
+                if (!tty_write_lock(tty, 0))
+                     ^
+6 warnings generated.
+---
+ drivers/tty/tty_io.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index b113d64e89e5..2507261dbfad 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -908,7 +908,7 @@ static inline ssize_t do_tty_write(
+ 	unsigned int chunk;
+ 
+ 	ret = tty_write_lock(tty, file->f_flags & O_NDELAY);
+-	if (ret < 0)
++	if (!ret)
+ 		return ret;
+ 
+ 	/*
+@@ -1085,7 +1085,7 @@ int tty_send_xchar(struct tty_struct *tty, char ch)
+ 		return 0;
+ 	}
+ 
+-	if (tty_write_lock(tty, 0) < 0)
++	if (!tty_write_lock(tty, 0))
+ 		return -ERESTARTSYS;
+ 
+ 	down_read(&tty->termios_rwsem);
+@@ -2382,7 +2382,7 @@ static int send_break(struct tty_struct *tty, unsigned int duration)
+ 		retval = tty->ops->break_ctl(tty, duration);
+ 	else {
+ 		/* Do the work ourselves */
+-		if (tty_write_lock(tty, 0) < 0)
++		if (!tty_write_lock(tty, 0))
+ 			return -EINTR;
+ 		retval = tty->ops->break_ctl(tty, -1);
+ 		if (retval)
+-- 
+2.17.1
+

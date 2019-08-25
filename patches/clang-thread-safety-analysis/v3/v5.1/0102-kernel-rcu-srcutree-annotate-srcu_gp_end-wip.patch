@@ -1,0 +1,25 @@
+From 78c3c75e23c9aa23a888453e9de8489420457baf Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 18 Jun 2019 06:06:16 +0200
+Subject: [PATCH 102/171] kernel/rcu/srcutree: annotate srcu_gp_end (wip)
+
+---
+ kernel/rcu/srcutree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+index a60b8ba9e1ac..0dc847fe5598 100644
+--- a/kernel/rcu/srcutree.c
++++ b/kernel/rcu/srcutree.c
+@@ -513,7 +513,7 @@ static void srcu_schedule_cbs_snp(struct srcu_struct *ssp, struct srcu_node *snp
+  * are initiating callback invocation.  This allows the ->srcu_have_cbs[]
+  * array to have a finite number of elements.
+  */
+-static void srcu_gp_end(struct srcu_struct *ssp)
++static void srcu_gp_end(struct srcu_struct *ssp) __releases_mutex(&ssp->srcu_gp_mutex)
+ {
+ 	unsigned long cbdelay;
+ 	bool cbs;
+-- 
+2.17.1
+

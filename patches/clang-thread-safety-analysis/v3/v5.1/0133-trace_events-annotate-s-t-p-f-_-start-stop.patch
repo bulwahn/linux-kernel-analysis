@@ -1,0 +1,114 @@
+From ceba37c97cb3398db69a5ef2203e0d4b092b810d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 22 Jun 2019 21:20:30 +0200
+Subject: [PATCH 133/171] trace_events: annotate {s,t,p,f}_{start,stop}
+
+HANDLES:
+
+kernel/trace/trace_events.c:940:1: warning: mutex 'event_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_events.c:931:2: note: mutex acquired here
+        mutex_lock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:973:1: warning: mutex 'event_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_events.c:964:2: note: mutex acquired here
+        mutex_lock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:989:2: warning: releasing mutex 'event_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:1022:1: warning: mutex 'event_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_events.c:1013:2: note: mutex acquired here
+        mutex_lock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:1028:2: warning: releasing mutex 'event_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:1285:1: warning: mutex 'event_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace_events.c:1277:2: note: mutex acquired here
+        mutex_lock(&event_mutex);
+        ^
+kernel/trace/trace_events.c:1289:2: warning: releasing mutex 'event_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&event_mutex);
+        ^
+---
+ kernel/trace/trace_events.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
+index 5b3b0c3c8a47..8e5ecf75daf7 100644
+--- a/kernel/trace/trace_events.c
++++ b/kernel/trace/trace_events.c
+@@ -922,7 +922,7 @@ t_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return NULL;
+ }
+ 
+-static void *t_start(struct seq_file *m, loff_t *pos)
++static void *t_start(struct seq_file *m, loff_t *pos) __acquires_mutex(event_mutex)
+ {
+ 	struct trace_event_file *file;
+ 	struct trace_array *tr = m->private;
+@@ -955,7 +955,7 @@ s_next(struct seq_file *m, void *v, loff_t *pos)
+ 	return NULL;
+ }
+ 
+-static void *s_start(struct seq_file *m, loff_t *pos)
++static void *s_start(struct seq_file *m, loff_t *pos) __acquires_mutex(event_mutex)
+ {
+ 	struct trace_event_file *file;
+ 	struct trace_array *tr = m->private;
+@@ -984,7 +984,7 @@ static int t_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
+-static void t_stop(struct seq_file *m, void *p)
++static void t_stop(struct seq_file *m, void *p) __releases_mutex(event_mutex)
+ {
+ 	mutex_unlock(&event_mutex);
+ }
+@@ -999,7 +999,7 @@ p_next(struct seq_file *m, void *v, loff_t *pos)
+ }
+ 
+ static void *p_start(struct seq_file *m, loff_t *pos)
+-	__acquires(RCU)
++	__acquires(RCU) __acquires_mutex(event_mutex)
+ {
+ 	struct trace_pid_list *pid_list;
+ 	struct trace_array *tr = m->private;
+@@ -1022,7 +1022,7 @@ static void *p_start(struct seq_file *m, loff_t *pos)
+ }
+ 
+ static void p_stop(struct seq_file *m, void *p)
+-	__releases(RCU)
++	__releases(RCU) __releases_mutex(event_mutex)
+ {
+ 	rcu_read_unlock_sched();
+ 	mutex_unlock(&event_mutex);
+@@ -1268,7 +1268,7 @@ static int f_show(struct seq_file *m, void *v)
+ 	return 0;
+ }
+ 
+-static void *f_start(struct seq_file *m, loff_t *pos)
++static void *f_start(struct seq_file *m, loff_t *pos) __acquires_mutex(event_mutex)
+ {
+ 	void *p = (void *)FORMAT_HEADER;
+ 	loff_t l = 0;
+@@ -1284,7 +1284,7 @@ static void *f_start(struct seq_file *m, loff_t *pos)
+ 	return p;
+ }
+ 
+-static void f_stop(struct seq_file *m, void *p)
++static void f_stop(struct seq_file *m, void *p) __releases_mutex(event_mutex)
+ {
+ 	mutex_unlock(&event_mutex);
+ }
+-- 
+2.17.1
+

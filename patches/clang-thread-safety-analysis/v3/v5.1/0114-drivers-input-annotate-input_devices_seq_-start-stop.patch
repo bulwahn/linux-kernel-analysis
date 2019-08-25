@@ -1,0 +1,48 @@
+From 44e3584cc34230021f14991ded969e3e9f86b15e Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 20 Jun 2019 10:11:15 +0200
+Subject: [PATCH 114/171] drivers/input: annotate
+ input_devices_seq_{start,stop}
+
+SILENCES:
+
+drivers/input/input.c:1095:1: warning: mutex 'input_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/input/input.c:1086:10: note: mutex acquired here
+        error = mutex_lock_interruptible(&input_mutex);
+                ^
+drivers/input/input.c:1107:3: warning: releasing mutex 'input_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&input_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/101
+---
+ drivers/input/input.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 3304aaaffe87..e2f48981e1ad 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1075,7 +1075,7 @@ union input_seq_state {
+ 	void *p;
+ };
+ 
+-static void *input_devices_seq_start(struct seq_file *seq, loff_t *pos)
++static void *input_devices_seq_start(struct seq_file *seq, loff_t *pos) __acquires_mutex(input_mutex) __no_thread_safety_analysis
+ {
+ 	union input_seq_state *state = (union input_seq_state *)&seq->private;
+ 	int error;
+@@ -1099,7 +1099,7 @@ static void *input_devices_seq_next(struct seq_file *seq, void *v, loff_t *pos)
+ 	return seq_list_next(v, &input_dev_list, pos);
+ }
+ 
+-static void input_seq_stop(struct seq_file *seq, void *v)
++static void input_seq_stop(struct seq_file *seq, void *v) __releases_mutex(input_mutex) __no_thread_safety_analysis
+ {
+ 	union input_seq_state *state = (union input_seq_state *)&seq->private;
+ 
+-- 
+2.17.1
+

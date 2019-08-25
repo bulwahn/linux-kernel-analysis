@@ -1,7 +1,7 @@
 From 2c730b820163b9d8954b820164133a31eaa3aa37 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 11:42:20 +0200
-Subject: [PATCH 75/90] fs/exec.c: free_bprm: conditional unlock function
+Subject: [PATCH 075/171] fs/exec.c: free_bprm: conditional unlock function
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/8
 ---

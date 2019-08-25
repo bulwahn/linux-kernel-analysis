@@ -1,0 +1,38 @@
+From 7725aa6c8dfa8719eef8129357091d91c8c6ae45 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 10:22:38 +0200
+Subject: [PATCH 126/171] genetlink: annotate genl_rcv_msg
+
+SILENCES:
+
+net/netlink/genetlink.c:627:8: warning: mutex 'genl_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        err = genl_family_rcv_msg(family, skb, nlh, extack);
+              ^
+net/netlink/genetlink.c:625:3: note: mutex acquired here
+                genl_lock();
+                ^
+net/netlink/genetlink.c:630:3: warning: releasing mutex 'genl_mutex' that was not held [-Wthread-safety-analysis]
+                genl_unlock();
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/112
+---
+ net/netlink/genetlink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/netlink/genetlink.c b/net/netlink/genetlink.c
+index 59083de5eb74..6490b88d65d4 100644
+--- a/net/netlink/genetlink.c
++++ b/net/netlink/genetlink.c
+@@ -612,7 +612,7 @@ static int genl_family_rcv_msg(const struct genl_family *family,
+ }
+ 
+ static int genl_rcv_msg(struct sk_buff *skb, struct nlmsghdr *nlh,
+-			struct netlink_ext_ack *extack)
++			struct netlink_ext_ack *extack) __uses_conditionally(genl_mutex)
+ {
+ 	const struct genl_family *family;
+ 	int err;
+-- 
+2.17.1
+

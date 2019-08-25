@@ -1,0 +1,25 @@
+From e5bc8e11720e5c2195f319439dc952df3d7697f0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 29 Jun 2019 07:43:53 +0200
+Subject: [PATCH 139/171] seq_memory: annotate snd_seq_cell_alloc (wip)
+
+---
+ sound/core/seq/seq_memory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
+index 5b0388202bac..9a1492dfebfb 100644
+--- a/sound/core/seq/seq_memory.c
++++ b/sound/core/seq/seq_memory.c
+@@ -221,7 +221,7 @@ void snd_seq_cell_free(struct snd_seq_event_cell * cell)
+ static int snd_seq_cell_alloc(struct snd_seq_pool *pool,
+ 			      struct snd_seq_event_cell **cellp,
+ 			      int nonblock, struct file *file,
+-			      struct mutex *mutexp)
++			      struct mutex *mutexp) __requires_conditionally(mutexp)
+ {
+ 	struct snd_seq_event_cell *cell;
+ 	unsigned long flags;
+-- 
+2.17.1
+

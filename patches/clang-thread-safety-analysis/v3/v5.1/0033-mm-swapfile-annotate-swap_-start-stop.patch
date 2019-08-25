@@ -1,7 +1,7 @@
 From 974e4bb7d71bfdf9c3eaae655f326e9bc4c01bcc Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 08:25:05 +0200
-Subject: [PATCH 33/90] mm/swapfile: annotate swap_{start,stop}
+Subject: [PATCH 033/171] mm/swapfile: annotate swap_{start,stop}
 
 HANDLES:
 

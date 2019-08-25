@@ -1,0 +1,47 @@
+From 18cfabffcdc433a588ba69bdcc1b51dbf4b03a99 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 07:55:10 +0200
+Subject: [PATCH 117/171] input/serio/libps2: annotate ps2_{begin,end}_command
+
+SILENCES:
+
+drivers/input/serio/libps2.c:110:1: warning: mutex 'm' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/input/serio/libps2.c:109:2: note: mutex acquired here
+        mutex_lock(m);
+        ^
+drivers/input/serio/libps2.c:117:2: warning: releasing mutex 'm' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(m);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/106
+---
+ drivers/input/serio/libps2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/serio/libps2.c b/drivers/input/serio/libps2.c
+index e6a07e68d1ff..2fc8066cd81e 100644
+--- a/drivers/input/serio/libps2.c
++++ b/drivers/input/serio/libps2.c
+@@ -102,7 +102,7 @@ int ps2_sendbyte(struct ps2dev *ps2dev, u8 byte, unsigned int timeout)
+ }
+ EXPORT_SYMBOL(ps2_sendbyte);
+ 
+-void ps2_begin_command(struct ps2dev *ps2dev)
++void ps2_begin_command(struct ps2dev *ps2dev) __acquires_mutex(ps2dev->cmd_mutex) __no_thread_safety_analysis
+ {
+ 	struct mutex *m = ps2dev->serio->ps2_cmd_mutex ?: &ps2dev->cmd_mutex;
+ 
+@@ -110,7 +110,7 @@ void ps2_begin_command(struct ps2dev *ps2dev)
+ }
+ EXPORT_SYMBOL(ps2_begin_command);
+ 
+-void ps2_end_command(struct ps2dev *ps2dev)
++void ps2_end_command(struct ps2dev *ps2dev) __releases_mutex(ps2dev->cmd_mutex) __no_thread_safety_analysis
+ {
+ 	struct mutex *m = ps2dev->serio->ps2_cmd_mutex ?: &ps2dev->cmd_mutex;
+ 
+-- 
+2.17.1
+

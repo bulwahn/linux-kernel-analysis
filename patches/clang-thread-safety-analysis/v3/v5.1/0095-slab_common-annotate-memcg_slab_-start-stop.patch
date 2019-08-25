@@ -1,0 +1,45 @@
+From 18fb2bf4519ab2f9214234b0697fb0870fed3955 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 9 Jun 2019 08:27:40 +0200
+Subject: [PATCH 095/171] slab_common: annotate memcg_slab_{start,stop}
+
+HANDLES:
+
+mm/slab_common.c:1434:1: warning: mutex 'slab_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+mm/slab_common.c:1432:2: note: mutex acquired here
+        mutex_lock(&slab_mutex);
+        ^
+mm/slab_common.c:1445:2: warning: releasing mutex 'slab_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&slab_mutex);
+        ^
+---
+ mm/slab_common.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 1e9887a8289b..3ca73d3fc97a 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1425,7 +1425,7 @@ void dump_unreclaimable_slab(void)
+ }
+ 
+ #if defined(CONFIG_MEMCG)
+-void *memcg_slab_start(struct seq_file *m, loff_t *pos)
++void *memcg_slab_start(struct seq_file *m, loff_t *pos) __acquires_mutex(slab_mutex)
+ {
+ 	struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
+ 
+@@ -1440,7 +1440,7 @@ void *memcg_slab_next(struct seq_file *m, void *p, loff_t *pos)
+ 	return seq_list_next(p, &memcg->kmem_caches, pos);
+ }
+ 
+-void memcg_slab_stop(struct seq_file *m, void *p)
++void memcg_slab_stop(struct seq_file *m, void *p) __releases_mutex(slab_mutex)
+ {
+ 	mutex_unlock(&slab_mutex);
+ }
+-- 
+2.17.1
+

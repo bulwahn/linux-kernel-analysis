@@ -1,0 +1,46 @@
+From 90ae2d2702e4f322ec2fd15a0ed48f9b74ef6f68 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 10:59:34 +0200
+Subject: [PATCH 104/171] fs:kernfs: annotate kernfs_drain and __kernfs_remove
+ properly
+
+HANDLES:
+
+fs/kernfs/dir.c:465:2: warning: releasing mutex 'kernfs_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&kernfs_mutex);
+        ^
+fs/kernfs/dir.c:485:1: warning: mutex 'kernfs_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+fs/kernfs/dir.c:484:2: note: mutex acquired here
+        mutex_lock(&kernfs_mutex);
+        ^
+---
+ fs/kernfs/dir.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index 5a375d39ec31..5b663f93d083 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -455,7 +455,7 @@ void kernfs_put_active(struct kernfs_node *kn)
+  * return after draining is complete.
+  */
+ static void kernfs_drain(struct kernfs_node *kn)
+-	__releases(&kernfs_mutex) __acquires(&kernfs_mutex) __requires(kernfs_mutex)
++	__releases(&kernfs_mutex) __acquires(&kernfs_mutex) __requires_mutex(kernfs_mutex)
+ {
+ 	struct kernfs_root *root = kernfs_root(kn);
+ 
+@@ -1274,7 +1274,7 @@ void kernfs_activate(struct kernfs_node *kn)
+ 	mutex_unlock(&kernfs_mutex);
+ }
+ 
+-static void __kernfs_remove(struct kernfs_node *kn)
++static void __kernfs_remove(struct kernfs_node *kn) __requires_mutex(kernfs_mutex)
+ {
+ 	struct kernfs_node *pos;
+ 
+-- 
+2.17.1
+

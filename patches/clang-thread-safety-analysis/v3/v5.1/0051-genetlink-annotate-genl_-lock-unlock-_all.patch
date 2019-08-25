@@ -1,7 +1,7 @@
 From a52074ea1e0e650226fb393761a12a4e910f68e0 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Tue, 23 Apr 2019 06:55:06 +0200
-Subject: [PATCH 51/90] genetlink: annotate genl_{lock,unlock}_all
+Subject: [PATCH 051/171] genetlink: annotate genl_{lock,unlock}_all
 
 handles some warnings, needs another visit.
 ---

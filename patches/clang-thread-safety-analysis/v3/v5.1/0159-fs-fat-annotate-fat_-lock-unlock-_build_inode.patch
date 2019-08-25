@@ -1,0 +1,45 @@
+From 0afe9d41f9d761834f800fb31cf55034f1e6f7a7 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 13:13:35 +0200
+Subject: [PATCH 159/171] fs: fat: annotate fat_{lock,unlock}_build_inode
+
+SILENCES:
+
+fs/fat/inode.c:576:1: warning: mutex 'sbi->nfs_build_inode_lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/fat/inode.c:575:3: note: mutex acquired here
+                mutex_lock(&sbi->nfs_build_inode_lock);
+                ^
+fs/fat/inode.c:581:3: warning: releasing mutex 'sbi->nfs_build_inode_lock' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&sbi->nfs_build_inode_lock);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/154
+---
+ fs/fat/inode.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/fat/inode.c b/fs/fat/inode.c
+index 79bb0e73a65f..50198a7b7126 100644
+--- a/fs/fat/inode.c
++++ b/fs/fat/inode.c
+@@ -569,13 +569,13 @@ int fat_fill_inode(struct inode *inode, struct msdos_dir_entry *de)
+ 	return 0;
+ }
+ 
+-static inline void fat_lock_build_inode(struct msdos_sb_info *sbi)
++static inline void fat_lock_build_inode(struct msdos_sb_info *sbi) __acquires_conditionally(sbi->nfs_build_inode_lock)
+ {
+ 	if (sbi->options.nfs == FAT_NFS_NOSTALE_RO)
+ 		mutex_lock(&sbi->nfs_build_inode_lock);
+ }
+ 
+-static inline void fat_unlock_build_inode(struct msdos_sb_info *sbi)
++static inline void fat_unlock_build_inode(struct msdos_sb_info *sbi) __releases_conditionally(sbi->nfs_build_inode_lock)
+ {
+ 	if (sbi->options.nfs == FAT_NFS_NOSTALE_RO)
+ 		mutex_unlock(&sbi->nfs_build_inode_lock);
+-- 
+2.17.1
+

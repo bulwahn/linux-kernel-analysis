@@ -1,0 +1,36 @@
+From e51d7de889bd2102fb1753f3c193dd9b21246809 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 20 Jun 2019 10:13:45 +0200
+Subject: [PATCH 115/171] fs:jbd2: annotate jbd2_log_do_checkpoint
+
+HANDLES:
+
+fs/jbd2/checkpoint.c:244:6: warning: expecting mutex 'journal->j_checkpoint_mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        if (journal->j_checkpoint_transactions != transaction ||
+            ^
+fs/jbd2/checkpoint.c:292:4: note: mutex acquired here
+                        mutex_lock_io(&journal->j_checkpoint_mutex);
+                        ^
+fs/jbd2/checkpoint.c:290:4: warning: releasing mutex 'journal->j_checkpoint_mutex' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&journal->j_checkpoint_mutex);
+                        ^
+---
+ fs/jbd2/checkpoint.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/jbd2/checkpoint.c b/fs/jbd2/checkpoint.c
+index 02e0b79753e7..08b9fb2686f8 100644
+--- a/fs/jbd2/checkpoint.c
++++ b/fs/jbd2/checkpoint.c
+@@ -202,7 +202,7 @@ __flush_batch(journal_t *journal, int *batch_count)
+  * The journal should be locked before calling this function.
+  * Called with j_checkpoint_mutex held.
+  */
+-int jbd2_log_do_checkpoint(journal_t *journal)
++int jbd2_log_do_checkpoint(journal_t *journal) __requires_mutex(journal->j_checkpoint_mutex)
+ {
+ 	struct journal_head	*jh;
+ 	struct buffer_head	*bh;
+-- 
+2.17.1
+

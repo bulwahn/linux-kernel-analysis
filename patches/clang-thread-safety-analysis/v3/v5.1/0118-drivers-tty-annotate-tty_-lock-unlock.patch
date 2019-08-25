@@ -1,0 +1,53 @@
+From 40f3d63d548a74be99f8b8b8409df26636706660 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 08:11:49 +0200
+Subject: [PATCH 118/171] drivers/tty: annotate tty_{lock,unlock}
+
+SILENCES:
+
+drivers/tty/tty_mutex.c:33:9: warning: mutex 'tty->legacy_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        return ret;
+               ^
+drivers/tty/tty_mutex.c:30:8: note: mutex acquired here
+        ret = mutex_lock_interruptible(&tty->legacy_mutex);
+              ^
+drivers/tty/tty_mutex.c:49:1: warning: mutex 'tty->legacy_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/tty/tty_mutex.c:48:3: note: mutex acquired here
+                tty_lock(tty);
+                ^
+drivers/tty/tty_mutex.c:54:3: warning: releasing mutex 'tty->legacy_mutex' that was not held [-Wthread-safety-analysis]
+                tty_unlock(tty);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/107
+---
+ drivers/tty/tty_mutex.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/tty/tty_mutex.c b/drivers/tty/tty_mutex.c
+index 2640635ee177..136bc0191018 100644
+--- a/drivers/tty/tty_mutex.c
++++ b/drivers/tty/tty_mutex.c
+@@ -11,7 +11,7 @@
+  * Getting the big tty mutex.
+  */
+ 
+-void tty_lock(struct tty_struct *tty)
++void tty_lock(struct tty_struct *tty) __acquires_mutex(tty->legacy_mutex) __no_thread_safety_analysis
+ {
+ 	if (WARN(tty->magic != TTY_MAGIC, "L Bad %p\n", tty))
+ 		return;
+@@ -33,7 +33,7 @@ int tty_lock_interruptible(struct tty_struct *tty)
+ 	return ret;
+ }
+ 
+-void tty_unlock(struct tty_struct *tty)
++void tty_unlock(struct tty_struct *tty) __releases_mutex(tty->legacy_mutex) __no_thread_safety_analysis
+ {
+ 	if (WARN(tty->magic != TTY_MAGIC, "U Bad %p\n", tty))
+ 		return;
+-- 
+2.17.1
+

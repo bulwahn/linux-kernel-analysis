@@ -1,0 +1,25 @@
+From 50944916feed237cba5064457e6bd62bc8715a97 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 5 Jun 2019 08:39:36 +0200
+Subject: [PATCH 093/171] [wip] power_supply_core: annotate to silence
+
+---
+ drivers/power/supply/power_supply_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+index c917a8b43b2b..8753bd8defcf 100644
+--- a/drivers/power/supply/power_supply_core.c
++++ b/drivers/power/supply/power_supply_core.c
+@@ -136,7 +136,7 @@ EXPORT_SYMBOL_GPL(power_supply_changed);
+  *
+  * Avoid that by waiting on parent's mutex.
+  */
+-static void power_supply_deferred_register_work(struct work_struct *work)
++static void power_supply_deferred_register_work(struct work_struct *work) __uses_conditionally(psy->dev.parent->mutex)
+ {
+ 	struct power_supply *psy = container_of(work, struct power_supply,
+ 						deferred_register_work.work);
+-- 
+2.17.1
+

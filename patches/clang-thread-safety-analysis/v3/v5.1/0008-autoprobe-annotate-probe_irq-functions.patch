@@ -1,7 +1,7 @@
 From 3d188e74be01e4c63e83e9dd57d660a01bb2132c Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 10:20:57 +0200
-Subject: [PATCH 08/90] autoprobe: annotate probe_irq functions
+Subject: [PATCH 008/171] autoprobe: annotate probe_irq functions
 
 This handles these warnings:
 

@@ -1,0 +1,55 @@
+From 68f2b3f94cd950bfdac6be40739b02c1c1200b6a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 10:00:40 +0200
+Subject: [PATCH 124/171] rtnetlink: annotate __rtnl_newlink & rntl_newlink
+
+HANDLES:
+
+net/core/rtnetlink.c:2993:8: warning: expecting mutex 'rtnl_mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        err = nlmsg_parse(nlh, sizeof(*ifm), tb, IFLA_MAX, ifla_policy, extack);
+              ^
+net/core/rtnetlink.c:3128:4: note: mutex acquired here
+                        rtnl_lock();
+                        ^
+net/core/rtnetlink.c:3126:4: warning: releasing mutex 'rtnl_mutex' that was not held [-Wthread-safety-analysis]
+                        __rtnl_unlock();
+                        ^
+net/core/rtnetlink.c:3134:26: warning: mutex 'rtnl_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                NL_SET_ERR_MSG(extack, "Unknown device type");
+                                       ^
+net/core/rtnetlink.c:3128:4: note: mutex acquired here
+                        rtnl_lock();
+                        ^
+
+net/core/rtnetlink.c:3234:8: warning: calling function '__rtnl_newlink' requires holding mutex 'rtnl_mutex' exclusively [-Wthread-safety-analysis]
+        ret = __rtnl_newlink(skb, nlh, attr, extack);
+              ^
+---
+ net/core/rtnetlink.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
+index 3a980069a816..d48d9978e6a4 100644
+--- a/net/core/rtnetlink.c
++++ b/net/core/rtnetlink.c
+@@ -2968,7 +2968,7 @@ static int rtnl_group_changelink(const struct sk_buff *skb,
+ }
+ 
+ static int __rtnl_newlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+-			  struct nlattr **attr, struct netlink_ext_ack *extack)
++			  struct nlattr **attr, struct netlink_ext_ack *extack) __requires_mutex(rtnl_mutex)
+ {
+ 	struct nlattr *slave_attr[RTNL_SLAVE_MAX_TYPE + 1];
+ 	unsigned char name_assign_type = NET_NAME_USER;
+@@ -3222,7 +3222,7 @@ static int __rtnl_newlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+ }
+ 
+ static int rtnl_newlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+-			struct netlink_ext_ack *extack)
++			struct netlink_ext_ack *extack) __requires_mutex(rtnl_mutex)
+ {
+ 	struct nlattr **attr;
+ 	int ret;
+-- 
+2.17.1
+

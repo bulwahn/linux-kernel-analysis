@@ -1,0 +1,53 @@
+From 673c52063fe74739256e7fd3fb3cd23cf2638688 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 12:55:31 +0200
+Subject: [PATCH 129/171] drivers/ata/libata-eh.c: experimenting with
+ annotations (but pattern seems to be to tricky)
+
+---
+ drivers/ata/libata-eh.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/ata/libata-eh.c b/drivers/ata/libata-eh.c
+index 938ed513b070..e7a6577799a8 100644
+--- a/drivers/ata/libata-eh.c
++++ b/drivers/ata/libata-eh.c
+@@ -476,7 +476,7 @@ static void ata_eh_clear_action(struct ata_link *link, struct ata_device *dev,
+  *	LOCKING:
+  *	EH context.
+  */
+-void ata_eh_acquire(struct ata_port *ap)
++void ata_eh_acquire(struct ata_port *ap) __acquires_mutex(ap->host->eh_mutex)
+ {
+ 	mutex_lock(&ap->host->eh_mutex);
+ 	WARN_ON_ONCE(ap->host->eh_owner);
+@@ -493,7 +493,7 @@ void ata_eh_acquire(struct ata_port *ap)
+  *	LOCKING:
+  *	EH context.
+  */
+-void ata_eh_release(struct ata_port *ap)
++void ata_eh_release(struct ata_port *ap) __releases_mutex(ap->host->eh_mutex)
+ {
+ 	WARN_ON_ONCE(ap->host->eh_owner != current);
+ 	ap->host->eh_owner = NULL;
+@@ -2654,7 +2654,7 @@ static int ata_eh_followup_srst_needed(struct ata_link *link, int rc)
+ 
+ int ata_eh_reset(struct ata_link *link, int classify,
+ 		 ata_prereset_fn_t prereset, ata_reset_fn_t softreset,
+-		 ata_reset_fn_t hardreset, ata_postreset_fn_t postreset)
++		 ata_reset_fn_t hardreset, ata_postreset_fn_t postreset) __requires_mutex(link->ap->host->eh_mutex)
+ {
+ 	struct ata_port *ap = link->ap;
+ 	struct ata_link *slave = ap->slave_link;
+@@ -3748,7 +3748,7 @@ static int ata_eh_handle_dev_fail(struct ata_device *dev, int err)
+ int ata_eh_recover(struct ata_port *ap, ata_prereset_fn_t prereset,
+ 		   ata_reset_fn_t softreset, ata_reset_fn_t hardreset,
+ 		   ata_postreset_fn_t postreset,
+-		   struct ata_link **r_failed_link)
++		   struct ata_link **r_failed_link) __requires_mutex(ap->host->eh_mutex)
+ {
+ 	struct ata_link *link;
+ 	struct ata_device *dev;
+-- 
+2.17.1
+

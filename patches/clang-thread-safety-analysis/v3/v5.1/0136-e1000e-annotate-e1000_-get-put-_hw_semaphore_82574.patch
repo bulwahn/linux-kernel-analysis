@@ -1,0 +1,34 @@
+From 4ff94e4182aadba3f76acda5d738d24cbee7b0f4 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 29 Jun 2019 07:39:44 +0200
+Subject: [PATCH 136/171] e1000e: annotate e1000_{get,put}_hw_semaphore_82574
+
+---
+ drivers/net/ethernet/intel/e1000e/82571.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/intel/e1000e/82571.c b/drivers/net/ethernet/intel/e1000e/82571.c
+index b9309302c29e..bc584d9a0f09 100644
+--- a/drivers/net/ethernet/intel/e1000e/82571.c
++++ b/drivers/net/ethernet/intel/e1000e/82571.c
+@@ -559,7 +559,7 @@ static DEFINE_MUTEX(swflag_mutex);
+  *  Acquire the HW semaphore to access the PHY or NVM.
+  *
+  **/
+-static s32 e1000_get_hw_semaphore_82574(struct e1000_hw *hw)
++static s32 e1000_get_hw_semaphore_82574(struct e1000_hw *hw) __try_acquires_mutex(0, swflag_mutex)
+ {
+ 	s32 ret_val;
+ 
+@@ -577,7 +577,7 @@ static s32 e1000_get_hw_semaphore_82574(struct e1000_hw *hw)
+  *  Release hardware semaphore used to access the PHY or NVM
+  *
+  **/
+-static void e1000_put_hw_semaphore_82574(struct e1000_hw *hw)
++static void e1000_put_hw_semaphore_82574(struct e1000_hw *hw) __releases_mutex(swflag_mutex)
+ {
+ 	e1000_put_hw_semaphore_82573(hw);
+ 	mutex_unlock(&swflag_mutex);
+-- 
+2.17.1
+

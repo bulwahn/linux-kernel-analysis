@@ -1,0 +1,25 @@
+From deaedcaa1936f87973c57e2cb7c6e82025df79f3 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 18:26:54 +0200
+Subject: [PATCH 171/171] fs: eventpoll: WIP
+
+---
+ fs/eventpoll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+index 4a0e98d87fcc..9750598b82a7 100644
+--- a/fs/eventpoll.c
++++ b/fs/eventpoll.c
+@@ -673,7 +673,7 @@ static inline void ep_pm_stay_awake_rcu(struct epitem *epi)
+ static __poll_t ep_scan_ready_list(struct eventpoll *ep,
+ 			      __poll_t (*sproc)(struct eventpoll *,
+ 					   struct list_head *, void *),
+-			      void *priv, int depth, bool ep_locked)
++			      void *priv, int depth, bool ep_locked) __uses_conditionally(ep->mtx)
+ {
+ 	__poll_t res;
+ 	int pwake = 0;
+-- 
+2.17.1
+

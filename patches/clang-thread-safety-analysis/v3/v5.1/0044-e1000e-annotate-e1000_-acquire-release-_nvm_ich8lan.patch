@@ -1,7 +1,7 @@
 From d4840511f1334d676c5f74d565bea459a8658179 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:42:47 +0200
-Subject: [PATCH 44/90] e1000e: annotate e1000_{acquire,release}_nvm_ich8lan
+Subject: [PATCH 044/171] e1000e: annotate e1000_{acquire,release}_nvm_ich8lan
 
 HANDLES:
 

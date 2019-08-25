@@ -1,0 +1,38 @@
+From c05054e78073e9fb409341da153308f07a502776 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 08:32:19 +0200
+Subject: [PATCH 121/171] fs/io_uring: annotate __io_submit_sqe
+
+SILENCES:
+
+fs/io_uring.c:1494:3: warning: mutex 'ctx->.uring_lock' is not held on every path through here [-Wthread-safety-analysis]
+                io_iopoll_req_issued(req);
+                ^
+fs/io_uring.c:1493:4: note: mutex acquired here
+                        mutex_lock(&ctx->uring_lock);
+                        ^
+fs/io_uring.c:1496:4: warning: releasing mutex 'ctx->.uring_lock' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&ctx->uring_lock);
+                        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/109
+---
+ fs/io_uring.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/io_uring.c b/fs/io_uring.c
+index 84efb8956734..63ec22110ca8 100644
+--- a/fs/io_uring.c
++++ b/fs/io_uring.c
+@@ -1438,7 +1438,7 @@ static int io_poll_add(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+ }
+ 
+ static int __io_submit_sqe(struct io_ring_ctx *ctx, struct io_kiocb *req,
+-			   const struct sqe_submit *s, bool force_nonblock)
++			   const struct sqe_submit *s, bool force_nonblock) __uses_conditionally(ctx->uring_lock)
+ {
+ 	int ret, opcode;
+ 
+-- 
+2.17.1
+

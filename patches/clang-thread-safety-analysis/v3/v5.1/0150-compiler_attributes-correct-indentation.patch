@@ -1,0 +1,30 @@
+From 1d747f68b34981561c768b12bc61043f359c718c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 22 Aug 2019 16:31:13 +0200
+Subject: [PATCH 150/171] compiler_attributes: correct indentation
+
+Just noticed that while looking at the file.
+---
+ include/linux/compiler_attributes.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 2a8d4363fd0d..b2de82842080 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -272,9 +272,9 @@
+ # define __releases_pci_bus(x)          __attribute__((release_capability(x)))
+ # define __try_acquires_pci_bus(r, x)   __attribute__((try_acquire_capability(r, x)))
+ 
+-# define __acquires_pci_slot(x)          __attribute__((acquire_capability(x)))
+-# define __releases_pci_slot(x)          __attribute__((release_capability(x)))
+-# define __try_acquires_pci_slot(r, x)   __attribute__((try_acquire_capability(r, x)))
++# define __acquires_pci_slot(x)         __attribute__((acquire_capability(x)))
++# define __releases_pci_slot(x)         __attribute__((release_capability(x)))
++# define __try_acquires_pci_slot(r, x)  __attribute__((try_acquire_capability(r, x)))
+ 
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+-- 
+2.17.1
+

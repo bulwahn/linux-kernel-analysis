@@ -1,7 +1,7 @@
 From bf344bf2cf6aa41a6500cb15d44f461ca10a9849 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 04:00:05 +0200
-Subject: [PATCH 18/90] cpuset: annotate hotplug_update_tasks_legacy
+Subject: [PATCH 018/171] cpuset: annotate hotplug_update_tasks_legacy
 
 Addressing these warnings:
 

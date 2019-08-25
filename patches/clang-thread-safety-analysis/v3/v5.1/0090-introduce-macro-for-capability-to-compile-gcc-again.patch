@@ -1,7 +1,7 @@
 From d9f4e1c07fa3102d0be7eb6ee0a87905c5d5e827 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 26 May 2019 20:09:31 +0200
-Subject: [PATCH 90/90] introduce macro for capability to compile gcc again
+Subject: [PATCH 090/171] introduce macro for capability to compile gcc again
 
 ---
  include/linux/compiler_attributes.h | 2 ++

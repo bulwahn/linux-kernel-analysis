@@ -1,7 +1,7 @@
 From 88ba2d2f5e24d42f64c122a1600a9faed09fe174 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 21 Apr 2019 09:14:10 +0200
-Subject: [PATCH 30/90] slab: annotate slap_{start,stop}
+Subject: [PATCH 030/171] slab: annotate slap_{start,stop}
 
 HANDLES:
 

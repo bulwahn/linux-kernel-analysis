@@ -1,0 +1,44 @@
+From ba0784ceb7cf3d4795708110a4e7563d965418f0 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 14:17:37 +0200
+Subject: [PATCH 162/171] nfs: annotate nfs_scan_commit_list()
+
+SILENCES:
+
+fs/nfs/write.c:1037:37: warning: expecting mutex 'NFS_I(cinfo->inode).commit_mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        list_for_each_entry_safe(req, tmp, src, wb_list) {
+                                           ^
+fs/nfs/write.c:1051:4: note: mutex acquired here
+                        mutex_lock(&NFS_I(cinfo->inode)->commit_mutex);
+                        ^
+fs/nfs/write.c:1048:4: warning: releasing mutex 'NFS_I(cinfo->inode).commit_mutex' that was not held [-Wthread-safety-analysis]
+                        mutex_unlock(&NFS_I(cinfo->inode)->commit_mutex);
+                        ^
+fs/nfs/write.c:1053:5: warning: mutex 'NFS_I(cinfo->inode).commit_mutex' is not held on every path through here [-Wthread-safety-analysis]
+                                break;
+                                ^
+fs/nfs/write.c:1051:4: note: mutex acquired here
+                        mutex_lock(&NFS_I(cinfo->inode)->commit_mutex);
+                        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/157
+---
+ fs/nfs/write.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/nfs/write.c b/fs/nfs/write.c
+index f3ebabaa291d..5c33bbcd909c 100644
+--- a/fs/nfs/write.c
++++ b/fs/nfs/write.c
+@@ -1028,7 +1028,7 @@ nfs_reqs_to_commit(struct nfs_commit_info *cinfo)
+ /* NFS_I(cinfo->inode)->commit_mutex held by caller */
+ int
+ nfs_scan_commit_list(struct list_head *src, struct list_head *dst,
+-		     struct nfs_commit_info *cinfo, int max)
++		     struct nfs_commit_info *cinfo, int max) __no_thread_safety_analysis
+ {
+ 	struct nfs_page *req, *tmp;
+ 	int ret = 0;
+-- 
+2.17.1
+

@@ -1,0 +1,33 @@
+From 1df34b3788be3219eda8f062cb77d86b10723b7a Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 11:57:05 +0200
+Subject: [PATCH 157/171] fs: autofs: annotate autofs_notify_daemon()
+
+HANDLES:
+
+fs/autofs/waitq.c:158:3: warning: releasing mutex 'sbi->wq_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&sbi->wq_mutex);
+                ^
+fs/autofs/waitq.c:164:2: warning: releasing mutex 'sbi->wq_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&sbi->wq_mutex);
+        ^
+---
+ fs/autofs/waitq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/autofs/waitq.c b/fs/autofs/waitq.c
+index 15a3e31d0904..110304eeca43 100644
+--- a/fs/autofs/waitq.c
++++ b/fs/autofs/waitq.c
+@@ -80,7 +80,7 @@ static int autofs_write(struct autofs_sb_info *sbi,
+ 
+ static void autofs_notify_daemon(struct autofs_sb_info *sbi,
+ 				 struct autofs_wait_queue *wq,
+-				 int type)
++				 int type) __releases_mutex(sbi->wq_mutex)
+ {
+ 	union {
+ 		struct autofs_packet_hdr hdr;
+-- 
+2.17.1
+

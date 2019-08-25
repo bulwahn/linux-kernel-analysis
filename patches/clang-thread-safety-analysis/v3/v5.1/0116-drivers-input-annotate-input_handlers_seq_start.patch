@@ -1,0 +1,35 @@
+From 0762041ee3dec3c61c63fb6c19b088b1f7b81b9e Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 07:45:44 +0200
+Subject: [PATCH 116/171] drivers/input: annotate input_handlers_seq_start
+
+SILENCES:
+
+drivers/input/input.c:1220:1: warning: mutex 'input_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/input/input.c:1210:10: note: mutex acquired here
+        error = mutex_lock_interruptible(&input_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/105
+---
+ drivers/input/input.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index e2f48981e1ad..d492836965cd 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -1199,7 +1199,7 @@ static const struct file_operations input_devices_fileops = {
+ 	.release	= seq_release,
+ };
+ 
+-static void *input_handlers_seq_start(struct seq_file *seq, loff_t *pos)
++static void *input_handlers_seq_start(struct seq_file *seq, loff_t *pos) __acquires_mutex(input_mutex) __no_thread_safety_analysis
+ {
+ 	union input_seq_state *state = (union input_seq_state *)&seq->private;
+ 	int error;
+-- 
+2.17.1
+

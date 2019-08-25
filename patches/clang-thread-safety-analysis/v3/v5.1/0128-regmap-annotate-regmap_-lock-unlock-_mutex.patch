@@ -1,0 +1,32 @@
+From d4ecb4bc4831c965ef9a2ac537d10eeef938dedf Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 21 Jun 2019 12:50:33 +0200
+Subject: [PATCH 128/171] regmap: annotate regmap_{lock,unlock}_mutex
+
+---
+ drivers/base/regmap/regmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+index 4f822e087def..956a6d03690d 100644
+--- a/drivers/base/regmap/regmap.c
++++ b/drivers/base/regmap/regmap.c
+@@ -494,13 +494,13 @@ static void regmap_lock_unlock_none(void *__map)
+ 
+ }
+ 
+-static void regmap_lock_mutex(void *__map)
++static void regmap_lock_mutex(void *__map) __no_thread_safety_analysis
+ {
+ 	struct regmap *map = __map;
+ 	mutex_lock(&map->mutex);
+ }
+ 
+-static void regmap_unlock_mutex(void *__map)
++static void regmap_unlock_mutex(void *__map) __no_thread_safety_analysis
+ {
+ 	struct regmap *map = __map;
+ 	mutex_unlock(&map->mutex);
+-- 
+2.17.1
+

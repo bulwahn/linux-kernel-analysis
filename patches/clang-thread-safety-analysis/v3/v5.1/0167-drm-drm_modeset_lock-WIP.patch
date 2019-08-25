@@ -1,0 +1,34 @@
+From 3496ef2b8dd9be4ab6f9066f1e2ece99ae235b2b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 18:22:47 +0200
+Subject: [PATCH 167/171] drm: drm_modeset_lock (WIP)
+
+---
+ drivers/gpu/drm/drm_modeset_lock.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+index 81dd11901ffd..253f4831b250 100644
+--- a/drivers/gpu/drm/drm_modeset_lock.c
++++ b/drivers/gpu/drm/drm_modeset_lock.c
+@@ -92,7 +92,7 @@ static DEFINE_WW_CLASS(crtc_ww_class);
+  * and care must be taken not to nest calls. New code should use the
+  * drm_modeset_lock_all_ctx() function and pass in the context explicitly.
+  */
+-void drm_modeset_lock_all(struct drm_device *dev)
++void drm_modeset_lock_all(struct drm_device *dev) __acquires_mutex(dev->mode_config.mutex)
+ {
+ 	struct drm_mode_config *config = &dev->mode_config;
+ 	struct drm_modeset_acquire_ctx *ctx;
+@@ -146,7 +146,7 @@ EXPORT_SYMBOL(drm_modeset_lock_all);
+  * be taken not to nest calls. New code should pass the acquisition context
+  * directly to the drm_modeset_drop_locks() function.
+  */
+-void drm_modeset_unlock_all(struct drm_device *dev)
++void drm_modeset_unlock_all(struct drm_device *dev) __releases_mutex(dev->mode_config.mutex)
+ {
+ 	struct drm_mode_config *config = &dev->mode_config;
+ 	struct drm_modeset_acquire_ctx *ctx = config->acquire_ctx;
+-- 
+2.17.1
+

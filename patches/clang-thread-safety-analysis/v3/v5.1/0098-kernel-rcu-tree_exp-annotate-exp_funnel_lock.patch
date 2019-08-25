@@ -1,0 +1,36 @@
+From 8eb7d93a7ad768e9ac6150bdb4c5a7eb512294d1 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 10 Jun 2019 17:11:16 +0200
+Subject: [PATCH 098/171] kernel/rcu/tree_exp: annotate exp_funnel_lock()
+
+HANDLES:
+
+kernel/rcu/tree_exp.h:326:1: warning: mutex 'rcu_state.exp_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/rcu/tree_exp.h:317:2: note: mutex acquired here
+        mutex_lock(&rcu_state.exp_mutex);
+        ^
+kernel/rcu/tree_exp.h:780:2: warning: releasing mutex 'rcu_state.exp_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&rcu_state.exp_mutex);
+        ^
+---
+ kernel/rcu/tree_exp.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
+index 4c2a0189e748..bb9e0690df6a 100644
+--- a/kernel/rcu/tree_exp.h
++++ b/kernel/rcu/tree_exp.h
+@@ -272,7 +272,7 @@ static bool sync_exp_work_done(unsigned long s)
+  * with the mutex held, indicating that the caller must actually do the
+  * expedited grace period.
+  */
+-static bool exp_funnel_lock(unsigned long s)
++static bool exp_funnel_lock(unsigned long s) __try_acquires_mutex(false, rcu_state.exp_mutex)
+ {
+ 	struct rcu_data *rdp = per_cpu_ptr(&rcu_data, raw_smp_processor_id());
+ 	struct rcu_node *rnp = rdp->mynode;
+-- 
+2.17.1
+

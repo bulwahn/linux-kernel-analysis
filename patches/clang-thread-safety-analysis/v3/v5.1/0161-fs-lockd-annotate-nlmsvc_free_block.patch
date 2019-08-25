@@ -1,0 +1,32 @@
+From 6cc002f4b6f32c94c40905b55edc413a7718a00f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 14:09:12 +0200
+Subject: [PATCH 161/171] fs: lockd: annotate nlmsvc_free_block()
+
+SILENCES:
+
+fs/lockd/svclock.c:293:2: warning: releasing mutex 'file->f_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&file->f_mutex);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/156
+---
+ fs/lockd/svclock.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/lockd/svclock.c b/fs/lockd/svclock.c
+index ea719cdd6a36..c89c78750e6b 100644
+--- a/fs/lockd/svclock.c
++++ b/fs/lockd/svclock.c
+@@ -281,7 +281,7 @@ static int nlmsvc_unlink_block(struct nlm_block *block)
+ 	return status;
+ }
+ 
+-static void nlmsvc_free_block(struct kref *kref)
++static void nlmsvc_free_block(struct kref *kref) __no_thread_safety_analysis
+ {
+ 	struct nlm_block *block = container_of(kref, struct nlm_block, b_count);
+ 	struct nlm_file		*file = block->b_file;
+-- 
+2.17.1
+

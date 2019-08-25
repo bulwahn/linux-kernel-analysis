@@ -1,0 +1,32 @@
+From 64f77ff9b84014fc1bb06e219804d1c597895977 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 16:38:40 +0200
+Subject: [PATCH 165/171] usb: usblp: modify code in usblp() (WIP)
+
+WORKING ON:
+
+drivers/usb/class/usblp.c:851:2: warning: releasing mutex 'usblp->mut' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&usblp->mut);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/159
+---
+ drivers/usb/class/usblp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index a3c375d66bea..855ee1eddacf 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -820,7 +820,7 @@ static ssize_t usblp_read(struct file *file, char __user *buffer, size_t len, lo
+ 		return -EINVAL;
+ 
+ 	rv = usblp_rwait_and_lock(usblp, !!(file->f_flags & O_NONBLOCK));
+-	if (rv < 0)
++	if (rv)
+ 		return rv;
+ 
+ 	if ((avail = usblp->rstatus) < 0) {
+-- 
+2.17.1
+

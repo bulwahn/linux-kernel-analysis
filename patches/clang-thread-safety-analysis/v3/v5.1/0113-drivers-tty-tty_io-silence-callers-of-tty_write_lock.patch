@@ -1,0 +1,56 @@
+From b9d3835fcff90e6993e9683953c95dd8e33e94b9 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 23:04:25 +0200
+Subject: [PATCH 113/171] drivers/tty/tty_io: silence callers of tty_write_lock
+
+SILENCES:
+
+drivers/tty/tty_io.c:979:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:1098:2: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+        tty_write_unlock(tty);
+        ^
+drivers/tty/tty_io.c:2394:3: warning: releasing mutex 'tty->atomic_write_lock' that was not held [-Wthread-safety-analysis]
+                tty_write_unlock(tty);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/97
+---
+ drivers/tty/tty_io.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index b113d64e89e5..5f5f6c1a4cea 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -902,7 +902,7 @@ static inline ssize_t do_tty_write(
+ 	struct tty_struct *tty,
+ 	struct file *file,
+ 	const char __user *buf,
+-	size_t count)
++	size_t count) __no_thread_safety_analysis
+ {
+ 	ssize_t ret, written = 0;
+ 	unsigned int chunk;
+@@ -1074,7 +1074,7 @@ ssize_t redirected_tty_write(struct file *file, const char __user *buf,
+  *	Locking: none for xchar method, write ordering for write method.
+  */
+ 
+-int tty_send_xchar(struct tty_struct *tty, char ch)
++int tty_send_xchar(struct tty_struct *tty, char ch) __no_thread_safety_analysis
+ {
+ 	int	was_stopped = tty->stopped;
+ 
+@@ -2371,7 +2371,7 @@ static int tiocgetd(struct tty_struct *tty, int __user *p)
+  *
+  */
+ 
+-static int send_break(struct tty_struct *tty, unsigned int duration)
++static int send_break(struct tty_struct *tty, unsigned int duration) __no_thread_safety_analysis
+ {
+ 	int retval;
+ 
+-- 
+2.17.1
+

@@ -1,0 +1,32 @@
+From 45cf591bd0aa2e09077fd2d5ad5f523f21392e17 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 18 Jun 2019 06:05:30 +0200
+Subject: [PATCH 101/171] kernel/params: annotate kernel_param_{lock,unlock}
+ (wip)
+
+---
+ kernel/params.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/params.c b/kernel/params.c
+index ce89f757e6da..09a55be6ff7f 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -581,12 +581,12 @@ static ssize_t param_attr_store(struct module_attribute *mattr,
+ #endif
+ 
+ #ifdef CONFIG_SYSFS
+-void kernel_param_lock(struct module *mod)
++void kernel_param_lock(struct module *mod) __acquires(param_lock)
+ {
+ 	mutex_lock(KPARAM_MUTEX(mod));
+ }
+ 
+-void kernel_param_unlock(struct module *mod)
++void kernel_param_unlock(struct module *mod) __releases(param_lock)
+ {
+ 	mutex_unlock(KPARAM_MUTEX(mod));
+ }
+-- 
+2.17.1
+

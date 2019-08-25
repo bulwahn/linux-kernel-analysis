@@ -1,7 +1,7 @@
 From 557b9c1255af11040d8a5fee9c3d029bf175ae89 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 11:44:24 +0200
-Subject: [PATCH 76/90] mm/percpu.c: pcpu_alloc: mutex 'pcpu_alloc_mutex'
+Subject: [PATCH 076/171] mm/percpu.c: pcpu_alloc: mutex 'pcpu_alloc_mutex'
  conditionally locked and unlocked
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/9

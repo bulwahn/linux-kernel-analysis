@@ -1,7 +1,7 @@
 From 47a879cf6049778ed0acfd67059f18c331f9a49c Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 04:01:41 +0200
-Subject: [PATCH 17/90] trace: annotate t_start and t_stop
+Subject: [PATCH 017/171] trace: annotate t_start and t_stop
 
 kernel/trace/trace.c:4291:1: warning: mutex 'trace_types_lock' is still held at the end of function [-Wthread-safety-analysis]
 }

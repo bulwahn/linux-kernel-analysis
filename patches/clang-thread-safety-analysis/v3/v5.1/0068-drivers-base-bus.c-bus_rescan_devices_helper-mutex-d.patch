@@ -1,7 +1,7 @@
 From 4c61aca45e7a4fea3c058713f067871a89097fbf Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 09:36:28 +0200
-Subject: [PATCH 68/90] drivers/base/bus.c: bus_rescan_devices_helper: mutex
+Subject: [PATCH 068/171] drivers/base/bus.c: bus_rescan_devices_helper: mutex
  'dev->parent->mutex' conditionally locked and unlocked
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/2

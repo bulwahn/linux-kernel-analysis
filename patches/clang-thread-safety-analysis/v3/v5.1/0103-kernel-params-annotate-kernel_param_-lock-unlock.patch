@@ -1,0 +1,47 @@
+From d7a2c8d68727804599cf505ac569af5068ea11be Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 09:42:25 +0200
+Subject: [PATCH 103/171] kernel:params: annotate kernel_param_{lock,unlock}
+
+PARTIALLY HANDLES:
+
+kernel/params.c:587:1: warning: mutex 'mod ? mod->param_lock : param_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/params.c:586:2: note: mutex acquired here
+        mutex_lock(KPARAM_MUTEX(mod));
+        ^
+kernel/params.c:591:2: warning: releasing mutex 'mod ? mod->param_lock : param_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(KPARAM_MUTEX(mod));
+        ^
+
+The acquire/release annotation is not completely right, but it makes the
+analysis at least continue to some extent. Then, silence those two functions.
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/63
+---
+ kernel/params.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/params.c b/kernel/params.c
+index 09a55be6ff7f..c452b3e6cd58 100644
+--- a/kernel/params.c
++++ b/kernel/params.c
+@@ -581,12 +581,12 @@ static ssize_t param_attr_store(struct module_attribute *mattr,
+ #endif
+ 
+ #ifdef CONFIG_SYSFS
+-void kernel_param_lock(struct module *mod) __acquires(param_lock)
++void kernel_param_lock(struct module *mod) __acquires_mutex(param_lock) __no_thread_safety_analysis
+ {
+ 	mutex_lock(KPARAM_MUTEX(mod));
+ }
+ 
+-void kernel_param_unlock(struct module *mod) __releases(param_lock)
++void kernel_param_unlock(struct module *mod) __releases_mutex(param_lock) __no_thread_safety_analysis
+ {
+ 	mutex_unlock(KPARAM_MUTEX(mod));
+ }
+-- 
+2.17.1
+

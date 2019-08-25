@@ -1,7 +1,7 @@
 From b64547ea509a421be9ce63397aac9748cfcea9cb Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 20 May 2019 19:25:38 +0200
-Subject: [PATCH 83/90] arch/x86/platform/intel/iosf_mbi.c: wip
+Subject: [PATCH 083/171] arch/x86/platform/intel/iosf_mbi.c: wip
 
 ---
  arch/x86/platform/intel/iosf_mbi.c | 2 +-

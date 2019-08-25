@@ -1,7 +1,7 @@
 From 35e519510108ba029171e3c0be782735f5edee5c Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 19:11:54 +0200
-Subject: [PATCH 81/90] add another attribute for the retry acquiring code
+Subject: [PATCH 081/171] add another attribute for the retry acquiring code
  pattern
 
 ---

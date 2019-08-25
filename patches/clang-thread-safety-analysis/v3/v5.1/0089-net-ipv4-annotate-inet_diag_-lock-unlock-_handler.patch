@@ -1,7 +1,7 @@
 From 58ba1707d9897244d1a4a566191b02123bf0e248 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 26 May 2019 18:08:22 +0200
-Subject: [PATCH 89/90] net: ipv4: annotate inet_diag_{lock,unlock}_handler()
+Subject: [PATCH 089/171] net: ipv4: annotate inet_diag_{lock,unlock}_handler()
 
 HANDLES:
 

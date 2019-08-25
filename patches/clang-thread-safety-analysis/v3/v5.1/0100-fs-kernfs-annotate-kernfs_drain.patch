@@ -1,0 +1,25 @@
+From a92983e70bb60bb57a493e6f1624dd20279a19b2 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 18 Jun 2019 06:04:36 +0200
+Subject: [PATCH 100/171] fs:kernfs: annotate kernfs_drain
+
+---
+ fs/kernfs/dir.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/kernfs/dir.c b/fs/kernfs/dir.c
+index b84d635567d3..5a375d39ec31 100644
+--- a/fs/kernfs/dir.c
++++ b/fs/kernfs/dir.c
+@@ -455,7 +455,7 @@ void kernfs_put_active(struct kernfs_node *kn)
+  * return after draining is complete.
+  */
+ static void kernfs_drain(struct kernfs_node *kn)
+-	__releases(&kernfs_mutex) __acquires(&kernfs_mutex)
++	__releases(&kernfs_mutex) __acquires(&kernfs_mutex) __requires(kernfs_mutex)
+ {
+ 	struct kernfs_root *root = kernfs_root(kn);
+ 
+-- 
+2.17.1
+

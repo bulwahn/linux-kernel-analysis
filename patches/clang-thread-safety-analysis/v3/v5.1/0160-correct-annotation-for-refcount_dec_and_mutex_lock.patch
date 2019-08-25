@@ -1,0 +1,63 @@
+From 4ba985dad325b1aa6a7b4111958abbd010a194ac Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 13:49:23 +0200
+Subject: [PATCH 160/171] correct annotation for refcount_dec_and_mutex_lock()
+
+HANDLES:
+
+fs/lockd/host.c:299:3: warning: releasing mutex 'nlm_host_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&nlm_host_mutex);
+                ^
+fs/lockd/host.c:301:1: warning: mutex 'nlm_host_mutex' is not held on every path through here [-Wthread-safety-analysis
+]
+}
+^
+fs/lockd/host.c:293:6: note: mutex acquired here
+        if (refcount_dec_and_mutex_lock(&host->h_count, &nlm_host_mutex)) {
+            ^
+
+net/sched/cls_api.c:1270:3: warning: releasing mutex 'block->lock' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&block->lock);
+                ^
+net/sched/cls_api.c:1284:1: warning: mutex 'block->lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+net/sched/cls_api.c:1261:6: note: mutex acquired here
+        if (refcount_dec_and_mutex_lock(&block->refcnt, &block->lock)) {
+            ^
+
+net/sched/act_api.c:139:3: warning: releasing mutex 'idrinfo->lock' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&idrinfo->lock);
+                ^
+net/sched/act_api.c:149:1: warning: mutex 'idrinfo->lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+net/sched/act_api.c:135:6: note: mutex acquired here
+        if (refcount_dec_and_mutex_lock(&p->tcfa_refcnt, &idrinfo->lock)) {
+            ^
+
+It is about time that I now understood and fixed this.
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/120
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/121
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/155
+---
+ include/linux/refcount.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+index 2b22029143fb..0873b81b1d91 100644
+--- a/include/linux/refcount.h
++++ b/include/linux/refcount.h
+@@ -110,7 +110,7 @@ static inline void refcount_dec(refcount_t *r)
+ 
+ extern __must_check bool refcount_dec_if_one(refcount_t *r);
+ extern __must_check bool refcount_dec_not_one(refcount_t *r);
+-extern __must_check bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock) __try_acquires_mutex(true, lock);
++extern __must_check bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock) __try_acquires_mutex(1, lock);
+ extern __must_check bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock);
+ extern __must_check bool refcount_dec_and_lock_irqsave(refcount_t *r,
+ 						       spinlock_t *lock,
+-- 
+2.17.1
+

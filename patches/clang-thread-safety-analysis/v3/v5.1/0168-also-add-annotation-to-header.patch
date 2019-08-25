@@ -1,0 +1,25 @@
+From 8bc1a86762cc2636d070581aab51b76354d3d016 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 18:23:15 +0200
+Subject: [PATCH 168/171] also add annotation to header
+
+---
+ drivers/gpu/drm/i915/i915_drv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index a67a63b5aa84..acd0264569c7 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -3002,7 +3002,7 @@ i915_gem_obj_finish_shmem_access(struct drm_i915_gem_object *obj)
+ 	i915_gem_object_unpin_pages(obj);
+ }
+ 
+-int __must_check i915_mutex_lock_interruptible(struct drm_device *dev);
++int __must_check i915_mutex_lock_interruptible(struct drm_device *dev) __try_acquires_mutex(0, dev->struct_mutex);
+ int i915_gem_dumb_create(struct drm_file *file_priv,
+ 			 struct drm_device *dev,
+ 			 struct drm_mode_create_dumb *args);
+-- 
+2.17.1
+

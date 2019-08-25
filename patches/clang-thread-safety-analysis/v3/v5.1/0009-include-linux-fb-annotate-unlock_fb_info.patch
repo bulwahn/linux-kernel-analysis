@@ -1,7 +1,7 @@
 From d8f3fee5e6221f91d692ffe7414e1d83b3ab2d58 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 10:27:36 +0200
-Subject: [PATCH 09/90] include/linux/fb: annotate unlock_fb_info
+Subject: [PATCH 009/171] include/linux/fb: annotate unlock_fb_info
 
 To address this warning:
 

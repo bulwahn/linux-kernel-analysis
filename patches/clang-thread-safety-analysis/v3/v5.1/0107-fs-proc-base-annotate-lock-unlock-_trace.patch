@@ -1,0 +1,45 @@
+From 1bef399ef1b5475079d02098941240ab5cfd7bf4 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 12:46:24 +0200
+Subject: [PATCH 107/171] fs:proc:base: annotate {lock,unlock}_trace
+
+HANDLES:
+
+fs/proc/base.c:396:1: warning: mutex 'task->signal->cred_guard_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+fs/proc/base.c:388:12: note: mutex acquired here
+        int err = mutex_lock_killable(&task->signal->cred_guard_mutex);
+                  ^
+fs/proc/base.c:400:2: warning: releasing mutex 'task->signal->cred_guard_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&task->signal->cred_guard_mutex);
+        ^
+---
+ fs/proc/base.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 6a803a0b75df..0db0c4f83a75 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -383,7 +383,7 @@ static int proc_pid_wchan(struct seq_file *m, struct pid_namespace *ns,
+ }
+ #endif /* CONFIG_KALLSYMS */
+ 
+-static int lock_trace(struct task_struct *task)
++static int lock_trace(struct task_struct *task) __try_acquires_mutex(0, task->signal->cred_guard_mutex)
+ {
+ 	int err = mutex_lock_killable(&task->signal->cred_guard_mutex);
+ 	if (err)
+@@ -395,7 +395,7 @@ static int lock_trace(struct task_struct *task)
+ 	return 0;
+ }
+ 
+-static void unlock_trace(struct task_struct *task)
++static void unlock_trace(struct task_struct *task) __releases_mutex(task->signal->cred_guard_mutex)
+ {
+ 	mutex_unlock(&task->signal->cred_guard_mutex);
+ }
+-- 
+2.17.1
+

@@ -1,0 +1,42 @@
+From f35171d279c188613fe6af10381c5e2cd1e6bbc6 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 22 Jun 2019 21:23:27 +0200
+Subject: [PATCH 134/171] drm: i915: annotate i915_mutex_lock_interruptible
+
+HANDLES:
+
+drivers/gpu/drm/i915/i915_gem.c:142:1: warning: mutex 'dev->struct_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+drivers/gpu/drm/i915/i915_gem.c:137:8: note: mutex acquired here
+        ret = mutex_lock_interruptible(&dev->struct_mutex);
+              ^
+drivers/gpu/drm/i915/i915_gem.c:1642:2: warning: releasing mutex 'dev->struct_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev->struct_mutex);
+        ^
+drivers/gpu/drm/i915/i915_gem.c:1997:2: warning: releasing mutex 'dev->struct_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev->struct_mutex);
+        ^
+drivers/gpu/drm/i915/i915_gem.c:3730:2: warning: releasing mutex 'dev->struct_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&dev->struct_mutex);
+        ^
+---
+ drivers/gpu/drm/i915/i915_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 8558e81fdc2a..26f9ce1fe6f3 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -125,7 +125,7 @@ i915_gem_wait_for_error(struct i915_gpu_error *error)
+ 	}
+ }
+ 
+-int i915_mutex_lock_interruptible(struct drm_device *dev)
++int i915_mutex_lock_interruptible(struct drm_device *dev) __try_acquires_mutex(0, dev->struct_mutex)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	int ret;
+-- 
+2.17.1
+

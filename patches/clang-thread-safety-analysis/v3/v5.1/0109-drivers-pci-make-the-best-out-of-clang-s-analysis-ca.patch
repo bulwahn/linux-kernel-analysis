@@ -1,0 +1,151 @@
+From 2bcb6a6b870848263ade812c2063e79d2ddec75c Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 21:45:06 +0200
+Subject: [PATCH 109/171] drivers/pci: make the best out of clang's analysis
+ capability
+
+---
+ drivers/pci/pci.c                   | 20 ++++++++++----------
+ include/linux/compiler_attributes.h |  9 +++++++++
+ include/linux/pci.h                 |  4 ++--
+ 3 files changed, 21 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 766f5779db92..4954c7f6219b 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4727,7 +4727,7 @@ static int pci_dev_reset_slot_function(struct pci_dev *dev, int probe)
+ 	return pci_reset_hotplug_slot(dev->slot->hotplug, probe);
+ }
+ 
+-static void pci_dev_lock(struct pci_dev *dev)
++static void pci_dev_lock(struct pci_dev *dev) __acquires_mutex(dev->dev.mutex)
+ {
+ 	pci_cfg_access_lock(dev);
+ 	/* block PM suspend, driver probe, etc. */
+@@ -4735,7 +4735,7 @@ static void pci_dev_lock(struct pci_dev *dev)
+ }
+ 
+ /* Return 1 on successful lock, 0 on contention */
+-static int pci_dev_trylock(struct pci_dev *dev)
++static int pci_dev_trylock(struct pci_dev *dev) __try_acquires_mutex(1, dev->dev.mutex)
+ {
+ 	if (pci_cfg_access_trylock(dev)) {
+ 		if (device_trylock(&dev->dev))
+@@ -4746,7 +4746,7 @@ static int pci_dev_trylock(struct pci_dev *dev)
+ 	return 0;
+ }
+ 
+-static void pci_dev_unlock(struct pci_dev *dev)
++static void pci_dev_unlock(struct pci_dev *dev) __releases_mutex(dev->dev.mutex)
+ {
+ 	device_unlock(&dev->dev);
+ 	pci_cfg_access_unlock(dev);
+@@ -5001,7 +5001,7 @@ static bool pci_bus_resetable(struct pci_bus *bus)
+ }
+ 
+ /* Lock devices from the top of the tree down */
+-static void pci_bus_lock(struct pci_bus *bus)
++static void pci_bus_lock(struct pci_bus *bus) __acquires_pci_bus(bus) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5013,7 +5013,7 @@ static void pci_bus_lock(struct pci_bus *bus)
+ }
+ 
+ /* Unlock devices from the bottom of the tree up */
+-static void pci_bus_unlock(struct pci_bus *bus)
++static void pci_bus_unlock(struct pci_bus *bus) __releases_pci_bus(bus) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5025,7 +5025,7 @@ static void pci_bus_unlock(struct pci_bus *bus)
+ }
+ 
+ /* Return 1 on successful lock, 0 on contention */
+-static int pci_bus_trylock(struct pci_bus *bus)
++static int pci_bus_trylock(struct pci_bus *bus) __try_acquires_pci_bus(1, bus) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5071,7 +5071,7 @@ static bool pci_slot_resetable(struct pci_slot *slot)
+ }
+ 
+ /* Lock devices from the top of the tree down */
+-static void pci_slot_lock(struct pci_slot *slot)
++static void pci_slot_lock(struct pci_slot *slot) __acquires_pci_slot(slot) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5085,7 +5085,7 @@ static void pci_slot_lock(struct pci_slot *slot)
+ }
+ 
+ /* Unlock devices from the bottom of the tree up */
+-static void pci_slot_unlock(struct pci_slot *slot)
++static void pci_slot_unlock(struct pci_slot *slot) __releases_pci_slot(slot) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5099,7 +5099,7 @@ static void pci_slot_unlock(struct pci_slot *slot)
+ }
+ 
+ /* Return 1 on successful lock, 0 on contention */
+-static int pci_slot_trylock(struct pci_slot *slot)
++static int pci_slot_trylock(struct pci_slot *slot) __try_acquires_pci_slot(1, slot) __no_thread_safety_analysis
+ {
+ 	struct pci_dev *dev;
+ 
+@@ -5195,7 +5195,7 @@ static void pci_slot_restore_locked(struct pci_slot *slot)
+ 	}
+ }
+ 
+-static int pci_slot_reset(struct pci_slot *slot, int probe)
++static int pci_slot_reset(struct pci_slot *slot, int probe) __uses_conditionally(slot)
+ {
+ 	int rc;
+ 
+diff --git a/include/linux/compiler_attributes.h b/include/linux/compiler_attributes.h
+index 15f857f767ef..f611b50fca2f 100644
+--- a/include/linux/compiler_attributes.h
++++ b/include/linux/compiler_attributes.h
+@@ -267,6 +267,15 @@
+ # define __releases_mutex(x)            __attribute__((release_capability(x)))
+ # define __try_acquires_mutex(r, x)     __attribute__((try_acquire_capability(r, x)))
+ # define __requires_mutex(x)            __attribute__((requires_capability(x)))
++
++# define __acquires_pci_bus(x)          __attribute__((acquire_capability(x)))
++# define __releases_pci_bus(x)          __attribute__((release_capability(x)))
++# define __try_acquires_pci_bus(r, x)   __attribute__((try_acquire_capability(r, x)))
++
++# define __acquires_pci_slot(x)          __attribute__((acquire_capability(x)))
++# define __releases_pci_slot(x)          __attribute__((release_capability(x)))
++# define __try_acquires_pci_slot(r, x)   __attribute__((try_acquire_capability(r, x)))
++
+ # define __uses_conditionally(x)        __attribute__((no_thread_safety_analysis))
+ # define __acquires_conditionally(x)    __attribute__((no_thread_safety_analysis))
+ # define __releases_conditionally(x)    __attribute__((no_thread_safety_analysis))
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 77448215ef5b..a6db9585609c 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -59,7 +59,7 @@ struct pci_slot {
+ 	struct hotplug_slot	*hotplug;	/* Hotplug info (move here) */
+ 	unsigned char		number;		/* PCI_SLOT(pci_dev->devfn) */
+ 	struct kobject		kobj;
+-};
++} __capability("mutex");
+ 
+ static inline const char *pci_slot_name(const struct pci_slot *slot)
+ {
+@@ -592,7 +592,7 @@ struct pci_bus {
+ 	struct bin_attribute	*legacy_io;	/* Legacy I/O for this bus */
+ 	struct bin_attribute	*legacy_mem;	/* Legacy mem */
+ 	unsigned int		is_added:1;
+-};
++} __capability("mutex");
+ 
+ #define to_pci_bus(n)	container_of(n, struct pci_bus, dev)
+ 
+-- 
+2.17.1
+

@@ -1,7 +1,7 @@
 From 413e2b441f00be7afe974db0ab2f9e9831931318 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Thu, 25 Apr 2019 21:42:44 +0200
-Subject: [PATCH 57/90] fs/fat: annotate {lock,unlock}_fat
+Subject: [PATCH 057/171] fs/fat: annotate {lock,unlock}_fat
 
 HANDLES:
 

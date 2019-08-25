@@ -1,0 +1,48 @@
+From 5d70349a948803e0c657286e83b14ec3ec9a6e05 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 25 Aug 2019 10:42:27 +0200
+Subject: [PATCH 154/171] jump_label: annotate jump_label_{lock,unlock}()
+
+HANDLES:
+
+kernel/jump_label.c:27:1: warning: mutex 'jump_label_mutex' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+kernel/jump_label.c:26:2: note: mutex acquired here
+        mutex_lock(&jump_label_mutex);
+        ^
+kernel/jump_label.c:31:2: warning: releasing mutex 'jump_label_mutex' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&jump_label_mutex);
+        ^
+kernel/jump_label.c:231:1: warning: mutex 'jump_label_mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/jump_label.c:218:7: note: mutex acquired here
+        if (!atomic_dec_and_mutex_lock(&key->enabled, &jump_label_mutex)) {
+             ^
+---
+ kernel/jump_label.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/jump_label.c b/kernel/jump_label.c
+index bad96b476eb6..92eafd20da23 100644
+--- a/kernel/jump_label.c
++++ b/kernel/jump_label.c
+@@ -21,12 +21,12 @@
+ /* mutex to protect coming/going of the the jump_label table */
+ static DEFINE_MUTEX(jump_label_mutex);
+ 
+-void jump_label_lock(void)
++void jump_label_lock(void) __acquires_mutex(jump_label_mutex)
+ {
+ 	mutex_lock(&jump_label_mutex);
+ }
+ 
+-void jump_label_unlock(void)
++void jump_label_unlock(void) __releases_mutex(jump_label_mutex)
+ {
+ 	mutex_unlock(&jump_label_mutex);
+ }
+-- 
+2.17.1
+

@@ -1,7 +1,7 @@
 From e9b2432f773c465be4befd5aae4882be7148af2b Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Mon, 22 Apr 2019 18:50:11 +0200
-Subject: [PATCH 45/90] phy-core: annotate phy_{save,restore}_page
+Subject: [PATCH 045/171] phy-core: annotate phy_{save,restore}_page
 
 HANDLES:
 

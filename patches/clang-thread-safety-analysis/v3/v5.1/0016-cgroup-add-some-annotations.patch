@@ -1,7 +1,7 @@
 From f278ab184b0c1be5ea0d9b34a7eb55a64e6ae6e6 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sat, 20 Apr 2019 03:56:53 +0200
-Subject: [PATCH 16/90] cgroup: add some annotations
+Subject: [PATCH 016/171] cgroup: add some annotations
 
 TODO: squashed some commits here, Need to name all warnings that were
 resolved in the end.

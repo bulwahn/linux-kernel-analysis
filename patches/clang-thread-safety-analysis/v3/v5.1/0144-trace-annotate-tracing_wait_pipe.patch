@@ -1,0 +1,44 @@
+From b4beb27003f9fc32916ccd61257fa8199f1081c6 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 14:53:57 +0200
+Subject: [PATCH 144/171] trace: annotate tracing_wait_pipe()
+
+SILENCES:
+
+kernel/trace/trace.c:5895:9: warning: expecting mutex 'iter->mutex' to be held at start of each loop [-Wthread-safety-analysis]
+        while (trace_empty(iter)) {
+               ^
+kernel/trace/trace.c:5917:3: note: mutex acquired here
+                mutex_lock(&iter->mutex);
+                ^
+kernel/trace/trace.c:5913:3: warning: releasing mutex 'iter->mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&iter->mutex);
+                ^
+kernel/trace/trace.c:5924:1: warning: mutex 'iter->mutex' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/trace/trace.c:5917:3: note: mutex acquired here
+                mutex_lock(&iter->mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/144
+---
+ kernel/trace/trace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+index 0dd9332beab1..a34ecf38fc89 100644
+--- a/kernel/trace/trace.c
++++ b/kernel/trace/trace.c
+@@ -5887,7 +5887,7 @@ tracing_poll_pipe(struct file *filp, poll_table *poll_table)
+ }
+ 
+ /* Must be called with iter->mutex held. */
+-static int tracing_wait_pipe(struct file *filp)
++static int tracing_wait_pipe(struct file *filp) __no_thread_safety_analysis
+ {
+ 	struct trace_iterator *iter = filp->private_data;
+ 	int ret;
+-- 
+2.17.1
+

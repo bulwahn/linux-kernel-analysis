@@ -1,0 +1,59 @@
+From 7326f88064208914dbe31ede69cb189835325b57 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 12:28:38 +0200
+Subject: [PATCH 106/171] fs/kernfs/file.c: annotate
+ kernfs_{file_direct_read,fop_write}
+
+SILENCES:
+
+fs/kernfs/file.c:197:7: warning: mutex 'of->prealloc_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (!buf)
+             ^
+fs/kernfs/file.c:194:3: note: mutex acquired here
+                mutex_lock(&of->prealloc_mutex);
+                ^
+fs/kernfs/file.c:233:3: warning: releasing mutex 'of->prealloc_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&of->prealloc_mutex);
+                ^
+
+fs/kernfs/file.c:294:7: warning: mutex 'of->prealloc_mutex' is not held on every path through here [-Wthread-safety-analysis]
+        if (!buf)
+             ^
+fs/kernfs/file.c:291:3: note: mutex acquired here
+                mutex_lock(&of->prealloc_mutex);
+                ^
+
+fs/kernfs/file.c:328:3: warning: releasing mutex 'of->prealloc_mutex' that was not held [-Wthread-safety-analysis]
+                mutex_unlock(&of->prealloc_mutex);
+                ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/93
+---
+ fs/kernfs/file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/kernfs/file.c b/fs/kernfs/file.c
+index 458770311512..d74b95f4e19d 100644
+--- a/fs/kernfs/file.c
++++ b/fs/kernfs/file.c
+@@ -183,7 +183,7 @@ static const struct seq_operations kernfs_seq_ops = {
+  */
+ static ssize_t kernfs_file_direct_read(struct kernfs_open_file *of,
+ 				       char __user *user_buf, size_t count,
+-				       loff_t *ppos)
++				       loff_t *ppos) __uses_conditionally(of->prealloc_mutex)
+ {
+ 	ssize_t len = min_t(size_t, count, PAGE_SIZE);
+ 	const struct kernfs_ops *ops;
+@@ -271,7 +271,7 @@ static ssize_t kernfs_fop_read(struct file *file, char __user *user_buf,
+  * back.
+  */
+ static ssize_t kernfs_fop_write(struct file *file, const char __user *user_buf,
+-				size_t count, loff_t *ppos)
++				size_t count, loff_t *ppos) __uses_conditionally(of->prealloc_mutex)
+ {
+ 	struct kernfs_open_file *of = kernfs_of(file);
+ 	const struct kernfs_ops *ops;
+-- 
+2.17.1
+

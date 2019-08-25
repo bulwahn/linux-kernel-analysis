@@ -1,0 +1,51 @@
+From c8e322bee48e074d7d871eb5fc5c2c4ea3d3e5ab Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 24 Aug 2019 12:40:38 +0200
+Subject: [PATCH 151/171] usblp: annotate usblp_rwait_and_lock
+
+HANDLES:
+
+drivers/usb/class/usblp.c:939:4: warning: mutex 'usblp->mut' is not held on every path through here [-Wthread-safety-analysis]
+                        break;
+                        ^
+drivers/usb/class/usblp.c:937:7: note: mutex acquired here
+                if (mutex_lock_interruptible(&usblp->mut)) {
+                    ^
+drivers/usb/class/usblp.c:944:4: warning: mutex 'usblp->mut' is not held on every path through here [-Wthread-safety-analysis]
+                        break;
+                        ^
+drivers/usb/class/usblp.c:937:7: note: mutex acquired here
+                if (mutex_lock_interruptible(&usblp->mut)) {
+                    ^
+drivers/usb/class/usblp.c:954:1: warning: mutex 'usblp->mut' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/usb/class/usblp.c:937:7: note: mutex acquired here
+                if (mutex_lock_interruptible(&usblp->mut)) {
+                    ^
+
+REMAINS:
+
+drivers/usb/class/usblp.c:851:2: warning: releasing mutex 'usblp->mut' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&usblp->mut);
+        ^
+---
+ drivers/usb/class/usblp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index 407a7a6198a2..a3c375d66bea 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -927,7 +927,7 @@ static int usblp_wtest(struct usblp *usblp, int nonblock)
+  *
+  * We do not use wait_event_interruptible because it makes locking iffy.
+  */
+-static int usblp_rwait_and_lock(struct usblp *usblp, int nonblock)
++static int usblp_rwait_and_lock(struct usblp *usblp, int nonblock) __try_acquires_mutex(0, &usblp->mut)
+ {
+ 	DECLARE_WAITQUEUE(waita, current);
+ 	int rc;
+-- 
+2.17.1
+

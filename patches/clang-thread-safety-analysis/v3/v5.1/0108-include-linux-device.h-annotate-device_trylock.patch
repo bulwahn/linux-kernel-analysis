@@ -1,0 +1,26 @@
+From f451e642d363202d26e2af07f9653b7806cc5f40 Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 19 Jun 2019 21:41:05 +0200
+Subject: [PATCH 108/171] include/linux/device.h: annotate device_trylock
+
+Motivated by investigation of the pci locking code
+---
+ include/linux/device.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 19bfaa4462e0..ab263956940b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -1212,7 +1212,7 @@ static inline int device_lock_interruptible(struct device *dev)
+ 	return mutex_lock_interruptible(&dev->mutex);
+ }
+ 
+-static inline int device_trylock(struct device *dev)
++static inline int device_trylock(struct device *dev) __try_acquires_mutex(1, &dev->mutex)
+ {
+ 	return mutex_trylock(&dev->mutex);
+ }
+-- 
+2.17.1
+

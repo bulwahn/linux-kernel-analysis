@@ -1,0 +1,46 @@
+From 4e35d917b4217aa02a1df220e306b32f3126d98d Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 22 Jun 2019 18:24:25 +0200
+Subject: [PATCH 132/171] drivers/md: annotate
+ dm_internal_{suspend,resume}_fast
+
+HANDLES:
+
+drivers/md/dm.c:2842:1: warning: mutex 'md->suspend_lock' is still held at the end of function [-Wthread-safety-analysis]
+}
+^
+drivers/md/dm.c:2834:2: note: mutex acquired here
+        mutex_lock(&md->suspend_lock);
+        ^
+drivers/md/dm.c:2853:2: warning: releasing mutex 'md->suspend_lock' that was not held [-Wthread-safety-analysis]
+        mutex_unlock(&md->suspend_lock);
+        ^
+---
+ drivers/md/dm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index d36498bcdd3c..67aa4141c8a5 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -2829,7 +2829,7 @@ EXPORT_SYMBOL_GPL(dm_internal_resume);
+  * which prevents interaction with userspace-driven suspend.
+  */
+ 
+-void dm_internal_suspend_fast(struct mapped_device *md)
++void dm_internal_suspend_fast(struct mapped_device *md) __acquires_mutex(md->suspend_lock)
+ {
+ 	mutex_lock(&md->suspend_lock);
+ 	if (dm_suspended_md(md) || dm_suspended_internally_md(md))
+@@ -2842,7 +2842,7 @@ void dm_internal_suspend_fast(struct mapped_device *md)
+ }
+ EXPORT_SYMBOL_GPL(dm_internal_suspend_fast);
+ 
+-void dm_internal_resume_fast(struct mapped_device *md)
++void dm_internal_resume_fast(struct mapped_device *md) __releases_mutex(md->suspend_lock)
+ {
+ 	if (dm_suspended_md(md) || dm_suspended_internally_md(md))
+ 		goto done;
+-- 
+2.17.1
+

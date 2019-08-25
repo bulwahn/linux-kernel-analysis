@@ -1,0 +1,32 @@
+From e851bdb60a709e0ea5b1c819f61c846daa6c639b Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Aug 2019 10:20:10 +0200
+Subject: [PATCH 141/171] net: intel: e1000e: annotate e1000_reset_hw_82571()
+
+SILENCES:
+
+drivers/net/ethernet/intel/e1000e/82571.c:995:4: warning: releasing mutex 'swflag_mutex' that was not held [-Wthread-safety-analysis]
+                        e1000_put_hw_semaphore_82574(hw);
+                        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/146
+---
+ drivers/net/ethernet/intel/e1000e/82571.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ethernet/intel/e1000e/82571.c b/drivers/net/ethernet/intel/e1000e/82571.c
+index bc584d9a0f09..a533eac0038e 100644
+--- a/drivers/net/ethernet/intel/e1000e/82571.c
++++ b/drivers/net/ethernet/intel/e1000e/82571.c
+@@ -938,7 +938,7 @@ static s32 e1000_set_d0_lplu_state_82571(struct e1000_hw *hw, bool active)
+  *
+  *  This resets the hardware into a known state.
+  **/
+-static s32 e1000_reset_hw_82571(struct e1000_hw *hw)
++static s32 e1000_reset_hw_82571(struct e1000_hw *hw) __uses_conditionally(swflag_mutex)
+ {
+ 	u32 ctrl, ctrl_ext, eecd, tctl;
+ 	s32 ret_val;
+-- 
+2.17.1
+

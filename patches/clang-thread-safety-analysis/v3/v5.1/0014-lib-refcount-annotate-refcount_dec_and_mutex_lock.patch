@@ -1,7 +1,7 @@
 From 79236f39c2333721edd14d99d0988d99af780508 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Fri, 19 Apr 2019 18:36:21 +0200
-Subject: [PATCH 14/90] lib/refcount: annotate refcount_dec_and_mutex_lock
+Subject: [PATCH 014/171] lib/refcount: annotate refcount_dec_and_mutex_lock
 
 This handles:
 

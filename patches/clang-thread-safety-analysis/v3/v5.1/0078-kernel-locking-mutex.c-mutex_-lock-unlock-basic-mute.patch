@@ -1,7 +1,7 @@
 From 4bb95b081e224721b106daf7836284ea031927a2 Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 12 May 2019 12:08:27 +0200
-Subject: [PATCH 78/90] kernel/locking/mutex.c: mutex_{lock,unlock}: basic
+Subject: [PATCH 078/171] kernel/locking/mutex.c: mutex_{lock,unlock}: basic
  mutex functions need special annotation
 
 Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/11

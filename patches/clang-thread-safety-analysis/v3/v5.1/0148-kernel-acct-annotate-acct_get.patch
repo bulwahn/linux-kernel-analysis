@@ -1,0 +1,35 @@
+From 852ad958b1195ef53e9c223f0197a629c0f97b9f Mon Sep 17 00:00:00 2001
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Thu, 22 Aug 2019 16:28:06 +0200
+Subject: [PATCH 148/171] kernel/acct: annotate acct_get()
+
+SILENCES:
+
+kernel/acct.c:168:1: warning: mutex 'res->lock' is not held on every path through here [-Wthread-safety-analysis]
+}
+^
+kernel/acct.c:161:2: note: mutex acquired here
+        mutex_lock(&res->lock);
+        ^
+
+Link: https://github.com/ClangBuiltLinux/thread-safety-analysis/issues/148
+---
+ kernel/acct.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/acct.c b/kernel/acct.c
+index addf7732fb56..72d9fbf67c6a 100644
+--- a/kernel/acct.c
++++ b/kernel/acct.c
+@@ -141,7 +141,7 @@ static inline struct bsd_acct_struct *to_acct(struct fs_pin *p)
+ 	return p ? container_of(p, struct bsd_acct_struct, pin) : NULL;
+ }
+ 
+-static struct bsd_acct_struct *acct_get(struct pid_namespace *ns)
++static struct bsd_acct_struct *acct_get(struct pid_namespace *ns) __no_thread_safety_analysis
+ {
+ 	struct bsd_acct_struct *res;
+ again:
+-- 
+2.17.1
+

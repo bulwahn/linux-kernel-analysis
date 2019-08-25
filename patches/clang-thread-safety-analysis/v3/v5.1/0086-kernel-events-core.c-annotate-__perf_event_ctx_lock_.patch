@@ -1,7 +1,7 @@
 From 2f049c3ef7bb9a52e2e86991594083de4b22425f Mon Sep 17 00:00:00 2001
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Date: Sun, 26 May 2019 15:38:41 +0200
-Subject: [PATCH 86/90] kernel/events/core.c: annotate
+Subject: [PATCH 086/171] kernel/events/core.c: annotate
  __perf_event_ctx_lock_double()
 
 HANDLES:
